@@ -1,0 +1,105 @@
+#log {
+  justify-content: left;
+  margin-left: 0px;
+  width: 15vw;
+  height: 100vh;
+  background-color: inherit;
+  display: block;
+  position: absolute;
+  align-items: left;
+  color: rgba(255, 255, 255, .6);
+  transition: .2s;
+  font-size: 16px;
+  min-width: 200px;
+  overflow: scroll;
+}
+
+#log:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.logstats {
+  background-color: var(--primary);
+  width: 15vw;
+  height: 28vh;
+  display: inline-block;
+  min-width: 200px;
+  overflow: none;
+}
+
+.scroll {
+  display: block;
+  overflow: auto;
+  position: relative;
+  height: 67vh;
+  border-top-style: solid;
+  border-width: 1px;
+  margin-bottom: 30px;
+}
+
+.av {
+  background-color: var(--primary);
+  display: block;
+  position: fixed;
+  align-items: center;
+  bottom: 0vh;
+  width: 15vw;
+  height: 3vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  border-top-style: solid;
+  border-width: 1px;
+  min-width: 200px;
+  overflow: auto;
+  min-height: 20px;
+}
+
+.row {
+  display: flex;
+}
+
+.toprow {
+  font-weight: lighter;
+  margin-right: 1vw;
+}
+
+.quarter {
+  width: 3.5vw;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 47px;
+}
+
+.results {
+  width: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  background-color: inherit;
+  opacity: 100;
+  width: 100%;
+  height:100%;
+  display: block;
+  outline: none;
+  border: none;
+  padding: 5px;
+  color: inherit;
+  font-size: 15px;
+}
+
+#settings {
+  background-color: inherit;
+  font-size: 10px;
+}
+
+
+button:hover {
+  background-color: rgba(0, 0, 0, .2);
+}

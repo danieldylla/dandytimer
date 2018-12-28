@@ -1,0 +1,48 @@
+.Modal {
+    position: absolute;
+    top: 10vh;
+    left: 10vw;
+    right: 10vw;
+    bottom: 10vh;
+    background-color: var(--primary);
+    color: #fff;
+  }
+
+.Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+  }
+
+  .modalinfo {
+    margin: 20px;
+    margin-left: 35px;
+    margin-right: 35px;
+  }
+
+  .modalinfo > h {
+    font-size: 48px;
+  }
+
+  .switches {
+    padding: 20px;
+  }
+
+  .switches > span {
+    position: fixed;
+    font-size: 18px;
+    padding-left: 30px;
+    padding-top: 2px;
+  }
+
+  #icon {
+    font-size: 2vw;
+  }
+
+  #icon:hover {
+    background-color: inherit;
+    border-radius: 10px;
+  }

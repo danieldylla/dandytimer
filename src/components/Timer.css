@@ -1,0 +1,92 @@
+:root {
+  --primary: #282c34;
+  --secondary: #444c59;
+  --highlight: #3fa8ff;
+  --bright: #dcdee2;
+}
+
+.timer {
+  text-align: center;
+  background-color: var(--primary);
+
+  color: #fff;
+}
+
+#time {
+  color: inherit;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(15vmin);
+  overflow: hidden;
+}
+
+#scramble {
+  padding-top: 5vh;
+  left: 20vw;
+  right: 20vw;
+  height: 10vh;
+  background-color: inherit;
+  display: block;
+  position: absolute;
+  align-items: center;
+  color: rgba(255, 255, 255, .6);
+  transition: .2s;
+  font-size: 1.7em;
+  min-width: 200px;
+}
+
+#scramble:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+#settings {
+  margin-left: 95vw;
+  margin-top: 2vw;
+  background-color: inherit;
+  display: block;
+  position: absolute;
+  color: rgba(255, 255, 255, .6);
+  transition: .5s;
+}
+
+#settings:hover {
+  color: rgba(255, 255, 255, 1)
+}
+
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+    opacity: 0;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  display: none;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: inherit;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, .1);
+  border-radius: 12px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, .2);
+}
