@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import LogStats from './LogStats';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Log.css';
 
 class Log extends Component {
@@ -98,6 +97,7 @@ class Log extends Component {
   render() {
     const av = this.convertToTime(this.props.average);
     const history = this.props.log.slice();
+    // history.reverse();
     if (!this.props.cube_mode) {
       const times = history.map((item, step) => {
         return (
@@ -121,8 +121,13 @@ class Log extends Component {
         <div className="list" key={step}>
           <div className="row">
             <div className="quarter">
-              <button>
-                {step + 1}
+              <button onClick={() => this.props.deleteEntry(step, 1)}>
+                <span id="step">
+                  {step + 1}
+                </span>
+                <span id="delete">
+                  X
+                </span>
               </button>
             </div>
             <div className="quarter">
@@ -140,10 +145,10 @@ class Log extends Component {
             best={this.props.best}
             res={this.props.res}
             clearAll={() => this.props.clearAll()}
-            downloadFile = {(fileName, contentType) => this.props.downloadFile(fileName, contentType)}
+            downloadFile={(fileName, contentType) => this.props.downloadFile(fileName, contentType)}
           />
         </div>
-        <div className="scroll">
+        <div className="scroll" id="scroll">
           {times}
         </div>
         <div className="av">

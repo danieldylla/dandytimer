@@ -18,7 +18,7 @@ class DeleteModal extends Component {
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.handleClearAll = this.handleClearAll.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   };
 
   openModal() {
@@ -33,8 +33,8 @@ class DeleteModal extends Component {
     this.setState({modalIsOpen: false});
   }
 
-  handleClearAll() {
-    this.props.clearAll();
+  handleDelete(id) {
+    this.props.deleteEntry(id, x);
     this.closeModal();
   }
 

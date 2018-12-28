@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
 import Log from './Log'
 import Settings from './Settings'
 import './Timer.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {faArrowDown} from '@fortawesome/free-solid-svg-icons';
@@ -60,6 +58,7 @@ class Timer extends Component {
     this.calculateAverage = this.calculateAverage.bind(this);
     this.calculateAv = this.calculateAv.bind(this);
     this.clearAll = this.clearAll.bind(this);
+    this.deleteEntry = this.deleteEntry.bind(this);
     this.downloadFile = this.downloadFile.bind(this);
     this.generateScramble = this.generateScramble.bind(this);
     this.handleCubeMode = this.handleCubeMode.bind(this);
@@ -85,6 +84,7 @@ class Timer extends Component {
     );
     // saves if component has a chance to unmount
     this.saveStateToLocalStorage();
+    console.log('here');
   }
 
   hydrateStateWithLocalStorage() {
@@ -209,13 +209,13 @@ class Timer extends Component {
     if (this.state.reps < howmany) {
       return null;
     }
-    const history = this.state.log.slice(this.state.reps - howmany, this.state.reps-1);
+    const history = this.state.log.slice(this.state.reps - howmany, this.state.reps - 1);
     const list = history.map((item, step) => {
       return (
         item.res.time
       )
     });
-    let best = 0;
+    let best = t;
     let worst = t;
     let i = 0;
     let sum = t;
@@ -230,6 +230,31 @@ class Timer extends Component {
     }
     let av = ((sum - best - worst) / (howmany - 2));
     return(av);
+  }
+
+  forceCalculateAv(howmany, arr, id) {
+    if (id + 1 < howmany) {
+      return null;
+    }
+    const history = arr.slice(id - howmany + 1, id);
+    const list = history.map((item, step) => {
+      return (item.res.time)
+    });
+    let best = arr[id].res.time;
+    let worst = arr[id].res.time;
+    let i = 0;
+    let sum = arr[id].res.time;
+    for (i = 0; i < howmany - 1; i++) {
+      if (list[i] < best) {
+        best = list[i];
+      }
+      if (list[i] > worst) {
+        worst = list[i];
+      }
+      sum = sum + list[i];
+    }
+    let av = ((sum - best - worst) / (howmany - 2));
+    return av;
   }
 
   updateBests() {
@@ -296,18 +321,127 @@ class Timer extends Component {
     this.resetTime();
   }
 
-  downloadFile(fileName, contentType) {
-    this.saveStateToLocalStorage();
-    let content = localStorage.getItem('log');
-    /*for (let key in this.state) {
-      // if the key exists in localStorage
-      if (localStorage.hasOwnProperty(key)) {
-        // get the key's value from localStorage
-        let value = localStorage.getItem(key);
-        // parse the localStorage string and setState
-        content += value;
+  deleteEntry(id, x) {
+    let result = this.state.log.slice();
+    let leftovers = result.splice(id, x);
+    console.log(result);
+    if (result.length === 0) {
+      this.clearAll();
+    } else {
+      for (var i = id; i < result.length; i++) {
+        result[i].res.id -= x;
       }
-    }*/
+      let newav = this.state.average;
+      for (i = 0; i < leftovers.length; i++) {
+        newav = (((newav*(this.state.reps - i)) - leftovers[i].res.time) /
+                  (this.state.reps - i - 1));
+      }
+
+      this.forceUpdateAv(result, id, 5);
+      this.forceUpdateAv(result, id, 12);
+
+      console.log('here');
+
+      this.setState({
+        log: result,
+        reps: this.state.reps - x,
+        average: newav,
+        best: {
+          res: this.forceUpdateBest(result),
+          ao5: this.forceUpdateBestAo5(result),
+          ao12: this.forceUpdateBestAo12(result)
+        }
+      });
+    }
+  }
+
+  forceUpdateAv(result, id, howmany) {
+    var i;
+    if (howmany === 5) {
+      for (i = id; i < id + 5; i++) {
+        if (i < result.length) {
+          result[i].res.ao5 = this.forceCalculateAv(5, result, i);
+        }
+      }
+    }
+    if (howmany === 12) {
+      for (i = id; i < id + 12; i++) {
+        if (i < result.length) {
+          result[i].res.ao12 = this.forceCalculateAv(12, result, i);
+        }
+      }
+    }
+  }
+/*
+  shouldUpdateAo5(result, id) {
+    var i;
+    for (i = id; i < id + 5; i++) {
+      if (i < result.length) {
+        if (result[i].res.ao5 === this.state.best.ao5) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  shouldUpdateAo12(result, id) {
+    var i;
+    for (i = id; i < id + 12; i++) {
+      if (i < result.length) {
+        if (result[i].res.ao12  === this.state.best.ao12) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+*/
+  forceUpdateBest(result) {
+    var newbest = result[0].res.time;
+    var index = 0;
+    for (var i = 1; i < result.length; i++) {
+      if (result[i].res.time < newbest) {
+        newbest = result[i].res.time;
+        index = i;
+      }
+    }
+    return result[index].res;
+  }
+
+  forceUpdateBestAo5(result) {
+    if (result.length > 4) {
+      var newbest = result[4].res.ao5;
+      var index = 4;
+      for (var i = 5; i < result.length; i++) {
+        if (result[i].res.ao5 < newbest) {
+          newbest = result[i].res.ao5;
+          index = i;
+        }
+      }
+      return result[index].res.ao5;
+    }
+    return null;
+  }
+
+  forceUpdateBestAo12(result) {
+    if (result.length > 11) {
+      var newbest = result[11].res.ao12;
+      var index = 11;
+      for (var i = 12; i < result.length; i++) {
+        if (result[i].res.ao12 < newbest) {
+          newbest = result[i].res.ao12;
+          index = i;
+        }
+      }
+      return result[index].res.ao12;
+    }
+    return null;
+  }
+
+
+  downloadFile(fileName, contentType) {
+    let content = JSON.stringify(this.state.log);
     console.log(content);
     var a = document.createElement("a");
     var file = new Blob([content], {type: contentType});
@@ -383,7 +517,7 @@ class Timer extends Component {
     let solution = "";
     for (i = 0; i < total; i++) {
       x = Math.floor(Math.random()*18);
-      if (x%6 === last%6 || (x%6 === morelast%6 && x%3 === last%3)) {
+      if (x % 6 === last % 6 || (x % 6 === morelast % 6 && x % 3 === last % 3)) {
         if (x !== 0) {
           x--;
         } else {
@@ -455,6 +589,8 @@ class Timer extends Component {
           stopped: false
         });
         document.getElementById("time").style.color = "inherit";
+      } else if (e.keyCode === 27) {
+        this.resetTime();
       } else if (e.keyCode !== 18 && e.keyCode !== 9) {
         document.getElementById("time").style.color = "inherit";
         document.getElementById("log").style.display = "block";
@@ -478,6 +614,7 @@ class Timer extends Component {
             average={this.state.average}
             cube_mode={this.state.settings.cube_mode}
             clearAll = {() => this.clearAll()}
+            deleteEntry = {(id, x) => this.deleteEntry(id, x)}
             downloadFile = {(fileName, contentType) => this.downloadFile(fileName, contentType)}
           />
         </div>

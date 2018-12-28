@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Modal from 'react-modal';
 import ClearModal from './modals/ClearModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './LogStats.css';
@@ -121,7 +120,7 @@ class LogStats extends Component {
           {this.displayStats()}
           <div className="dothings">
             <div className="third" id="columnlabel">
-              <button id="clear" onClick={this.props.downloadFile('json.txt', 'text/plain')}>
+              <button id="clear" onClick={this.openModal}>
                 <FontAwesomeIcon icon="arrow-down" />
               </button>
             </div>

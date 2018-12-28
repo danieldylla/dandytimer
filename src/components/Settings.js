@@ -6,8 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './Settings.css';
 
-
-
 class Settings extends Component {
   constructor(props) {
     super(props);
@@ -79,7 +77,7 @@ class Settings extends Component {
             </div>
             <div className="colors">
               <ChromePicker
-                
+
               />
             </div>
           </div>

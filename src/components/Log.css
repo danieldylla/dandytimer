@@ -77,10 +77,6 @@
   width: 100%;
 }
 
-ul {
-  list-style: none;
-}
-
 button {
   background-color: inherit;
   opacity: 100;
@@ -94,12 +90,31 @@ button {
   font-size: 15px;
 }
 
+button:hover {
+  background-color: rgba(0, 0, 0, .2);
+}
+
+button:hover #step {
+  display:none;
+}
+
+button #step {
+  display: block;
+}
+
+button:hover #delete {
+  display: block;
+}
+
+button #delete {
+  display: none;
+}
+
 #settings {
   background-color: inherit;
   font-size: 10px;
 }
 
-
-button:hover {
-  background-color: rgba(0, 0, 0, .2);
+ul {
+  list-style: none;
 }

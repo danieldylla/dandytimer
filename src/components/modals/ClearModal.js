@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import Switch from "react-switch";
 import Button from '@material-ui/core/Button';
-import { ChromePicker } from 'react-color';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './ClearModal.css';
