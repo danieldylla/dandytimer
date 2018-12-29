@@ -6,11 +6,13 @@ import './Timer.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
+import {faMinus} from '@fortawesome/free-solid-svg-icons';
 import {faArrowDown} from '@fortawesome/free-solid-svg-icons';
 import {faArrowUp} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCog);
 library.add(faTimes);
+library.add(faMinus);
 library.add(faArrowDown);
 library.add(faArrowUp);
 
@@ -20,6 +22,7 @@ class Timer extends Component {
     this.state = {
       stopped: true,
       running: false,
+      modal: false,
       hours: 0,
       minutes: 0,
       seconds: 0,
@@ -62,6 +65,7 @@ class Timer extends Component {
     this.downloadFile = this.downloadFile.bind(this);
     this.generateScramble = this.generateScramble.bind(this);
     this.handleCubeMode = this.handleCubeMode.bind(this);
+    this.handleModal = this.handleModal.bind(this);
 
     setInterval(this.updateTime, 10);
   }
@@ -541,6 +545,12 @@ class Timer extends Component {
 
   // HANDLERS
 
+  handleModal() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
+
   handleCubeMode(cube) {
     this.setState({
       settings: {
@@ -572,6 +582,8 @@ class Timer extends Component {
         document.getElementById("settings").style.display = "none";
         document.getElementById("scramble").style.display = "none";
         this.resetTime();
+      } else if (e.keyCode === 27 && this.state.modal) {
+        this.resetTime();
       } else if (this.state.running && e.keyCode !== 18 && e.keyCode !== 9) {
         document.getElementById("time").style.color = "#f73b3b";
         this.endTime();
@@ -589,8 +601,6 @@ class Timer extends Component {
           stopped: false
         });
         document.getElementById("time").style.color = "inherit";
-      } else if (e.keyCode === 27) {
-        this.resetTime();
       } else if (e.keyCode !== 18 && e.keyCode !== 9) {
         document.getElementById("time").style.color = "inherit";
         document.getElementById("log").style.display = "block";
@@ -613,6 +623,7 @@ class Timer extends Component {
             running={this.state.running}
             average={this.state.average}
             cube_mode={this.state.settings.cube_mode}
+            handleModal={() => this.handleModal()}
             clearAll = {() => this.clearAll()}
             deleteEntry = {(id, x) => this.deleteEntry(id, x)}
             downloadFile = {(fileName, contentType) => this.downloadFile(fileName, contentType)}
@@ -624,6 +635,7 @@ class Timer extends Component {
         <div className="settings" id="settings">
           <Settings
             handleCubeMode={(cube) => this.handleCubeMode(cube)}
+            handleModal={() => this.handleModal()}
           />
         </div>
         <div id="time">

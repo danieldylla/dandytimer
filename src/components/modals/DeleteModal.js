@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import Switch from "react-switch";
 import Button from '@material-ui/core/Button';
-import { ChromePicker } from 'react-color';
+import InputNumber from 'react-input-number';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './DeleteModal.css';
@@ -13,6 +12,7 @@ class DeleteModal extends Component {
 
     this.state = {
       modalIsOpen: false,
+      x: 1
     }
 
     this.openModal = this.openModal.bind(this);
@@ -23,6 +23,7 @@ class DeleteModal extends Component {
 
   openModal() {
     this.setState({modalIsOpen: true});
+    this.props.handleModal();
   }
 
   afterOpenModal() {
@@ -31,10 +32,21 @@ class DeleteModal extends Component {
 
   closeModal() {
     this.setState({modalIsOpen: false});
+    this.props.handleModal();
+  }
+
+  handleChange(value) {
+    this.setState({
+      x: value
+    });
+  }
+
+  handleFocus(event) {
+    event.target.select();
   }
 
   handleDelete(id) {
-    this.props.deleteEntry(id, x);
+    this.props.deleteEntry(id, this.state.x);
     this.closeModal();
   }
 
@@ -43,9 +55,14 @@ class DeleteModal extends Component {
 
     return (
       <div class="modal">
-        <button id="clear" onClick={this.openModal}>
-          <FontAwesomeIcon icon="times-circle" />
-        </button>
+        <button onClick={this.openModal}>
+          <span id="step">
+            {this.props.id + 1}
+          </span>
+          <span id="delete">
+            <FontAwesomeIcon icon="times" />
+          </span>
+      </button>
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -58,7 +75,16 @@ class DeleteModal extends Component {
             <h>Delete Time</h>
             <br />
             <p>
-              Delete Time?
+              How many results would you like to delete?
+              <InputNumber
+                className="input"
+                onFocus={this.handleFocus}
+                min={1}
+                max={this.props.reps - this.props.id}
+                step={1}
+                value={this.state.x}
+                onChange={value => this.handleChange(value)}
+              />
             </p>
             <div className="choose">
               <div className="cancel">
@@ -74,7 +100,7 @@ class DeleteModal extends Component {
               </div>
               <div className="confirm">
                 <Button
-                  onClick={this.handleClearAll}
+                  onClick={() => this.handleDelete(this.props.id)}
                   id="clearconfirm"
                   variant="contained"
                   color="secondary"

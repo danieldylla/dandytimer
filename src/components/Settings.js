@@ -23,6 +23,7 @@ class Settings extends Component {
 
   openModal() {
     this.setState({modalIsOpen: true});
+    this.props.handleModal();
   }
 
   afterOpenModal() {
@@ -31,6 +32,7 @@ class Settings extends Component {
 
   closeModal() {
     this.setState({modalIsOpen: false});
+    this.props.handleModal();
   }
 
   handleCubeMode(checked) {

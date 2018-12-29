@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import LogStats from './LogStats';
+import DeleteModal from './modals/DeleteModal';
 import './Log.css';
 
 class Log extends Component {
@@ -121,14 +122,12 @@ class Log extends Component {
         <div className="list" key={step}>
           <div className="row">
             <div className="quarter">
-              <button onClick={() => this.props.deleteEntry(step, 1)}>
-                <span id="step">
-                  {step + 1}
-                </span>
-                <span id="delete">
-                  X
-                </span>
-              </button>
+              <DeleteModal
+                id={step}
+                deleteEntry={(id, x) => this.props.deleteEntry(id, x)}
+                handleModal={() => this.props.handleModal()}
+                reps={this.props.reps}
+              />
             </div>
             <div className="quarter">
               {this.displayLogEntry(item.res.time)}
@@ -145,6 +144,7 @@ class Log extends Component {
             best={this.props.best}
             res={this.props.res}
             clearAll={() => this.props.clearAll()}
+            handleModal={() => this.props.handleModal()}
             downloadFile={(fileName, contentType) => this.props.downloadFile(fileName, contentType)}
           />
         </div>

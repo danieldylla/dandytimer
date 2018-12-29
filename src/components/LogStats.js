@@ -131,7 +131,8 @@ class LogStats extends Component {
             </div>
             <div className="third" id="columnlabel">
               <ClearModal
-                clearAll = {() => this.props.clearAll()}
+                clearAll={() => this.props.clearAll()}
+                handleModal={() => this.props.handleModal()}
               />
             </div>
           </div>

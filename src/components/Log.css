@@ -21,7 +21,7 @@
 .logstats {
   background-color: var(--primary);
   width: 15vw;
-  height: 28vh;
+  height: 26vh;
   display: inline-block;
   min-width: 200px;
   overflow: none;
@@ -31,7 +31,7 @@
   display: block;
   overflow: auto;
   position: relative;
-  height: 67vh;
+  height: 69vh;
   border-top-style: solid;
   border-width: 1px;
   margin-bottom: 30px;
@@ -104,6 +104,7 @@ button #step {
 
 button:hover #delete {
   display: block;
+  font-weight: lighter;
 }
 
 button #delete {
