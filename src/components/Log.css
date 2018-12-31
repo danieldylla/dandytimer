@@ -60,7 +60,9 @@
 
 .toprow {
   font-weight: lighter;
-  margin-right: 1vw;
+  margin-right: 0vw;
+  display: flex;
+  justify-content: left;
 }
 
 .quarter {

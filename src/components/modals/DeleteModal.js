@@ -54,7 +54,7 @@ class DeleteModal extends Component {
   render() {
 
     return (
-      <div class="modal">
+      <div className="modal">
         <button onClick={this.openModal}>
           <span id="step">
             {this.props.id + 1}
@@ -80,7 +80,6 @@ class DeleteModal extends Component {
                 className="input"
                 onFocus={this.handleFocus}
                 min={1}
-                max={this.props.reps - this.props.id}
                 step={1}
                 value={this.state.x}
                 onChange={value => this.handleChange(value)}

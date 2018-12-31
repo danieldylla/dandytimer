@@ -3,6 +3,7 @@ import ClearModal from './modals/ClearModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './LogStats.css';
 
+
 class LogStats extends Component {
 
   displayHour(h) {
@@ -64,6 +65,13 @@ class LogStats extends Component {
       <div>
         {this.convertToTime(res.time)}
       </div>
+    );
+  }
+
+  displaySession() {
+
+    return (
+      <p></p>
     );
   }
 
@@ -138,7 +146,7 @@ class LogStats extends Component {
           </div>
           <div className = "toprow">
             <div className="quarter">
-              <p></p>
+              {this.displaySession()}
             </div>
             <div className="quarter">
               time

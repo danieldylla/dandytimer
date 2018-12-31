@@ -2,8 +2,8 @@
   --primary: #282c34;
   --secondary: #444c59;
   --highlight: #3fa8ff;
-  --bright: #dcdee2;
-  --brightfont: #fff;
+  --bright: rgba(255, 255, 255, .6);
+  --brighthighlighted: #fff;
 }
 
 .timer {
@@ -24,6 +24,21 @@
   overflow: hidden;
 }
 
+#average {
+  bottom: 0vh;
+  left: 30vw;
+  right: 30vw;
+  height: 10vh;
+  background-color: inherit;
+  display: block;
+  position: absolute;
+  align-items: center;
+  color: rgba(255, 255, 255, .6);
+  transition: .2s;
+  font-size: calc(2.5vmin);
+  min-width: 200px;
+}
+
 #scramble {
   padding-top: 5vh;
   left: 20vw;
@@ -35,7 +50,7 @@
   align-items: center;
   color: rgba(255, 255, 255, .6);
   transition: .2s;
-  font-size: 1.7em;
+  font-size: calc(3vmin);
   min-width: 200px;
 }
 

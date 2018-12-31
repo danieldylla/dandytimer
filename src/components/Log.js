@@ -3,6 +3,16 @@ import LogStats from './LogStats';
 import DeleteModal from './modals/DeleteModal';
 import './Log.css';
 
+// Most of react-virtualized's styles are functional (eg position, size).
+// Functional styles are applied directly to DOM elements.
+// The Table component ships with a few presentational styles as well.
+// They are optional, but if you want them you will need to also import the CSS file.
+// This only needs to be done once; probably during your application's bootstrapping process.
+import 'react-virtualized/styles.css'
+
+// You can import any component you want as a named export from 'react-virtualized', eg
+import { Column, Table } from 'react-virtualized'
+
 class Log extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return ((this.props.reps !== nextProps.reps
@@ -98,7 +108,9 @@ class Log extends Component {
   render() {
     const av = this.convertToTime(this.props.average);
     const history = this.props.log.slice();
-    // history.reverse();
+    if (this.props.new_on_top) {
+      history.reverse();
+    }
     if (!this.props.cube_mode) {
       const times = history.map((item, step) => {
         return (
@@ -127,6 +139,7 @@ class Log extends Component {
                 deleteEntry={(id, x) => this.props.deleteEntry(id, x)}
                 handleModal={() => this.props.handleModal()}
                 reps={this.props.reps}
+                res={item}
               />
             </div>
             <div className="quarter">
@@ -143,6 +156,8 @@ class Log extends Component {
           <LogStats
             best={this.props.best}
             res={this.props.res}
+            sessions={this.props.sessions}
+            session={this.props.session}
             clearAll={() => this.props.clearAll()}
             handleModal={() => this.props.handleModal()}
             downloadFile={(fileName, contentType) => this.props.downloadFile(fileName, contentType)}

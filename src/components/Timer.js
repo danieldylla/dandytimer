@@ -42,12 +42,21 @@ class Timer extends Component {
         ao12: null
       },
       log: [],
+      sessions: [{
+        id: 0,
+        name: 1,
+        log: [],
+        best: null,
+        reps: 0,
+        average: null
+      }],
+      session: 0,
       reps: 0,
       average: 0,
-      settings: {
-        cube_mode: true,
-        scramble_on_side: false,
-      }
+      cube_mode: true,
+      scramble_on_side: false,
+      new_on_top: true,
+      av_under_time: true,
     };
 
     this.display = this.display.bind(this);
@@ -64,6 +73,10 @@ class Timer extends Component {
     this.deleteEntry = this.deleteEntry.bind(this);
     this.downloadFile = this.downloadFile.bind(this);
     this.generateScramble = this.generateScramble.bind(this);
+    this.saveSession = this.saveSession.bind(this);
+    this.loadSession = this.loadSession.bind(this);
+    this.newSession = this.newSession.bind(this);
+    this.changeSession = this.changeSession.bind(this);
     this.handleCubeMode = this.handleCubeMode.bind(this);
     this.handleModal = this.handleModal.bind(this);
 
@@ -84,9 +97,11 @@ class Timer extends Component {
   componentWillUnmount() {
     window.removeEventListener(
       "beforeunload",
-      this.saveStateToLocalStorage.bind(this)
+      this.saveStateToLocalStorage.bind(this),
+      this.saveSession.bind(this)
     );
     // saves if component has a chance to unmount
+    this.saveSession();
     this.saveStateToLocalStorage();
     console.log('here');
   }
@@ -116,6 +131,53 @@ class Timer extends Component {
      // save to localStorage
      localStorage.setItem(key, JSON.stringify(this.state[key]));
     }
+  }
+
+  newSession() {
+    this.saveSession();
+    this.setState({
+      sessions: this.state.sessions.concat([
+        {
+          id: this.state.sessions.length,
+          name: this.state.sessions.length + 1,
+          best: null,
+          log: [],
+          average: null,
+          reps: 0
+        }
+      ]),
+      session: this.state.session + 1
+    });
+  }
+
+  saveSession() {
+    let curr = this.state.sessions.slice();
+    let currlog = this.state.log.slice();
+    console.log(curr);
+    curr[this.state.session].log = currlog;
+    curr[this.state.session].best = this.state.best;
+    curr[this.state.session].reps = this.state.reps;
+    curr[this.state.session].average = this.state.average;
+    this.setState({
+      sessions: curr
+    });
+  }
+
+  loadSession() {
+    this.setState({
+      log: this.state.sessions[this.state.session].log,
+      best: this.state.sessions[this.state.session].best,
+      reps: this.state.sessions[this.state.session].reps,
+      average: this.state.sessions[this.state.session].average
+    });
+  }
+
+  changeSession(i) {
+    this.saveSession();
+    this.setState({
+      session: i,
+    });
+    this.loadSession();
   }
 
   resetTime() {
@@ -327,11 +389,18 @@ class Timer extends Component {
 
   deleteEntry(id, x) {
     let result = this.state.log.slice();
+    if(this.state.new_on_top) {
+      id = this.state.log.length - id - 1;
+    }
+    if (x > result.length - id) {
+      x = result.length - id;
+    }
     let leftovers = result.splice(id, x);
     console.log(result);
     if (result.length === 0) {
       this.clearAll();
     } else {
+
       for (var i = id; i < result.length; i++) {
         result[i].res.id -= x;
       }
@@ -343,8 +412,6 @@ class Timer extends Component {
 
       this.forceUpdateAv(result, id, 5);
       this.forceUpdateAv(result, id, 12);
-
-      console.log('here');
 
       this.setState({
         log: result,
@@ -455,9 +522,29 @@ class Timer extends Component {
   }
 
   displayScramble() {
-    if(this.state.settings.cube_mode) {
+    if(this.state.cube_mode) {
       return(this.state.res.scramble);
     }
+  }
+
+  convertToTime(s) {
+    if (s === 0 || s === null) {
+      return ('-');
+    }
+    s = Math.floor(s);
+    var ms = s % 1000;
+    s = (s - ms) / 1000;
+    var sec = s % 60;
+    s = (s - sec) / 60;
+    var min = s % 60;
+    s = (s - min) / 60;
+
+    ms = Math.floor(ms/10);
+
+    return (
+      this.displayHour(s) + this.displayMinute(s, min) +
+      this.displaySecond(min, sec) + '.' + this.displayMillisecond(ms)
+    );
   }
 
   displayHour(h) {
@@ -489,6 +576,18 @@ class Timer extends Component {
       return('0' + l);
     }
     return(l);
+  }
+
+  displayAverages() {
+    if(this.state.av_under_time) {
+      return (
+        <div>
+            ao5: {this.convertToTime(this.state.res.ao5)}
+            <br />
+            ao12: {this.convertToTime(this.state.res.ao12)}
+        </div>
+      );
+    }
   }
 
   display() {
@@ -553,9 +652,7 @@ class Timer extends Component {
 
   handleCubeMode(cube) {
     this.setState({
-      settings: {
-        cube_mode: !this.state.settings.cube_mode
-      }
+      cube_mode: !this.state.cube_mode,
     });
     if (!cube) {
       document.getElementById("log").style.width = "10vw";
@@ -566,9 +663,7 @@ class Timer extends Component {
 
   handleScramble() {
     this.setState({
-      settings: {
-        scramble_on_side: !this.state.settings.scramble_on_side
-      }
+      scramble_on_side: !this.state.scramble_on_side
     });
   }
 
@@ -622,7 +717,10 @@ class Timer extends Component {
             reps={this.state.reps}
             running={this.state.running}
             average={this.state.average}
-            cube_mode={this.state.settings.cube_mode}
+            cube_mode={this.state.cube_mode}
+            new_on_top={this.state.new_on_top}
+            sessions={this.state.sessions}
+            session={this.state.session}
             handleModal={() => this.handleModal()}
             clearAll = {() => this.clearAll()}
             deleteEntry = {(id, x) => this.deleteEntry(id, x)}
@@ -631,6 +729,9 @@ class Timer extends Component {
         </div>
         <div className="scramble" id="scramble">
           {this.displayScramble()}
+        </div>
+        <div className="average" id="average">
+          {this.displayAverages()}
         </div>
         <div className="settings" id="settings">
           <Settings
