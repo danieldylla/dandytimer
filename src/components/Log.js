@@ -11,7 +11,8 @@ import './Log.css';
 import 'react-virtualized/styles.css'
 
 // You can import any component you want as a named export from 'react-virtualized', eg
-import { Column, Table } from 'react-virtualized'
+import { Column, Table, List, InfiniteLoader } from 'react-virtualized'
+
 
 class Log extends Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -20,6 +21,65 @@ class Log extends Component {
       || this.props.log[this.props.reps] !== this.props.res)
       && !this.props.running
     );
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      list: [],
+      hasMoreItems: true,
+      isNextItemLoading: false,
+    };
+
+    this.renderRow = this.renderRow.bind(this);
+    this.logList = this.logList.bind(this);
+    this.displayRow = this.displayRow.bind(this);
+  }
+
+  isRowLoaded(index) {
+    return (
+      !this.state.hasNextPage || index < this.state.list.size
+    );
+  }
+
+  renderRow(index) {
+    let content;
+    if (!this.isRowLoaded(index)) {
+      content = '-';
+    } else {
+      content = this.displayRow(this.props.log[index]);
+    }
+
+    return (
+      <div key={index}>
+        {content}
+      </div>
+    );
+  }
+
+  logList(hasMoreItems, isNextItemLoading, list, loadNextPage) {
+    const rowCount = this.state.hasMoreItems ? this.state.list.size + 1 : this.state.list.size;
+
+    const loadMoreRows = this.state.isNextItemLoading
+      ? () => {}
+      : this.loadNextPage();
+
+    return (
+      <InfiniteLoader
+        isRowLoaded={this.isRowLoaded}
+        loadMoreRows={this.loadMoreRows}
+        rowCount={this.props.log.size}
+      >
+        {({ onRowsRendered, registerChild }) => (
+          <List
+            ref={registerChild}
+            onRowsRendered={onRowsRendered}
+            rowRenderer={this.renderRow}
+          />
+        )}
+      </InfiniteLoader>
+    )
   }
 
   displayHour(h) {
@@ -84,6 +144,27 @@ class Log extends Component {
     );
   }
 
+  displayRow(item) {
+    return (
+      <div className="row">
+        <div className="quarter">
+          <button onClick={() => this.handleDelete(this.props.id)}>
+            {item.res.id}
+          </button>
+        </div>
+        <div className="quarter">
+          {this.displayLogEntry(item.res.time)}
+        </div>
+        {this.displayAverages(item.res.ao5, item.res.ao12)}
+      </div>
+    );
+  }
+
+  handleDelete(id) {
+    this.props.deleteEntry(id, this.state.x);
+    this.closeModal();
+  }
+
   convertToTime(s) {
     if (s === 0 || s === null) {
       return ('-');
@@ -106,6 +187,25 @@ class Log extends Component {
 
 
   render() {
+    return (
+      <div className="results">
+        <div className="statistics">
+          <LogStats
+            best={this.props.best}
+            res={this.props.res}
+            sessions={this.props.sessions}
+            session={this.props.session}
+            clearAll={() => this.props.clearAll()}
+            handleModal={() => this.props.handleModal()}
+            downloadFile={(fileName, contentType) => this.props.downloadFile(fileName, contentType)}
+          />
+        </div>
+        <div className="scroll">
+
+        </div>
+      </div>
+    );
+    /*
     const av = this.convertToTime(this.props.average);
     const history = this.props.log.slice();
     if (this.props.new_on_top) {
@@ -134,13 +234,9 @@ class Log extends Component {
         <div className="list" key={step}>
           <div className="row">
             <div className="quarter">
-              <DeleteModal
-                id={step}
-                deleteEntry={(id, x) => this.props.deleteEntry(id, x)}
-                handleModal={() => this.props.handleModal()}
-                reps={this.props.reps}
-                res={item}
-              />
+              <button onClick={() => this.handleDelete(this.props.id)}>
+                {item.res.id}
+              </button>
             </div>
             <div className="quarter">
               {this.displayLogEntry(item.res.time)}
@@ -171,7 +267,7 @@ class Log extends Component {
         </div>
       </div>
     );
-
+    */
   }
 }
 
