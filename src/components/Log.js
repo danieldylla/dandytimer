@@ -26,60 +26,29 @@ class Log extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      list: [],
-      hasMoreItems: true,
-      isNextItemLoading: false,
-    };
-
     this.renderRow = this.renderRow.bind(this);
-    this.logList = this.logList.bind(this);
-    this.displayRow = this.displayRow.bind(this);
   }
 
-  isRowLoaded(index) {
-    return (
-      !this.state.hasNextPage || index < this.state.list.size
-    );
-  }
 
-  renderRow(index) {
-    let content;
-    if (!this.isRowLoaded(index)) {
-      content = '-';
-    } else {
-      content = this.displayRow(this.props.log[index]);
-    }
 
+  renderRow({ index, key, style }) {
+    let item = this.props.log[index];
     return (
-      <div key={index}>
-        {content}
+      <div key={key} style={style} className="row">
+        <div className="quarter">
+          
+          <DeleteModal
+            id={item.res.id}
+            deleteEntry={(id, x) => this.props.deleteEntry(id, x)}
+            handleModal={() => this.props.handleModal()}
+          />
+        </div>
+        <div className="quarter">
+          {this.displayLogEntry(item.res.time)}
+        </div>
+        {this.displayAverages(item.res.ao5, item.res.ao12)}
       </div>
     );
-  }
-
-  logList(hasMoreItems, isNextItemLoading, list, loadNextPage) {
-    const rowCount = this.state.hasMoreItems ? this.state.list.size + 1 : this.state.list.size;
-
-    const loadMoreRows = this.state.isNextItemLoading
-      ? () => {}
-      : this.loadNextPage();
-
-    return (
-      <InfiniteLoader
-        isRowLoaded={this.isRowLoaded}
-        loadMoreRows={this.loadMoreRows}
-        rowCount={this.props.log.size}
-      >
-        {({ onRowsRendered, registerChild }) => (
-          <List
-            ref={registerChild}
-            onRowsRendered={onRowsRendered}
-            rowRenderer={this.renderRow}
-          />
-        )}
-      </InfiniteLoader>
-    )
   }
 
   displayHour(h) {
@@ -144,22 +113,6 @@ class Log extends Component {
     );
   }
 
-  displayRow(item) {
-    return (
-      <div className="row">
-        <div className="quarter">
-          <button onClick={() => this.handleDelete(this.props.id)}>
-            {item.res.id}
-          </button>
-        </div>
-        <div className="quarter">
-          {this.displayLogEntry(item.res.time)}
-        </div>
-        {this.displayAverages(item.res.ao5, item.res.ao12)}
-      </div>
-    );
-  }
-
   handleDelete(id) {
     this.props.deleteEntry(id, this.state.x);
     this.closeModal();
@@ -201,7 +154,16 @@ class Log extends Component {
           />
         </div>
         <div className="scroll">
-
+          <List
+            width={window.innerWidth}
+            height={window.innerHeight}
+            rowHeight={30}
+            rowRenderer={this.renderRow}
+            rowCount={this.props.log.length}
+          />
+        </div>
+        <div className="av">
+          <b>Average: {this.convertToTime(this.props.average)}</b>
         </div>
       </div>
     );

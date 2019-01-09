@@ -55,7 +55,6 @@ class Timer extends Component {
       average: 0,
       cube_mode: true,
       scramble_on_side: false,
-      new_on_top: true,
       av_under_time: true,
     };
 
@@ -275,7 +274,7 @@ class Timer extends Component {
     if (this.state.reps < howmany) {
       return null;
     }
-    const history = this.state.log.slice(this.state.reps - howmany, this.state.reps - 1);
+    const history = this.state.log.slice(0, howmany);
     const list = history.map((item, step) => {
       return (
         item.res.time
@@ -299,18 +298,18 @@ class Timer extends Component {
   }
 
   forceCalculateAv(howmany, arr, id) {
-    if (id + 1 < howmany) {
+    if (id > arr.length - howmany) {
       return null;
     }
-    const history = arr.slice(id - howmany + 1, id);
+    const history = arr.slice(id, id + howmany);
     const list = history.map((item, step) => {
       return (item.res.time)
     });
-    let best = arr[id].res.time;
-    let worst = arr[id].res.time;
+    let best = list[0];
+    let worst = list[0];
     let i = 0;
-    let sum = arr[id].res.time;
-    for (i = 0; i < howmany - 1; i++) {
+    let sum = list[0];
+    for (i = 1; i < howmany; i++) {
       if (list[i] < best) {
         best = list[i];
       }
@@ -358,11 +357,7 @@ class Timer extends Component {
 
   saveTime() {
     this.setState({
-      log: this.state.log.concat([
-        {
-          res: this.state.res
-        }
-      ]),
+      log: [{res: this.state.res}].concat(this.state.log)
     });
   }
 
@@ -389,9 +384,7 @@ class Timer extends Component {
 
   deleteEntry(id, x) {
     let result = this.state.log.slice();
-    if(this.state.new_on_top) {
-      id = this.state.log.length - id - 1;
-    }
+    id = this.state.log.length - id;
     if (x > result.length - id) {
       x = result.length - id;
     }
@@ -400,8 +393,7 @@ class Timer extends Component {
     if (result.length === 0) {
       this.clearAll();
     } else {
-
-      for (var i = id; i < result.length; i++) {
+      for (var i = 0; i < id; i++) {
         result[i].res.id -= x;
       }
       let newav = this.state.average;
@@ -428,16 +420,17 @@ class Timer extends Component {
 
   forceUpdateAv(result, id, howmany) {
     var i;
+    id = id - 1;
     if (howmany === 5) {
-      for (i = id; i < id + 5; i++) {
-        if (i < result.length) {
+      for (i = id; i > id - 4; i--) {
+        if (i >= 0) {
           result[i].res.ao5 = this.forceCalculateAv(5, result, i);
         }
       }
     }
     if (howmany === 12) {
-      for (i = id; i < id + 12; i++) {
-        if (i < result.length) {
+      for (i = id; i > id - 11; i--) {
+        if (i >= 0) {
           result[i].res.ao12 = this.forceCalculateAv(12, result, i);
         }
       }
@@ -482,9 +475,9 @@ class Timer extends Component {
 
   forceUpdateBestAo5(result) {
     if (result.length > 4) {
-      var newbest = result[4].res.ao5;
-      var index = 4;
-      for (var i = 5; i < result.length; i++) {
+      var newbest = result[0].res.ao5;
+      var index = 0;
+      for (var i = 1; i < result.length - 4; i++) {
         if (result[i].res.ao5 < newbest) {
           newbest = result[i].res.ao5;
           index = i;
@@ -497,9 +490,9 @@ class Timer extends Component {
 
   forceUpdateBestAo12(result) {
     if (result.length > 11) {
-      var newbest = result[11].res.ao12;
-      var index = 11;
-      for (var i = 12; i < result.length; i++) {
+      var newbest = result[0].res.ao12;
+      var index = 0;
+      for (var i = 1; i < result.length - 11; i++) {
         if (result[i].res.ao12 < newbest) {
           newbest = result[i].res.ao12;
           index = i;
@@ -676,6 +669,7 @@ class Timer extends Component {
         document.getElementById("log").style.display = "none";
         document.getElementById("settings").style.display = "none";
         document.getElementById("scramble").style.display = "none";
+        document.getElementById("average").style.display = "none";
         this.resetTime();
       } else if (e.keyCode === 27 && this.state.modal) {
         this.resetTime();
@@ -701,6 +695,7 @@ class Timer extends Component {
         document.getElementById("log").style.display = "block";
         document.getElementById("settings").style.display = "block";
         document.getElementById("scramble").style.display = "block";
+        document.getElementById("average").style.display = "block";
         this.setState({
           stopped: true,
         });

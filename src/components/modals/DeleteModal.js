@@ -57,7 +57,7 @@ class DeleteModal extends Component {
       <div className="modal">
         <button onClick={this.openModal}>
           <span id="step">
-            {this.props.id + 1}
+            {this.props.id}
           </span>
           <span id="delete">
             <FontAwesomeIcon icon="times" />

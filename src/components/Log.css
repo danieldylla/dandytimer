@@ -34,7 +34,7 @@
   height: 69vh;
   border-top-style: solid;
   border-width: 1px;
-  margin-bottom: 30px;
+  margin-bottom: 5vh;
 }
 
 .av {
@@ -44,14 +44,14 @@
   align-items: center;
   bottom: 0vh;
   width: 15vw;
-  height: 3vh;
+  height: 4vh;
   padding-top: 1vh;
-  padding-bottom: 1vh;
   border-top-style: solid;
   border-width: 1px;
   min-width: 200px;
   overflow: auto;
   min-height: 20px;
+  justify-content: center;
 }
 
 .row {
