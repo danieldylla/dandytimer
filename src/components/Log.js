@@ -36,7 +36,7 @@ class Log extends Component {
     return (
       <div key={key} style={style} className="row">
         <div className="quarter">
-          
+
           <DeleteModal
             id={item.res.id}
             deleteEntry={(id, x) => this.props.deleteEntry(id, x)}
@@ -150,6 +150,7 @@ class Log extends Component {
             session={this.props.session}
             clearAll={() => this.props.clearAll()}
             handleModal={() => this.props.handleModal()}
+            addTime={(t) => this.props.addTime(t)}
             downloadFile={(fileName, contentType) => this.props.downloadFile(fileName, contentType)}
           />
         </div>
@@ -160,6 +161,7 @@ class Log extends Component {
             rowHeight={30}
             rowRenderer={this.renderRow}
             rowCount={this.props.log.length}
+            overscanRowCount={5}
           />
         </div>
         <div className="av">

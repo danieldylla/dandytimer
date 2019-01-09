@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ClearModal from './modals/ClearModal';
+import AddModal from './modals/AddModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './LogStats.css';
-
 
 class LogStats extends Component {
 
@@ -128,12 +128,14 @@ class LogStats extends Component {
           {this.displayStats()}
           <div className="dothings">
             <div className="third" id="columnlabel">
-              <button id="clear" onClick={this.openModal}>
-                <FontAwesomeIcon icon="arrow-down" />
-              </button>
+              <AddModal
+                addTime={(t) => this.props.addTime(t)}
+                handleModal={() => this.props.handleModal()}
+              />
             </div>
             <div className="third" id="columnlabel">
               <button id="clear" onClick={this.openModal}>
+                <FontAwesomeIcon icon="arrow-down" />
                 <FontAwesomeIcon icon="arrow-up" />
               </button>
             </div>

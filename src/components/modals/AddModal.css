@@ -1,0 +1,65 @@
+.ArrowModal {
+    position: absolute;
+    top: 2vh;
+    left: 25vw;
+    right: 25vw;
+    background-color: var(--primary);
+    color: #fff;
+    overflow: scroll;
+    height: 250px;
+    min-width: 250px;
+  }
+
+.ArrowOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+  }
+
+  .clearinfo {
+    position: relative;
+    margin: 10px;
+    padding-left: 1vw;
+    padding-top: 1vh;
+    padding-right: 1vw;
+    padding-bottom: 1vh;
+  }
+
+  .choose {
+    position: absolute;
+    top: 180px;
+    display: inline-block;
+    right: 1%;
+  }
+
+  .cancel {
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .confirm {
+    float: right;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .input {
+    background-color: rgb(0, 0, 0, .3);
+    color: var(--brightfont);
+    border-style: none;
+    padding: 5px;
+    width: 2vw;
+    margin-left: 1vw;
+  }
+
+  h {
+    font-size: 28px;
+  }
+
+#clear {
+  font-size: 1vw;
+}

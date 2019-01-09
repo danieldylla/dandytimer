@@ -121,3 +121,25 @@ button #delete {
 ul {
   list-style: none;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  display: none;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: inherit;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, .1);
+  border-radius: 12px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, .2);
+}

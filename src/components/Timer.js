@@ -6,13 +6,13 @@ import './Timer.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
-import {faMinus} from '@fortawesome/free-solid-svg-icons';
+import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {faArrowDown} from '@fortawesome/free-solid-svg-icons';
 import {faArrowUp} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCog);
 library.add(faTimes);
-library.add(faMinus);
+library.add(faPlus);
 library.add(faArrowDown);
 library.add(faArrowUp);
 
@@ -66,6 +66,8 @@ class Timer extends Component {
     this.endTime = this.endTime.bind(this);
     this.calculateTime = this.calculateTime.bind(this);
     this.saveTime = this.saveTime.bind(this);
+    this.setTime = this.setTime.bind(this);
+    this.addTime = this.addTime.bind(this);
     this.calculateAverage = this.calculateAverage.bind(this);
     this.calculateAv = this.calculateAv.bind(this);
     this.clearAll = this.clearAll.bind(this);
@@ -359,6 +361,32 @@ class Timer extends Component {
     this.setState({
       log: [{res: this.state.res}].concat(this.state.log)
     });
+  }
+
+  setTime(t) {
+    this.setState({
+      log: [
+        {
+          res: {
+            scramble: this.state.res.scramble,
+            time: t,
+            id: this.state.reps + 1,
+            ao5: this.calculateAv(5, t),
+            ao12: this.calculateAv(12, t)
+          },
+        }
+      ].concat(this.state.log),
+      reps: this.state.reps + 1,
+      average: this.calculateAverage(t),
+    });
+  }
+
+  addTime(t) {
+    const time = t*1000;
+    this.resetTime();
+    this.setTime(time);
+    this.updateBests();
+    this.generateScramble();
   }
 
   clearAll() {
@@ -719,6 +747,7 @@ class Timer extends Component {
             handleModal={() => this.handleModal()}
             clearAll = {() => this.clearAll()}
             deleteEntry = {(id, x) => this.deleteEntry(id, x)}
+            addTime = {(t) => this.addTime(t)}
             downloadFile = {(fileName, contentType) => this.downloadFile(fileName, contentType)}
           />
         </div>
