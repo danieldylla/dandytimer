@@ -11,7 +11,7 @@ import './Log.css';
 import 'react-virtualized/styles.css'
 
 // You can import any component you want as a named export from 'react-virtualized', eg
-import { Column, Table, List, InfiniteLoader } from 'react-virtualized'
+import { List } from 'react-virtualized'
 
 
 class Log extends Component {

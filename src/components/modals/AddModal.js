@@ -12,7 +12,7 @@ class AddModal extends Component {
 
     this.state = {
       modalIsOpen: false,
-      x: 1
+      x: 0
     }
 
     this.openModal = this.openModal.bind(this);
@@ -52,7 +52,6 @@ class AddModal extends Component {
 
 
   render() {
-
     return (
       <div className="modal">
         <button id="clear" onClick={this.openModal}>
@@ -62,20 +61,21 @@ class AddModal extends Component {
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
+          ariaHideApp={false}
           contentLabel="Example Modal"
           className="ArrowModal"
           overlayClassName="ArrowOverlay"
         >
           <div className="clearinfo">
-            <h>Add Time</h>
+            <h1>Add Time</h1>
             <br />
             <p>
               Enter your time in seconds:
               <InputNumber
                 className="input"
                 onFocus={this.handleFocus}
-                min={1}
-                step={1}
+                min={0}
+                step={.001}
                 value={this.state.x}
                 onChange={value => this.handleChange(value)}
               />
@@ -87,7 +87,7 @@ class AddModal extends Component {
                   variant="contained"
                   color="primary"
                   className="confirm"
-                  tabindex="1"
+                  tabIndex="1"
                 >
                   Cancel
                 </Button>
@@ -99,7 +99,7 @@ class AddModal extends Component {
                   variant="contained"
                   color="secondary"
                   className="confirm"
-                  tabindex="2"
+                  tabIndex="2"
                 >
                   Confirm
                 </Button>

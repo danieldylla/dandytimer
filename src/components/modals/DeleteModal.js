@@ -52,7 +52,6 @@ class DeleteModal extends Component {
 
 
   render() {
-
     return (
       <div className="modal">
         <button onClick={this.openModal}>
@@ -67,12 +66,13 @@ class DeleteModal extends Component {
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
+          ariaHideApp={false}
           contentLabel="Example Modal"
           className="ArrowModal"
           overlayClassName="ArrowOverlay"
         >
           <div className="clearinfo">
-            <h>Delete Time</h>
+            <h1>Delete Time</h1>
             <br />
             <p>
               How many results would you like to delete?
@@ -92,7 +92,7 @@ class DeleteModal extends Component {
                   variant="contained"
                   color="primary"
                   className="confirm"
-                  tabindex="1"
+                  tabIndex="1"
                 >
                   Cancel
                 </Button>
@@ -104,7 +104,7 @@ class DeleteModal extends Component {
                   variant="contained"
                   color="secondary"
                   className="confirm"
-                  tabindex="2"
+                  tabIndex="2"
                 >
                   Confirm
                 </Button>

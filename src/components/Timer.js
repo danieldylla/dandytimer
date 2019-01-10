@@ -66,7 +66,6 @@ class Timer extends Component {
     this.endTime = this.endTime.bind(this);
     this.calculateTime = this.calculateTime.bind(this);
     this.saveTime = this.saveTime.bind(this);
-    this.setTime = this.setTime.bind(this);
     this.addTime = this.addTime.bind(this);
     this.calculateAverage = this.calculateAverage.bind(this);
     this.calculateAv = this.calculateAv.bind(this);
@@ -254,10 +253,10 @@ class Timer extends Component {
         scramble: this.state.res.scramble,
         time: t,
         id: this.state.reps,
-        ao5: this.calculateAv(5, t),
-        ao12: this.calculateAv(12, t)
+        ao5: this.calculateAv(5, t, this.state.reps),
+        ao12: this.calculateAv(12, t, this.state.reps)
       },
-      average: this.calculateAverage(t),
+      average: this.calculateAverage(t, this.state.reps),
       hours: s,
       minutes: min,
       seconds: sec,
@@ -265,15 +264,15 @@ class Timer extends Component {
     });
   }
 
-  calculateAverage(t) {
-    if (this.state.reps === 1) {
+  calculateAverage(t, reps) {
+    if (reps === 1) {
       return (t);
     }
-    return ((((this.state.average) * (this.state.reps - 1)) + t) / this.state.reps);
+    return ((((this.state.average) * (reps - 1)) + t) / reps);
   }
 
-  calculateAv(howmany, t) {
-    if (this.state.reps < howmany) {
+  calculateAv(howmany, t, reps) {
+    if (reps < howmany) {
       return null;
     }
     const history = this.state.log.slice(0, howmany);
@@ -363,30 +362,70 @@ class Timer extends Component {
     });
   }
 
-  setTime(t) {
+  addTime(t) {
+    const time = t*1000;
+    const reps = this.state.reps + 1;
+    const ao5 = this.calculateAv(5, time, reps);
+    const ao12 = this.calculateAv(12, time, reps);
+    const average = this.calculateAverage(time, reps);
+    if (this.state.best.res === null
+        || time < this.state.best.res.time) {
+      this.setState({
+        best: {
+          res: {
+            time: time,
+            id: reps,
+            ao5: ao5,
+            ao12: ao12,
+            scramble: this.state.res.scramble,
+          },
+          ao5: this.state.best.ao5,
+          ao12: this.state.best.ao12
+        }
+      });
+    }
+    if ((this.state.best.ao5 === null && this.state.res.ao5 !== null)
+        || ao5 < this.state.best.ao5) {
+          this.setState({
+            best: {
+              res: this.state.best.res,
+              ao5: ao5,
+              ao12: this.state.best.ao12
+            }
+          });
+    }
+    if ((this.state.best.ao12 === null && this.state.res.ao12 !== null)
+        || ao12 < this.state.best.ao12) {
+          this.setState({
+            best: {
+              res: this.state.best.res,
+              ao5: ao5,
+              ao12: this.state.res.ao12
+            }
+          });
+    }
     this.setState({
       log: [
         {
           res: {
+            time: time,
+            id: reps,
+            ao5: ao5,
+            ao12: ao12,
             scramble: this.state.res.scramble,
-            time: t,
-            id: this.state.reps + 1,
-            ao5: this.calculateAv(5, t),
-            ao12: this.calculateAv(12, t)
-          },
+          }
         }
       ].concat(this.state.log),
-      reps: this.state.reps + 1,
-      average: this.calculateAverage(t),
+      reps: reps,
+      average: average,
+      res: {
+        time: time,
+        id: reps,
+        ao5: ao5,
+        ao12: ao12,
+        scramble: this.state.res.scramble,
+      },
     });
-  }
-
-  addTime(t) {
-    const time = t*1000;
-    this.resetTime();
-    this.setTime(time);
-    this.updateBests();
-    this.generateScramble();
   }
 
   clearAll() {
@@ -688,8 +727,6 @@ class Timer extends Component {
     });
   }
 
-
-
   render() {
     document.body.onkeydown = function(e) {
       if (e.keyCode === 32 && !this.state.running && this.state.stopped) {
@@ -699,7 +736,7 @@ class Timer extends Component {
         document.getElementById("scramble").style.display = "none";
         document.getElementById("average").style.display = "none";
         this.resetTime();
-      } else if (e.keyCode === 27 && this.state.modal) {
+      } else if (e.keyCode === 27 && !this.state.modal) {
         this.resetTime();
       } else if (this.state.running && e.keyCode !== 18 && e.keyCode !== 9) {
         document.getElementById("time").style.color = "#f73b3b";

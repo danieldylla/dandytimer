@@ -50,6 +50,7 @@ class ClearModal extends Component {
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
+          ariaHideApp={false}
           contentLabel="Example Modal"
           className="ArrowModal"
           overlayClassName="ArrowOverlay"
