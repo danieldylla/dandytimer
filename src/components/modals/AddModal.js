@@ -12,7 +12,7 @@ class AddModal extends Component {
 
     this.state = {
       modalIsOpen: false,
-      x: 0
+      x: 1
     }
 
     this.openModal = this.openModal.bind(this);

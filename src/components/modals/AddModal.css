@@ -53,6 +53,7 @@
     border-style: none;
     padding: 5px;
     width: 5vw;
+    min-width: 20px;
     margin-left: 1vw;
   }
 
@@ -60,6 +61,6 @@
     margin: 0px;
   }
 
-#clear {
-  font-size: 1vw;
-}
+  #clear {
+    font-size: 1vw;
+  }
