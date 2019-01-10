@@ -7,7 +7,7 @@
   display: block;
   position: absolute;
   align-items: left;
-  color: rgba(255, 255, 255, .6);
+  color: var(--text);
   transition: .2s;
   font-size: 16px;
   min-width: 200px;
@@ -15,7 +15,7 @@
 }
 
 #log:hover {
-  color: rgba(255, 255, 255, 1);
+  color: var(--texthighlighted);
 }
 
 .logstats {

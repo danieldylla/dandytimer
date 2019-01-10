@@ -53,9 +53,17 @@ class Timer extends Component {
       session: 0,
       reps: 0,
       average: 0,
-      cube_mode: true,
       scramble_on_side: false,
       av_under_time: true,
+      inspection_time: false,
+      hold_to_start: false,
+      theme: {
+        primary: '#282c34',
+        secondary: '#444c59',
+        accent: '#3fa8ff',
+        text: 'rgba(255, 255, 255, .6)',
+        texthighlighted: '#fff'
+      },
     };
 
     this.display = this.display.bind(this);
@@ -77,8 +85,11 @@ class Timer extends Component {
     this.loadSession = this.loadSession.bind(this);
     this.newSession = this.newSession.bind(this);
     this.changeSession = this.changeSession.bind(this);
-    this.handleCubeMode = this.handleCubeMode.bind(this);
     this.handleModal = this.handleModal.bind(this);
+    this.handleInspection = this.handleInspection.bind(this);
+    this.handleHoldToStart = this.handleHoldToStart.bind(this);
+    this.handleAvUnderTime = this.handleAvUnderTime.bind(this);
+    this.changeColor = this.changeColor.bind(this);
 
     setInterval(this.updateTime, 10);
   }
@@ -92,6 +103,12 @@ class Timer extends Component {
       this.saveStateToLocalStorage.bind(this)
     );
     this.generateScramble();
+
+    let lasttheme = localStorage.getItem('theme');
+    if(lasttheme) {
+      lasttheme = JSON.parse(lasttheme);
+      this.changeColor(lasttheme);
+    }
   }
 
   componentWillUnmount() {
@@ -582,9 +599,7 @@ class Timer extends Component {
   }
 
   displayScramble() {
-    if(this.state.cube_mode) {
-      return(this.state.res.scramble);
-    }
+    return(this.state.res.scramble);
   }
 
   convertToTime(s) {
@@ -702,6 +717,17 @@ class Timer extends Component {
     });
   }
 
+  changeColor(theme) {
+    document.documentElement.style.setProperty('--primary', theme.primary);
+    document.documentElement.style.setProperty('--secondary', theme.secondary);
+    document.documentElement.style.setProperty('--accent', theme.accent);
+    document.documentElement.style.setProperty('--text', theme.text);
+    document.documentElement.style.setProperty('--texthighlighted', theme.texthighlighted);
+    this.setState({
+      theme: theme
+    });
+  }
+
   // HANDLERS
 
   handleModal() {
@@ -710,22 +736,30 @@ class Timer extends Component {
     });
   }
 
-  handleCubeMode(cube) {
-    this.setState({
-      cube_mode: !this.state.cube_mode,
-    });
-    if (!cube) {
-      document.getElementById("log").style.width = "10vw";
-    } else {
-      document.getElementById("log").style.width = "15vw";
-    }
-  }
-
   handleScramble() {
     this.setState({
       scramble_on_side: !this.state.scramble_on_side
     });
   }
+
+  handleInspection() {
+    this.setState({
+      inspection_time: !this.state.inspection_time
+    });
+  }
+
+  handleHoldToStart() {
+    this.setState({
+      hold_to_start: !this.state.hold_to_start
+    });
+  }
+
+  handleAvUnderTime() {
+    this.setState({
+      av_under_time: !this.state.av_under_time
+    });
+  }
+
 
   render() {
     document.body.onkeydown = function(e) {
@@ -777,7 +811,6 @@ class Timer extends Component {
             reps={this.state.reps}
             running={this.state.running}
             average={this.state.average}
-            cube_mode={this.state.cube_mode}
             new_on_top={this.state.new_on_top}
             sessions={this.state.sessions}
             session={this.state.session}
@@ -796,8 +829,14 @@ class Timer extends Component {
         </div>
         <div className="settings" id="settings">
           <Settings
-            handleCubeMode={(cube) => this.handleCubeMode(cube)}
+            inspection_time={this.state.inspection_time}
+            hold_to_start={this.state.hold_to_start}
+            av_under_time={this.state.av_under_time}
             handleModal={() => this.handleModal()}
+            handleInspection={this.handleInspection}
+            handleHoldToStart={this.handleHoldToStart}
+            handleAvUnderTime={this.handleAvUnderTime}
+            changeColor={(theme) => this.changeColor(theme)}
           />
         </div>
         <div id="time">

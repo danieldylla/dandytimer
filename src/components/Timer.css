@@ -1,16 +1,16 @@
 :root {
   --primary: #282c34;
   --secondary: #444c59;
-  --highlight: #3fa8ff;
-  --bright: rgba(255, 255, 255, .6);
-  --brighthighlighted: #fff;
+  --accent: #3fa8ff;
+  --text: rgba(255, 255, 255, .6);
+  --texthighlighted: #fff;
 }
 
 .timer {
   text-align: center;
   background-color: var(--primary);
 
-  color: #fff;
+  color: var(--texthighlighted);
 }
 
 #time {
@@ -33,10 +33,14 @@
   display: block;
   position: absolute;
   align-items: center;
-  color: rgba(255, 255, 255, .6);
+  color: var(--text);
   transition: .2s;
   font-size: calc(2.5vmin);
   min-width: 200px;
+}
+
+#average:hover {
+  color: var(--texthighlighted);
 }
 
 #scramble {
@@ -48,14 +52,14 @@
   display: block;
   position: absolute;
   align-items: center;
-  color: rgba(255, 255, 255, .6);
+  color: var(--text);
   transition: .2s;
   font-size: calc(3vmin);
   min-width: 200px;
 }
 
 #scramble:hover {
-  color: rgba(255, 255, 255, 1);
+  color: var(--texthighlighted);
 }
 
 #settings {
@@ -64,12 +68,12 @@
   background-color: inherit;
   display: block;
   position: absolute;
-  color: rgba(255, 255, 255, .6);
+  color: var(--text);
   transition: .5s;
 }
 
 #settings:hover {
-  color: rgba(255, 255, 255, 1)
+  color: var(--texthighlighted)
 }
 
 .ReactModal__Overlay {

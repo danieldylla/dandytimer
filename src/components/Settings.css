@@ -6,6 +6,8 @@
     bottom: 10vh;
     background-color: var(--primary);
     color: #fff;
+    outline: none;
+    overflow-x: scroll;
   }
 
 .Overlay {
@@ -18,8 +20,6 @@
   }
 
   .modalinfo {
-    margin: 20px;
-    margin-left: 35px;
     margin-right: 35px;
   }
 
@@ -28,14 +28,8 @@
   }
 
   .switches {
-    padding: 20px;
-  }
-
-  .switches > span {
-    position: fixed;
-    font-size: 18px;
-    padding-left: 30px;
-    padding-top: 2px;
+    float: right;
+    padding-right: 30px;
   }
 
   #icon {
@@ -45,4 +39,144 @@
   #icon:hover {
     background-color: inherit;
     border-radius: 10px;
+  }
+
+  .tabs {
+    float: left;
+    display: block;
+    width: 15%;
+    height: 100%;
+    min-width: 150px;
+    margin-right: 30px;
+    margin-top: 0px;
+  }
+
+  .pages {
+    margin-top: 0px;
+    display: inline-block;
+    position: relative;
+    width: 80%;
+    overflow: auto;
+  }
+
+  .setting {
+    color: var(--texthighlighted);
+    width: 100%;
+    display: inline-block;
+    font-size: 1.25rem;
+    height: 60px;
+    margin: 0 0 0 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: solid;
+    border-bottom-color: rgb(255, 255, 255, .1);
+    border-bottom-width: 2px;
+    overflow: auto;
+  }
+
+  .desc {
+    color: var(--text);
+    margin-left: 20px;
+    padding-bottom: 5px;
+  }
+
+  .presets {
+    color: var(--texthighlighted);
+    width: 100%;
+    display: inline-block;
+    font-size: 1.5rem;
+    height: 120px;
+    margin: 0 0 0 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: solid;
+    border-bottom-color: rgb(255, 255, 255, .1);
+    border-bottom-width: 2px;
+    overflow: auto;
+  }
+
+  .select {
+    margin-top: 30px;
+    margin-left: 50px;
+  }
+
+
+
+
+  .react-tabs {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .react-tabs__tab-list {
+    margin: 0 0 10px;
+    padding: 0;
+  }
+
+  .react-tabs__tab {
+    color: var(--text);
+    display: block;
+
+    font-size: 1.5rem;
+    padding: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+
+    transition: .3s;
+  }
+
+  .react-tabs__tab:hover {
+    background: rgba(0, 0, 0, .3);
+  }
+
+  .react-tabs__tab--selected {
+    background: rgba(0, 0, 0, .3);
+    color: var(--texthighlighted);
+  }
+
+  .react-tabs__tab--disabled {
+    color: var(--texthighlighted);
+    cursor: default;
+    padding: 0px;
+    font-size: 2rem;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+  }
+
+  .react-tabs__tab--disabled:hover {
+    background-color: inherit;
+  }
+
+  .react-tabs__tab:focus {
+    outline: none;
+  }
+
+  .react-tabs__tab-panel {
+    display: none;
+  }
+
+  .react-tabs__tab-panel--selected {
+    display: block;
+    margin-top: 30px;
+    margin-left: 10px;
+  }
+
+
+  .dark-theme {
+    --button-default-height: 51px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 2px;
+    --button-horizontal-padding: 20px;
+    --button-raise-level: 4px;
+    --button-hover-pressure: 1;
+    --transform-speed: 0.15s;
+    --button-primary-color: #1e88e5;
+    --button-primary-color-dark: #1360a4;
+    --button-primary-color-light: #ffffff;
+    --button-primary-color-hover: #187bd1;
+    --button-primary-border: 0px solid #FFFFFF;
   }
