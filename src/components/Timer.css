@@ -1,6 +1,6 @@
 :root {
   --primary: #282c34;
-  --secondary: #444c59;
+  --secondary: #fff;
   --accent: #3fa8ff;
   --text: rgba(255, 255, 255, .6);
   --texthighlighted: #fff;
@@ -10,7 +10,7 @@
   text-align: center;
   background-color: var(--primary);
 
-  color: var(--texthighlighted);
+  color: var(--secondary);
 }
 
 #time {

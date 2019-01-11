@@ -59,7 +59,7 @@ class Timer extends Component {
       hold_to_start: false,
       theme: {
         primary: '#282c34',
-        secondary: '#444c59',
+        secondary: '#fff',
         accent: '#3fa8ff',
         text: 'rgba(255, 255, 255, .6)',
         texthighlighted: '#fff'
@@ -829,6 +829,7 @@ class Timer extends Component {
         </div>
         <div className="settings" id="settings">
           <Settings
+            theme={this.state.theme}
             inspection_time={this.state.inspection_time}
             hold_to_start={this.state.hold_to_start}
             av_under_time={this.state.av_under_time}

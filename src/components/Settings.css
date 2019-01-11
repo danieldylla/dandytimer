@@ -20,7 +20,7 @@
   }
 
   .modalinfo {
-    margin-right: 35px;
+    margin-right: 20px;
   }
 
   .modalinfo > h {
@@ -46,8 +46,8 @@
     display: block;
     width: 15%;
     height: 100%;
-    min-width: 150px;
-    margin-right: 30px;
+    min-width: 200px;
+    margin-right: 0px;
     margin-top: 0px;
   }
 
@@ -69,7 +69,7 @@
     padding-top: 10px;
     padding-bottom: 10px;
     border-bottom: solid;
-    border-bottom-color: rgb(255, 255, 255, .1);
+    border-bottom-color: var(--text);
     border-bottom-width: 2px;
     overflow: auto;
   }
@@ -90,16 +90,43 @@
     padding-top: 10px;
     padding-bottom: 10px;
     border-bottom: solid;
-    border-bottom-color: rgb(255, 255, 255, .1);
+    border-bottom-color: var(--text);
     border-bottom-width: 2px;
     overflow: auto;
   }
 
   .select {
     margin-top: 30px;
-    margin-left: 50px;
+    margin-left: 30px;
   }
 
+  .custom {
+    color: var(--texthighlighted);
+    width: 100%;
+    display: inline-block;
+    font-size: 1.5rem;
+    height: 100%;
+    margin: 0 0 0 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    overflow: auto;
+  }
+
+  .theme {
+    margin: 30px;
+    min-width: 500px;
+    overflow: auto;
+  }
+
+  .colorbuttons {
+    position: absolute;
+    width: 200px;
+  }
+
+  .colors {
+    margin-left: 40%;
+
+  }
 
 
 
@@ -167,6 +194,7 @@
 
   .gray-theme {
     margin-right: 20px;
+    margin-bottom: 10px;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 2px;
@@ -184,6 +212,7 @@
 
   .dark-theme {
     margin-right: 20px;
+    margin-bottom: 10px;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 2px;
@@ -201,6 +230,7 @@
 
   .light-theme {
     margin-right: 20px;
+    margin-bottom: 10px;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 2px;
@@ -218,6 +248,7 @@
 
   .blue-theme {
     margin-right: 20px;
+    margin-bottom: 10px;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 2px;
@@ -227,7 +258,7 @@
     --transform-speed: 0.15s;
     --button-primary-color: #3da1ff;
     --button-primary-color-dark: #235f99;
-    --button-primary-color-light: #163859;
+    --button-primary-color-light: #0b1c2d;
     --button-primary-color-hover: #3186d6;
     --button-primary-color-active: #2a76bf;
     --button-primary-border: 0px solid #FFFFFF;
@@ -235,6 +266,7 @@
 
   .dark-blue-theme {
     margin-right: 20px;
+    margin-bottom: 10px;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 2px;
@@ -252,6 +284,7 @@
 
   .red-theme {
     margin-right: 20px;
+    margin-bottom: 10px;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 2px;
@@ -269,6 +302,7 @@
 
   .dark-red-theme {
     margin-right: 20px;
+    margin-bottom: 10px;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 2px;
@@ -282,4 +316,94 @@
     --button-primary-color-hover: #380b0b;
     --button-primary-color-active: #230707;
     --button-primary-border: 0px solid #FFFFFF;
+  }
+
+  .primary {
+    margin-right: 20px;
+    margin-bottom: 30px;
+    --button-default-height: 51px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 0px;
+    --button-horizontal-padding: 20px;
+    --button-raise-level: 0px;
+    --button-hover-pressure: 0;
+    --transform-speed: 0.15s;
+    --button-primary-color: var(--primary);
+    --button-primary-color-dark: var(--primary);
+    --button-primary-color-light: var(--text);
+    --button-primary-color-hover: var(--primary);
+    --button-primary-color-active: var(--primary);
+    --button-primary-border: 1px solid var(--text);
+  }
+
+  .secondary {
+    margin-right: 20px;
+    margin-bottom: 30px;
+    --button-default-height: 51px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 0px;
+    --button-horizontal-padding: 20px;
+    --button-raise-level: 0px;
+    --button-hover-pressure: 0;
+    --transform-speed: 0.15s;
+    --button-primary-color: var(--secondary);
+    --button-primary-color-dark: var(--secondary);
+    --button-primary-color-light: var(--primary);
+    --button-primary-color-hover: var(--secondary);
+    --button-primary-color-active: var(--secondary);
+    --button-primary-border: 0px solid var(--text);
+  }
+
+  .accent {
+    margin-right: 20px;
+    margin-bottom: 30px;
+    --button-default-height: 51px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 0px;
+    --button-horizontal-padding: 20px;
+    --button-raise-level: 0px;
+    --button-hover-pressure: 0;
+    --transform-speed: 0.15s;
+    --button-primary-color: var(--accent);
+    --button-primary-color-dark: var(--accent);
+    --button-primary-color-light: var(--texthighlighted);
+    --button-primary-color-hover: var(--accent);
+    --button-primary-color-active: var(--accent);
+    --button-primary-border: 0px solid var(--texthighlighted);
+  }
+
+  .text {
+    margin-right: 20px;
+    margin-bottom: 30px;
+    --button-default-height: 51px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 0px;
+    --button-horizontal-padding: 20px;
+    --button-raise-level: 0px;
+    --button-hover-pressure: 0;
+    --transform-speed: 0.15s;
+    --button-primary-color: var(--text);
+    --button-primary-color-dark: var(--text);
+    --button-primary-color-light: var(--primary);
+    --button-primary-color-hover: var(--text);
+    --button-primary-color-active: var(--text);
+    --button-primary-border: 0px solid var(--texthighlighted);
+  }
+
+  .texthighlighted {
+    margin-right: 20px;
+    margin-bottom: 30px;
+    --button-default-height: 51px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 0px;
+    --button-horizontal-padding: 20px;
+    --button-raise-level: 0px;
+    --button-hover-pressure: 0;
+    --transform-speed: 0.15s;
+    --button-primary-color: var(--texthighlighted);
+    --button-primary-color-dark: var(--texthighlighted);
+    --button-primary-color-light: var(--primary);
+    --button-primary-color-hover: var(--texthighlighted);
+    --button-primary-color-active: var(--texthighlighted);
+    --button-primary-border: 0px solid var(--texthighlighted);
   }
