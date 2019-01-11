@@ -5,7 +5,7 @@
     right: 10vw;
     bottom: 10vh;
     background-color: var(--primary);
-    color: #fff;
+    color: var(--texthighlighted);
     outline: none;
     overflow-x: scroll;
   }
@@ -165,8 +165,8 @@
     margin-left: 10px;
   }
 
-
-  .dark-theme {
+  .gray-theme {
+    margin-right: 20px;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 2px;
@@ -174,9 +174,112 @@
     --button-raise-level: 4px;
     --button-hover-pressure: 1;
     --transform-speed: 0.15s;
-    --button-primary-color: #1e88e5;
-    --button-primary-color-dark: #1360a4;
-    --button-primary-color-light: #ffffff;
-    --button-primary-color-hover: #187bd1;
+    --button-primary-color: #282c34;
+    --button-primary-color-dark: #0d0f11;
+    --button-primary-color-light: #d5dce2;
+    --button-primary-color-hover: #1f2228;
+    --button-primary-color-active: #1d2026;
+    --button-primary-border: 0px;
+  }
+
+  .dark-theme {
+    margin-right: 20px;
+    --button-default-height: 51px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 2px;
+    --button-horizontal-padding: 20px;
+    --button-raise-level: 4px;
+    --button-hover-pressure: 1;
+    --transform-speed: 0.15s;
+    --button-primary-color: #1a1c21;
+    --button-primary-color-dark: #000000;
+    --button-primary-color-light: #d5dce2;
+    --button-primary-color-hover: #131519;
+    --button-primary-color-active: #0d0e11;
+    --button-primary-border: 0px;
+  }
+
+  .light-theme {
+    margin-right: 20px;
+    --button-default-height: 51px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 2px;
+    --button-horizontal-padding: 20px;
+    --button-raise-level: 4px;
+    --button-hover-pressure: 1;
+    --transform-speed: 0.15s;
+    --button-primary-color: #d5dce2;
+    --button-primary-color-dark: #a2a6aa;
+    --button-primary-color-light: #282c34;
+    --button-primary-color-hover: #bfc4c9;
+    --button-primary-color-active: #b8bcc1;
+    --button-primary-border: 0px solid #FFFFFF;
+  }
+
+  .blue-theme {
+    margin-right: 20px;
+    --button-default-height: 51px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 2px;
+    --button-horizontal-padding: 20px;
+    --button-raise-level: 4px;
+    --button-hover-pressure: 1;
+    --transform-speed: 0.15s;
+    --button-primary-color: #3da1ff;
+    --button-primary-color-dark: #235f99;
+    --button-primary-color-light: #163859;
+    --button-primary-color-hover: #3186d6;
+    --button-primary-color-active: #2a76bf;
+    --button-primary-border: 0px solid #FFFFFF;
+  }
+
+  .dark-blue-theme {
+    margin-right: 20px;
+    --button-default-height: 51px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 2px;
+    --button-horizontal-padding: 20px;
+    --button-raise-level: 4px;
+    --button-hover-pressure: 1;
+    --transform-speed: 0.15s;
+    --button-primary-color: #000b16;
+    --button-primary-color-dark: #000;
+    --button-primary-color-light: #91c2ff;
+    --button-primary-color-hover: #00070f;
+    --button-primary-color-active: #2a76bf;
+    --button-primary-border: 0px solid #FFFFFF;
+  }
+
+  .red-theme {
+    margin-right: 20px;
+    --button-default-height: 51px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 2px;
+    --button-horizontal-padding: 20px;
+    --button-raise-level: 4px;
+    --button-hover-pressure: 1;
+    --transform-speed: 0.15s;
+    --button-primary-color: #ff4949;
+    --button-primary-color-dark: #b23333;
+    --button-primary-color-light: #163859;
+    --button-primary-color-hover: #e84343;
+    --button-primary-color-active: #d13c3c;
+    --button-primary-border: 0px solid #FFFFFF;
+  }
+
+  .dark-red-theme {
+    margin-right: 20px;
+    --button-default-height: 51px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 2px;
+    --button-horizontal-padding: 20px;
+    --button-raise-level: 4px;
+    --button-hover-pressure: 1;
+    --transform-speed: 0.15s;
+    --button-primary-color: #1c0000;
+    --button-primary-color-dark: #000;
+    --button-primary-color-light: #ff6363;
+    --button-primary-color-hover: #380b0b;
+    --button-primary-color-active: #230707;
     --button-primary-border: 0px solid #FFFFFF;
   }

@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'react-awesome-button/dist/styles.css';
 import './Settings.css';
 
-const dark_theme = {
+const gray_theme = {
   primary: '#282c34',
   secondary: '#444c59',
   accent: '#3fa8ff',
@@ -25,6 +25,46 @@ const light_theme = {
   texthighlighted: '#000'
 }
 
+const blue_theme = {
+  primary: '#3da1ff',
+  secondary: '#115daf',
+  accent: '#af114b',
+  text: '#163859',
+  texthighlighted: '#a0cbff'
+}
+
+const dark_blue_theme = {
+  primary: '#000b16',
+  secondary: '#115daf',
+  accent: '#af114b',
+  text: '#3da1ff',
+  texthighlighted: '#91c2ff'
+}
+
+const red_theme = {
+  primary: '#ff4949',
+  secondary: '#e84343',
+  accent: '#4f4fff',
+  text: '#661616',
+  texthighlighted: '#470e0e'
+}
+
+const dark_red_theme = {
+  primary: '#1c0000',
+  secondary: '#e84343',
+  accent: '#4f4fff',
+  text: '#ff4949',
+  texthighlighted: '#ff6363'
+}
+
+const dark_theme = {
+  primary: '#1a1c21',
+  secondary: '#2b2d33',
+  accent: '#2160ff',
+  text: 'rgba(255, 255, 255, .6)',
+  texthighlighted: '#efefef'
+}
+
 class Settings extends Component {
   constructor(props) {
     super(props);
@@ -36,9 +76,13 @@ class Settings extends Component {
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.changeColor = this.changeColor.bind(this);
     this.handleColorLight = this.handleColorLight.bind(this);
+    this.handleColorGray = this.handleColorGray.bind(this);
+    this.handleColorBlue = this.handleColorBlue.bind(this);
+    this.handleColorRed = this.handleColorRed.bind(this);
     this.handleColorDark = this.handleColorDark.bind(this);
+    this.handleColorDarkBlue = this.handleColorDarkBlue.bind(this);
+    this.handleColorDarkRed = this.handleColorDarkRed.bind(this);
   };
 
   openModal() {
@@ -55,17 +99,29 @@ class Settings extends Component {
     this.props.handleModal();
   }
 
-  changeColor(p, s, a, t, h) {
-    document.documentElement.style.setProperty('--primary', p);
-    document.documentElement.style.setProperty('--secondary', s);
-    document.documentElement.style.setProperty('--accent', a);
-    document.documentElement.style.setProperty('--text', t);
-    document.documentElement.style.setProperty('--texthighlighted', h);
-  }
-
 
   handleColorLight() {
     this.props.changeColor(light_theme);
+  }
+
+  handleColorGray() {
+    this.props.changeColor(gray_theme);
+  }
+
+  handleColorBlue() {
+    this.props.changeColor(blue_theme);
+  }
+
+  handleColorDarkBlue() {
+    this.props.changeColor(dark_blue_theme);
+  }
+
+  handleColorRed() {
+    this.props.changeColor(red_theme);
+  }
+
+  handleColorDarkRed() {
+    this.props.changeColor(dark_red_theme);
   }
 
   handleColorDark() {
@@ -188,10 +244,50 @@ class Settings extends Component {
                     <AwesomeButton
                       action={this.handleColorLight}
                       type="primary"
-                      className="dark-theme"
+                      className="light-theme"
                       size="medium"
                     >
                       Light
+                    </AwesomeButton>
+                    <AwesomeButton
+                      action={this.handleColorGray}
+                      type="primary"
+                      className="gray-theme"
+                      size="medium"
+                    >
+                      Gray
+                    </AwesomeButton>
+                    <AwesomeButton
+                      action={this.handleColorBlue}
+                      type="primary"
+                      className="blue-theme"
+                      size="medium"
+                    >
+                      Blue
+                    </AwesomeButton>
+                    <AwesomeButton
+                      action={this.handleColorRed}
+                      type="primary"
+                      className="red-theme"
+                      size="medium"
+                    >
+                      Red
+                    </AwesomeButton>
+                    <AwesomeButton
+                      action={this.handleColorDarkBlue}
+                      type="primary"
+                      className="dark-blue-theme"
+                      size="medium"
+                    >
+                      Dark Blue
+                    </AwesomeButton>
+                    <AwesomeButton
+                      action={this.handleColorDarkRed}
+                      type="primary"
+                      className="dark-red-theme"
+                      size="medium"
+                    >
+                      Dark Red
                     </AwesomeButton>
                   </div>
                 </div>

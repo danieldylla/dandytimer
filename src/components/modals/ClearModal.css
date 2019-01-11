@@ -4,7 +4,7 @@
     left: 25vw;
     right: 25vw;
     background-color: var(--primary);
-    color: #fff;
+    color: var(--texthighlighted);
     overflow: scroll;
     height: 250px;
     min-width: 250px;
