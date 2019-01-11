@@ -9,12 +9,14 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {faArrowDown} from '@fortawesome/free-solid-svg-icons';
 import {faArrowUp} from '@fortawesome/free-solid-svg-icons';
+import {faDownload} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCog);
 library.add(faTimes);
 library.add(faPlus);
 library.add(faArrowDown);
 library.add(faArrowUp);
+library.add(faDownload);
 
 class Timer extends Component {
   constructor(props) {
@@ -64,6 +66,7 @@ class Timer extends Component {
         text: 'rgba(255, 255, 255, .6)',
         texthighlighted: '#fff'
       },
+      themes: [],
     };
 
     this.display = this.display.bind(this);
@@ -89,6 +92,7 @@ class Timer extends Component {
     this.handleInspection = this.handleInspection.bind(this);
     this.handleHoldToStart = this.handleHoldToStart.bind(this);
     this.handleAvUnderTime = this.handleAvUnderTime.bind(this);
+    this.saveTheme = this.saveTheme.bind(this);
     this.changeColor = this.changeColor.bind(this);
 
     setInterval(this.updateTime, 10);
@@ -594,7 +598,7 @@ class Timer extends Component {
     var a = document.createElement("a");
     var file = new Blob([content], {type: contentType});
     a.href = URL.createObjectURL(file);
-    a.download = fileName;
+    a.download = fileName + ".json";
     a.click();
   }
 
@@ -717,6 +721,12 @@ class Timer extends Component {
     });
   }
 
+  saveTheme(theme) {
+    this.setState({
+      themes: this.state.themes.concat([theme])
+    });
+  }
+
   changeColor(theme) {
     document.documentElement.style.setProperty('--primary', theme.primary);
     document.documentElement.style.setProperty('--secondary', theme.secondary);
@@ -814,6 +824,7 @@ class Timer extends Component {
             new_on_top={this.state.new_on_top}
             sessions={this.state.sessions}
             session={this.state.session}
+            theme={this.state.theme}
             handleModal={() => this.handleModal()}
             clearAll = {() => this.clearAll()}
             deleteEntry = {(id, x) => this.deleteEntry(id, x)}
@@ -833,10 +844,12 @@ class Timer extends Component {
             inspection_time={this.state.inspection_time}
             hold_to_start={this.state.hold_to_start}
             av_under_time={this.state.av_under_time}
+            themes={this.state.themes}
             handleModal={() => this.handleModal()}
             handleInspection={this.handleInspection}
             handleHoldToStart={this.handleHoldToStart}
             handleAvUnderTime={this.handleAvUnderTime}
+            saveTheme={(theme) => this.saveTheme(theme)}
             changeColor={(theme) => this.changeColor(theme)}
           />
         </div>

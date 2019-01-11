@@ -1,0 +1,109 @@
+.DownUpModal {
+    position: absolute;
+    top: 2vh;
+    left: 20vw;
+    right: 20vw;
+    background-color: var(--primary);
+    color: var(--texthighlighted);
+    overflow: scroll;
+    height: 500px;
+    min-width: 250px;
+    outline: none;
+  }
+
+  .DownUpOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+  }
+
+  .downupinfo {
+    margin: 0px;
+  }
+
+  .pages {
+    margin-left: 20px;
+    margin-top: 0px;
+    width: 100%;
+    overflow: auto;
+  }
+
+  .lefttab {
+    margin: 0px;
+    float: left;
+    width: 50%;
+    color: var(--texthighlighted);
+    background: inherit;
+    display: block;
+    font-size: 1rem;
+    padding: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0px;
+    cursor: pointer;
+    text-align: center;
+    transition: .3s;
+  }
+
+  .righttab {
+    margin: 0px;
+    float: right;
+    width: 50%;
+    color: var(--texthighlighted);
+    background: inherit;
+    display: block;
+    font-size: 1rem;
+    padding: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0px;
+    cursor: pointer;
+    text-align: center;
+    transition: .3s;
+  }
+
+  input {
+    background-color: rgb(0, 0, 0, .2);
+    color: var(--text);
+    font-size: 16px;
+    border-style: none;
+    margin: 20px;
+    padding: 5px;
+    height: 30px;
+    width: 10vw;
+    min-width: 200px;
+    margin-left: 1vw;
+  }
+
+  h1 {
+    margin: 0px;
+  }
+
+  #clear {
+    font-size: 1vw;
+  }
+
+  #downicon {
+    padding-top: 1px;
+  }
+
+  .downloadbtn {
+    margin-right: 20px;
+    margin-bottom: 10px;
+    --button-default-height: 51px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 2px;
+    --button-horizontal-padding: 20px;
+    --button-raise-level: 4px;
+    --button-hover-pressure: 1;
+    --transform-speed: 0.15s;
+    --button-primary-color: var(--accent);
+    --button-primary-color-dark: #a2a6aa;
+    --button-primary-color-light: var(--texthighlighted);
+    --button-primary-color-hover: #bfc4c9;
+    --button-primary-color-active: #b8bcc1;
+    --button-primary-border: 0px solid #FFFFFF;
+  }

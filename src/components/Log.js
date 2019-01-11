@@ -148,6 +148,7 @@ class Log extends Component {
             res={this.props.res}
             sessions={this.props.sessions}
             session={this.props.session}
+            theme={this.props.theme}
             clearAll={() => this.props.clearAll()}
             handleModal={() => this.props.handleModal()}
             addTime={(t) => this.props.addTime(t)}

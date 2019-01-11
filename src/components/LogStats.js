@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ClearModal from './modals/ClearModal';
 import AddModal from './modals/AddModal';
+import DownUpModal from './modals/DownUpModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './LogStats.css';
 
@@ -134,10 +135,11 @@ class LogStats extends Component {
               />
             </div>
             <div className="third" id="columnlabel">
-              <button id="clear" onClick={this.openModal}>
-                <FontAwesomeIcon icon="arrow-down" />
-                <FontAwesomeIcon icon="arrow-up" />
-              </button>
+              <DownUpModal
+                theme={this.props.theme}
+                downloadFile={this.props.downloadFile}
+                handleModal={() => this.props.handleModal()}
+              />
             </div>
             <div className="third" id="columnlabel">
               <ClearModal
