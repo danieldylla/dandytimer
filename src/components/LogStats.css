@@ -2,6 +2,10 @@
   margin-top: 1vh;
 }
 
+.topstats {
+  transition: 0s;
+}
+
 h4 {
   margin-bottom: 2vh;
 }

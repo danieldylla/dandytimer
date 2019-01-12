@@ -15,7 +15,7 @@
 .timer {
   text-align: center;
   background-color: var(--primary);
-
+  transition: 0s;
   color: var(--secondary);
 }
 
@@ -40,7 +40,7 @@
   position: absolute;
   align-items: center;
   color: var(--text);
-  transition: .2s;
+  transition: 0s;
   font-size: calc(2.5vmin);
   min-width: 200px;
 }
@@ -59,7 +59,7 @@
   position: absolute;
   align-items: center;
   color: var(--text);
-  transition: .2s;
+  transition: 0s;
   font-size: calc(3vmin);
   min-width: 200px;
 }
@@ -75,7 +75,7 @@
   display: block;
   position: absolute;
   color: var(--text);
-  transition: .5s;
+  transition: 0s;
 }
 
 #settings:hover {

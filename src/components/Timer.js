@@ -26,6 +26,7 @@ class Timer extends Component {
     this.state = {
       stopped: true,
       running: false,
+      fifteen: false,
       modal: false,
       hours: 0,
       minutes: 0,
@@ -556,31 +557,7 @@ class Timer extends Component {
       }
     }
   }
-/*
-  shouldUpdateAo5(result, id) {
-    var i;
-    for (i = id; i < id + 5; i++) {
-      if (i < result.length) {
-        if (result[i].res.ao5 === this.state.best.ao5) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
 
-  shouldUpdateAo12(result, id) {
-    var i;
-    for (i = id; i < id + 12; i++) {
-      if (i < result.length) {
-        if (result[i].res.ao12  === this.state.best.ao12) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-*/
   forceUpdateBest(result) {
     var newbest = result[0].res.time;
     var index = 0;

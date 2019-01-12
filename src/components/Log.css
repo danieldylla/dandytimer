@@ -8,7 +8,7 @@
   position: absolute;
   align-items: left;
   color: var(--text);
-  transition: .2s;
+  transition: 0s;
   font-size: 16px;
   min-width: 200px;
   overflow: scroll;
