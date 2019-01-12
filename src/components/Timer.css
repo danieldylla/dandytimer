@@ -4,6 +4,12 @@
   --accent: #3fa8ff;
   --text: rgba(255, 255, 255, .6);
   --texthighlighted: #fff;
+  --dark: #0d0f11;
+  --hover: #1f2228;
+  --click: #1d2026;
+
+  --tabselect: rgba(0, 0, 0, .3);
+  --tab: var(--primary);
 }
 
 .timer {

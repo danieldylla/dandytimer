@@ -72,7 +72,7 @@ class DeleteModal extends Component {
           overlayClassName="ArrowOverlay"
         >
           <div className="clearinfo">
-            <h1>Delete Time</h1>
+            <h1 id="title">Delete Time</h1>
             <br />
             <p>
               How many results would you like to delete?

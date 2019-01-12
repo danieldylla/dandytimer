@@ -67,7 +67,7 @@ class AddModal extends Component {
           overlayClassName="ArrowOverlay"
         >
           <div className="clearinfo">
-            <h1>Add Time</h1>
+            <h1 id="title">Add Time</h1>
             <br />
             <p>
               Enter your time in seconds:

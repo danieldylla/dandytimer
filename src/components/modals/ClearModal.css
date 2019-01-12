@@ -29,8 +29,9 @@
     padding-bottom: 1vh;
   }
 
-  h1 {
+  #title {
     margin: 0px;
+    color: var(--texthighlighted);
   }
 
   .clearinfo > p {

@@ -56,7 +56,7 @@ class ClearModal extends Component {
           overlayClassName="ArrowOverlay"
         >
           <div className="clearinfo">
-            <h1>Clear All</h1>
+            <h1 id="title">Clear All</h1>
             <br />
             <p>
               This will clear your entire history.

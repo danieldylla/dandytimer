@@ -10,6 +10,7 @@ import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {faArrowDown} from '@fortawesome/free-solid-svg-icons';
 import {faArrowUp} from '@fortawesome/free-solid-svg-icons';
 import {faDownload} from '@fortawesome/free-solid-svg-icons';
+import {faUpload} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCog);
 library.add(faTimes);
@@ -17,6 +18,7 @@ library.add(faPlus);
 library.add(faArrowDown);
 library.add(faArrowUp);
 library.add(faDownload);
+library.add(faUpload);
 
 class Timer extends Component {
   constructor(props) {
@@ -64,7 +66,7 @@ class Timer extends Component {
         secondary: '#fff',
         accent: '#3fa8ff',
         text: 'rgba(255, 255, 255, .6)',
-        texthighlighted: '#fff'
+        texthighlighted: '#fff',
       },
       themes: [],
     };
@@ -83,6 +85,8 @@ class Timer extends Component {
     this.clearAll = this.clearAll.bind(this);
     this.deleteEntry = this.deleteEntry.bind(this);
     this.downloadFile = this.downloadFile.bind(this);
+    this.uploadFile = this.uploadFile.bind(this);
+    this.readFileToState = this.readFileToState.bind(this);
     this.generateScramble = this.generateScramble.bind(this);
     this.saveSession = this.saveSession.bind(this);
     this.loadSession = this.loadSession.bind(this);
@@ -93,6 +97,7 @@ class Timer extends Component {
     this.handleHoldToStart = this.handleHoldToStart.bind(this);
     this.handleAvUnderTime = this.handleAvUnderTime.bind(this);
     this.saveTheme = this.saveTheme.bind(this);
+    this.colorLuminance = this.colorLuminance.bind(this);
     this.changeColor = this.changeColor.bind(this);
 
     setInterval(this.updateTime, 10);
@@ -152,6 +157,58 @@ class Timer extends Component {
      // save to localStorage
      localStorage.setItem(key, JSON.stringify(this.state[key]));
     }
+  }
+
+  readFileToState(text) {
+    let data = JSON.parse(text);
+    for (let key in this.state) {
+      if (data.hasOwnProperty(key)) {
+        let value = data[key];
+        this.setState({ [key]: value });
+      }
+    }
+  }
+
+  downloadFile(fileName, contentType) {
+    let content = JSON.stringify(this.state);
+    var a = document.createElement("a");
+    var file = new Blob([content], {type: contentType});
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+  }
+
+  uploadFile(file, callback) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+      // The file's text will be printed here
+      callback(event.target.result);
+    };
+    reader.readAsText(file);
+    /*
+    console.log(text);
+    let data = JSON.parse(text);
+    for (let key in this.state) {
+      if (data.hasOwnProperty(key)) {
+        let value = data.getItem(key);
+        try {
+          value = JSON.parse(value);
+          this.setState({ [key]: value });
+        } catch (e) {
+          this.setState({ [key]: value });
+        }
+      }
+    }*/
+    /*var rawFile = new XMLHttpRequest();
+    rawFile.overrideMimeType("application/json");
+    rawFile.open("GET", file, true);
+    console.log(rawFile);
+    rawFile.onreadystatechange = function() {
+      if (rawFile.readyState === 4 && rawFile.status == "200") {
+        callback(rawFile.responseText);
+      }
+    }
+    rawFile.send(null);*/
   }
 
   newSession() {
@@ -591,17 +648,6 @@ class Timer extends Component {
     return null;
   }
 
-
-  downloadFile(fileName, contentType) {
-    let content = JSON.stringify(this.state.log);
-    console.log(content);
-    var a = document.createElement("a");
-    var file = new Blob([content], {type: contentType});
-    a.href = URL.createObjectURL(file);
-    a.download = fileName + ".json";
-    a.click();
-  }
-
   displayScramble() {
     return(this.state.res.scramble);
   }
@@ -727,12 +773,32 @@ class Timer extends Component {
     });
   }
 
+  colorLuminance(hex, lum) {
+  	// validate hex string
+  	hex = String(hex).replace(/[^0-9a-f]/gi, '');
+  	if (hex.length < 6) {
+  		hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+  	}
+  	lum = lum || 0;
+  	// convert to decimal and change luminosity
+  	var rgb = "#", c, i;
+  	for (i = 0; i < 3; i++) {
+  		c = parseInt(hex.substr(i*2,2), 16);
+  		c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+  		rgb += ("00"+c).substr(c.length);
+  	}
+  	return rgb;
+  }
+
   changeColor(theme) {
     document.documentElement.style.setProperty('--primary', theme.primary);
     document.documentElement.style.setProperty('--secondary', theme.secondary);
     document.documentElement.style.setProperty('--accent', theme.accent);
     document.documentElement.style.setProperty('--text', theme.text);
     document.documentElement.style.setProperty('--texthighlighted', theme.texthighlighted);
+    document.documentElement.style.setProperty('--dark', this.colorLuminance(theme.accent, -.3));
+    document.documentElement.style.setProperty('--hover', this.colorLuminance(theme.accent, -.1));
+    document.documentElement.style.setProperty('--click', this.colorLuminance(theme.accent, -.2));
     this.setState({
       theme: theme
     });
@@ -830,6 +896,7 @@ class Timer extends Component {
             deleteEntry = {(id, x) => this.deleteEntry(id, x)}
             addTime = {(t) => this.addTime(t)}
             downloadFile = {(fileName, contentType) => this.downloadFile(fileName, contentType)}
+            uploadFile = {(file) => this.uploadFile(file, this.readFileToState)}
           />
         </div>
         <div className="scramble" id="scramble">

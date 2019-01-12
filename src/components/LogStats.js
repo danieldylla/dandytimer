@@ -138,6 +138,7 @@ class LogStats extends Component {
               <DownUpModal
                 theme={this.props.theme}
                 downloadFile={this.props.downloadFile}
+                uploadFile={this.props.uploadFile}
                 handleModal={() => this.props.handleModal()}
               />
             </div>

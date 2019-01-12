@@ -58,8 +58,9 @@
     margin-left: 1vw;
   }
 
-  h1 {
+#title {
     margin: 0px;
+    color: var(--texthighlighted);
   }
 
   #clear {

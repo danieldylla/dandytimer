@@ -142,7 +142,7 @@
   .react-tabs__tab {
     color: var(--text);
     display: block;
-
+    background: var(--tab);
     font-size: 1.5rem;
     padding: 0px;
     padding-top: 10px;
@@ -156,11 +156,11 @@
   }
 
   .react-tabs__tab:hover {
-    background: rgba(0, 0, 0, .3);
+    background: var(--tabselect);
   }
 
   .react-tabs__tab--selected {
-    background: rgba(0, 0, 0, .3);
+    background: var(--tabselect);
     color: var(--texthighlighted);
   }
 

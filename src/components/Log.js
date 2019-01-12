@@ -153,6 +153,7 @@ class Log extends Component {
             handleModal={() => this.props.handleModal()}
             addTime={(t) => this.props.addTime(t)}
             downloadFile={(fileName, contentType) => this.props.downloadFile(fileName, contentType)}
+            uploadFile={(file) => this.props.uploadFile(file)}
           />
         </div>
         <div className="scroll">
@@ -170,69 +171,6 @@ class Log extends Component {
         </div>
       </div>
     );
-    /*
-    const av = this.convertToTime(this.props.average);
-    const history = this.props.log.slice();
-    if (this.props.new_on_top) {
-      history.reverse();
-    }
-    if (!this.props.cube_mode) {
-      const times = history.map((item, step) => {
-        return (
-          <li key={step}>
-            {this.displayLogEntry(item.res.time)}
-          </li>
-        )
-      });
-      return (
-        <div>
-          <h4>Times</h4>
-          <ol>
-            {times}
-          </ol>
-          <p><b>Average: {av}</b></p>
-        </div>
-      );
-    } // else
-    const times = history.map((item, step) => {
-      return (
-        <div className="list" key={step}>
-          <div className="row">
-            <div className="quarter">
-              <button onClick={() => this.handleDelete(this.props.id)}>
-                {item.res.id}
-              </button>
-            </div>
-            <div className="quarter">
-              {this.displayLogEntry(item.res.time)}
-            </div>
-            {this.displayAverages(item.res.ao5, item.res.ao12)}
-          </div>
-        </div>
-      )
-    });
-    return (
-      <div className="results">
-        <div className="statistics">
-          <LogStats
-            best={this.props.best}
-            res={this.props.res}
-            sessions={this.props.sessions}
-            session={this.props.session}
-            clearAll={() => this.props.clearAll()}
-            handleModal={() => this.props.handleModal()}
-            downloadFile={(fileName, contentType) => this.props.downloadFile(fileName, contentType)}
-          />
-        </div>
-        <div className="scroll" id="scroll">
-          {times}
-        </div>
-        <div className="av">
-          <b>Average: {av}</b>
-        </div>
-      </div>
-    );
-    */
   }
 }
 

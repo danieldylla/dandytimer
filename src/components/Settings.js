@@ -503,7 +503,7 @@ class Settings extends Component {
                             className="texthighlighted"
                             size="large"
                           >
-                            Bright Text
+                            Emphasized Text
                           </AwesomeButton>
                       </div>
                     </div>

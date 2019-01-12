@@ -15,24 +15,25 @@ class DownUpModal extends Component {
 
     this.state = {
       modalIsOpen: false,
+      tab: 'left',
       filename: "dandytimer_results",
+      selectedfile: null,
     }
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.handleAdd = this.handleAdd.bind(this);
     this.handleFileName = this.handleFileName.bind(this);
+    this.handleSelectedFile = this.handleSelectedFile.bind(this);
     this.colorLuminance = this.colorLuminance.bind(this);
-    this.handleButtonColors = this.handleButtonColors.bind(this);
 
-    this.myRef = React.createRef();
   };
 
   openModal() {
     this.setState({modalIsOpen: true});
     this.props.handleModal();
-    this.handleButtonColors();
+    document.documentElement.style.setProperty('--tabselect', 'var(--primary)');
+    document.documentElement.style.setProperty('--tab', 'rgba(0, 0, 0, .3)');
   }
 
   afterOpenModal() {
@@ -42,26 +43,23 @@ class DownUpModal extends Component {
   closeModal() {
     this.setState({modalIsOpen: false});
     this.props.handleModal();
-  }
-
-  handleChange(value) {
-    this.setState({
-      x: value
-    });
+    document.documentElement.style.setProperty('--tab', 'var(--primary)');
+    document.documentElement.style.setProperty('--tabselect', 'rgba(0, 0, 0, .3)');
   }
 
   handleFocus(event) {
     event.target.select();
   }
 
-  handleAdd() {
-    this.props.addTime(this.state.x);
-    this.closeModal();
-  }
-
   handleFileName(name) {
     this.setState({
       filename: name.target.value
+    });
+  }
+
+  handleSelectedFile(event) {
+    this.setState({
+      selectedfile: event.target.files[0]
     });
   }
 
@@ -82,16 +80,9 @@ class DownUpModal extends Component {
   	return rgb;
   }
 
-  handleButtonColors() {
-    const some = this.myRef.current;
-    console.log(some);
-    // some.style.setProperty('--button-primary-color-hover', this.colorLuminance(this.props.theme.accent, -.5));
-    // document.getElementById("downloadbtn").style.setProperty('--button-primary-color-hover', this.colorLuminance(this.props.theme.accent, -.5));
-    //document.getElementById("downloadbtn").style.setProperty('--button-primary-color-active', this.colorLuminance(this.props.theme.accent, -1));
-  }
-
 
   render() {
+
     return (
       <div className="modal">
       <button id="clear" onClick={this.openModal}>
@@ -102,6 +93,7 @@ class DownUpModal extends Component {
         isOpen={this.state.modalIsOpen}
         onAfterOpen={this.afterOpenModal}
         onRequestClose={this.closeModal}
+        ariaHideApp={false}
         contentLabel="Example Modal"
         className="DownUpModal"
         overlayClassName="DownUpOverlay"
@@ -110,16 +102,12 @@ class DownUpModal extends Component {
           <Tabs defaultIndex={0} className="downup-tabs">
             <div className="toptab">
               <TabList>
-                  <Tab
-                    className='lefttab'
-                  >
-                    <h1>Export</h1>
-                  </Tab>
-                  <Tab
-                    className='righttab'
-                  >
-                    <h1>Import</h1>
-                  </Tab>
+                <Tab className='lefttab'>
+                  <h1>Export</h1>
+                </Tab>
+                <Tab className='righttab'>
+                  <h1>Import</h1>
+                </Tab>
               </TabList>
             </div>
             <div className="pages">
@@ -131,11 +119,10 @@ class DownUpModal extends Component {
                   onChange={this.handleFileName}
                 />
                 <AwesomeButton
-                  action={() => this.props.downloadFile(this.state.filename, "text")}
+                  action={() => this.props.downloadFile(this.state.filename, "application/json")}
                   type="primary"
                   className="downloadbtn"
                   id="downloadbtn"
-                  ref={this.myRef}
                   size="small"
                 >
                   <div id="downicon">
@@ -145,10 +132,21 @@ class DownUpModal extends Component {
               </TabPanel>
               <TabPanel>
                 <h2>Upload JSON File</h2>
-                <div className="presets">
-                  Presets
-
-                </div>
+                <input
+                  type="file"
+                  onChange={this.handleSelectedFile}
+                />
+                <AwesomeButton
+                  action={() => this.props.uploadFile(this.state.selectedfile)}
+                  type="primary"
+                  className="downloadbtn"
+                  id="downloadbtn"
+                  size="small"
+                >
+                  <div id="downicon">
+                    <FontAwesomeIcon icon="upload" />
+                  </div>
+                </AwesomeButton>
               </TabPanel>
             </div>
           </Tabs>

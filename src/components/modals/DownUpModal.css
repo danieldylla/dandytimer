@@ -35,8 +35,8 @@
     margin: 0px;
     float: left;
     width: 50%;
-    color: var(--texthighlighted);
-    background: inherit;
+    background: var(--tab);
+    color: var(--text);
     display: block;
     font-size: 1rem;
     padding: 0px;
@@ -52,8 +52,8 @@
     margin: 0px;
     float: right;
     width: 50%;
-    color: var(--texthighlighted);
-    background: inherit;
+    background: var(--tab);
+    color: var(--text);
     display: block;
     font-size: 1rem;
     padding: 0px;
@@ -65,9 +65,14 @@
     transition: .3s;
   }
 
+  .lefttab:hover, .righttab:hover {
+    background: var(--tabselect);
+  }
+
   input {
     background-color: rgb(0, 0, 0, .2);
     color: var(--text);
+    outline-color: var(--accent);
     font-size: 16px;
     border-style: none;
     margin: 20px;
@@ -92,7 +97,7 @@
 
   .downloadbtn {
     margin-right: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 2px;
@@ -101,9 +106,9 @@
     --button-hover-pressure: 1;
     --transform-speed: 0.15s;
     --button-primary-color: var(--accent);
-    --button-primary-color-dark: #a2a6aa;
+    --button-primary-color-dark: var(--dark);
     --button-primary-color-light: var(--texthighlighted);
-    --button-primary-color-hover: #bfc4c9;
-    --button-primary-color-active: #b8bcc1;
+    --button-primary-color-hover: var(--hover);
+    --button-primary-color-active: var(--click);
     --button-primary-border: 0px solid #FFFFFF;
   }
