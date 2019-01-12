@@ -97,7 +97,6 @@ class Timer extends Component {
     this.handleHoldToStart = this.handleHoldToStart.bind(this);
     this.handleAvUnderTime = this.handleAvUnderTime.bind(this);
     this.saveTheme = this.saveTheme.bind(this);
-    this.colorLuminance = this.colorLuminance.bind(this);
     this.changeColor = this.changeColor.bind(this);
 
     setInterval(this.updateTime, 10);

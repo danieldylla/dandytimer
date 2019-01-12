@@ -38,6 +38,7 @@ class Log extends Component {
         <div className="quarter">
 
           <DeleteModal
+            theme={this.props.theme}
             id={item.res.id}
             deleteEntry={(id, x) => this.props.deleteEntry(id, x)}
             handleModal={() => this.props.handleModal()}

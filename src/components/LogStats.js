@@ -130,6 +130,7 @@ class LogStats extends Component {
           <div className="dothings">
             <div className="third" id="columnlabel">
               <AddModal
+                theme={this.props.theme}
                 addTime={(t) => this.props.addTime(t)}
                 handleModal={() => this.props.handleModal()}
               />
@@ -144,6 +145,7 @@ class LogStats extends Component {
             </div>
             <div className="third" id="columnlabel">
               <ClearModal
+                theme={this.props.theme}
                 clearAll={() => this.props.clearAll()}
                 handleModal={() => this.props.handleModal()}
               />
