@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ClearModal from './modals/ClearModal';
 import AddModal from './modals/AddModal';
 import DownUpModal from './modals/DownUpModal';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './LogStats.css';
 
 class LogStats extends Component {
@@ -39,6 +38,9 @@ class LogStats extends Component {
   }
 
   convertToTime(s) {
+    if (s === 'dnf') {
+      return ('DNF');
+    }
     if (s === 0 || s === null) {
       return ('-');
     }

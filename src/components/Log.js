@@ -45,7 +45,7 @@ class Log extends Component {
           />
         </div>
         <div className="quarter">
-          {this.displayLogEntry(item.res.time)}
+          {this.displayLogEntry(item.res)}
         </div>
         {this.displayAverages(item.res.ao5, item.res.ao12)}
       </div>
@@ -83,11 +83,28 @@ class Log extends Component {
     return(l);
   }
 
-  displayLogEntry(time) {
+  displayLogEntry(res) {
+    if (res.dnf) {
+      return (
+        <button>
+          <span>
+            DNF
+          </span>
+        </button>
+      );
+    } else if (res.plus2) {
+      return (
+        <button>
+          <span>
+            +2
+          </span>
+        </button>
+      );
+    }
     return (
       <button>
         <span>
-          {this.convertToTime(time)}
+          {this.convertToTime(res.time)}
         </span>
       </button>
     );
@@ -120,6 +137,9 @@ class Log extends Component {
   }
 
   convertToTime(s) {
+    if (s === 'dnf') {
+      return ('DNF');
+    }
     if (s === 0 || s === null) {
       return ('-');
     }

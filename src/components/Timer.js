@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Log from './Log'
-import Settings from './Settings'
+import Log from './Log';
+import Settings from './Settings';
 import './Timer.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -32,6 +32,7 @@ class Timer extends Component {
       minutes: 0,
       seconds: 0,
       mil: 0,
+      inspecttime: 1499,
       start: null,
       end: null,
       res: {
@@ -39,7 +40,9 @@ class Timer extends Component {
         time: null,
         ao5: null,
         ao12: null,
-        scramble: null
+        scramble: null,
+        dnf: false,
+        plus2: false,
       },
       best: {
         res: null,
@@ -53,10 +56,12 @@ class Timer extends Component {
         log: [],
         best: null,
         reps: 0,
+        validreps: 0,
         average: null
       }],
       session: 0,
       reps: 0,
+      validreps: 0,
       average: 0,
       scramble_on_side: false,
       av_under_time: true,
@@ -75,6 +80,9 @@ class Timer extends Component {
     this.display = this.display.bind(this);
     this.resetTime = this.resetTime.bind(this);
     this.updateTime = this.updateTime.bind(this);
+    this.updateInspectionTime = this.updateInspectionTime.bind(this);
+    this.display = this.display.bind(this);
+    this.displayInspection = this.displayInspection.bind(this);
     this.updateBests = this.updateBests.bind(this);
     this.startTime = this.startTime.bind(this);
     this.endTime = this.endTime.bind(this);
@@ -89,6 +97,7 @@ class Timer extends Component {
     this.uploadFile = this.uploadFile.bind(this);
     this.readFileToState = this.readFileToState.bind(this);
     this.generateScramble = this.generateScramble.bind(this);
+    this.toggleInspection = this.toggleInspection.bind(this);
     this.saveSession = this.saveSession.bind(this);
     this.loadSession = this.loadSession.bind(this);
     this.newSession = this.newSession.bind(this);
@@ -103,7 +112,7 @@ class Timer extends Component {
     setInterval(this.updateTime, 10);
   }
 
-  componentDidMount() {
+   componentDidMount() {
     this.hydrateStateWithLocalStorage();
     // add event listener to save state to localStorage
     // when user leaves/refreshes the page
@@ -242,6 +251,15 @@ class Timer extends Component {
       mil: 0,
       start: null,
       end: null,
+      res: {
+        id: this.state.res.id,
+        time: this.state.res.time,
+        ao5: this.state.res.ao5,
+        ao12: this.state.res.ao12,
+        scramble: this.state.res.scramble,
+        dnf: false,
+        plus2: false,
+      },
     });
   }
 
@@ -270,6 +288,39 @@ class Timer extends Component {
           mil: 0
         });
       }
+    } else if (this.state.fifteen) {
+      this.updateInspectionTime();
+    }
+  }
+
+  updateInspectionTime() {
+    this.setState({
+      inspecttime: this.state.inspecttime - 1,
+    });
+    if (this.state.inspecttime < -200) {
+      this.setState({
+        res: {
+          id: 0,
+          time: null,
+          ao5: null,
+          ao12: null,
+          scramble: null,
+          dnf: true,
+          plus2: false,
+        },
+      });
+    } else if (this.state.inspecttime < 0) {
+      this.setState({
+        res: {
+          id: 0,
+          time: null,
+          ao5: null,
+          ao12: null,
+          scramble: null,
+          dnf: false,
+          plus2: true,
+        },
+      })
     }
   }
 
@@ -290,6 +341,11 @@ class Timer extends Component {
       running: false,
       reps: this.state.reps + 1
     });
+    if (!this.state.res.dnf) {
+      this.setState({
+        validreps: this.state.validreps + 1,
+      });
+    }
   }
 
   calculateTime() {
@@ -307,10 +363,12 @@ class Timer extends Component {
         scramble: this.state.res.scramble,
         time: t,
         id: this.state.reps,
-        ao5: this.calculateAv(5, t, this.state.reps),
-        ao12: this.calculateAv(12, t, this.state.reps)
+        ao5: this.calculateAv(5, t, this.state.reps, this.state.res.dnf),
+        ao12: this.calculateAv(12, t, this.state.reps, this.state.res.dnf),
+        dnf: this.state.res.dnf,
+        plus2: this.state.res.plus2,
       },
-      average: this.calculateAverage(t, this.state.reps),
+      average: this.calculateAverage(t, this.state.validreps),
       hours: s,
       minutes: min,
       seconds: sec,
@@ -319,13 +377,17 @@ class Timer extends Component {
   }
 
   calculateAverage(t, reps) {
-    if (reps === 1) {
-      return (t);
+    if(!this.state.res.dnf) {
+      if (reps === 1) {
+        return (t);
+      }
+      return ((((this.state.average) * (reps - 1)) + t) / reps);
+    } else {
+      return this.state.average;
     }
-    return ((((this.state.average) * (reps - 1)) + t) / reps);
   }
 
-  calculateAv(howmany, t, reps) {
+  calculateAv(howmany, t, reps, dnf) {
     if (reps < howmany) {
       return null;
     }
@@ -335,16 +397,37 @@ class Timer extends Component {
         item.res.time
       )
     });
+    let dnfs = 0;
     let best = t;
+    if (dnf) {
+      dnfs ++;
+      let j = 0;
+      for (j = 0; j < howmany - 1; j++) {
+        if (!history[j].res.dnf) {
+          best = history[j].res.time;
+          break;
+        }
+      }
+    }
     let worst = t;
+    let worstisdnf = dnf;
     let i = 0;
     let sum = t;
     for (i = 0; i < howmany - 1; i++) {
-      if (list[i] < best) {
+      if (history[i].res.dnf) {
+        dnfs++;
+        if (dnfs > 1) {
+          return('dnf');
+        }
+      }
+      if (list[i] < best && !history[i].res.dnf) {
         best = list[i];
       }
-      if (list[i] > worst) {
+      if (history[i].res.dnf || (list[i] > worst && !worstisdnf)) {
         worst = list[i];
+        if (history[i].res.dnf) {
+          worstisdnf = true;
+        }
       }
       sum = sum + list[i];
     }
@@ -360,16 +443,37 @@ class Timer extends Component {
     const list = history.map((item, step) => {
       return (item.res.time)
     });
-    let best = list[0];
+    let dnfs = 0;
+    let best;
     let worst = list[0];
+    let worstisdnf = history[0].res.dnf;
     let i = 0;
+    let j = 0;
+    for (j = 0; j < howmany - 1; j++) {
+      if (!history[j].res.dnf) {
+        best = history[j].res.time;
+        break;
+      }
+    }
+    if (history[0].res.dnf) {
+      dnfs++;
+    }
     let sum = list[0];
     for (i = 1; i < howmany; i++) {
-      if (list[i] < best) {
+      if (history[i].res.dnf) {
+        dnfs++;
+        if (dnfs > 1) {
+          return('dnf');
+        }
+      }
+      if (list[i] < best && !history[i].res.dnf) {
         best = list[i];
       }
-      if (list[i] > worst) {
+      if (history[i].res.dnf || (list[i] > worst && !worstisdnf)) {
         worst = list[i];
+        if (history[i].res.dnf) {
+          worstisdnf = true;
+        }
       }
       sum = sum + list[i];
     }
@@ -378,35 +482,37 @@ class Timer extends Component {
   }
 
   updateBests() {
-    if (this.state.best.res === null
-        || this.state.res.time < this.state.best.res.time) {
-      this.setState({
-        best: {
-          res: this.state.res,
-          ao5: this.state.best.ao5,
-          ao12: this.state.best.ao12
-        }
-      });
-    }
-    if ((this.state.best.ao5 === null && this.state.res.ao5 !== null)
-        || this.state.res.ao5 < this.state.best.ao5) {
-          this.setState({
-            best: {
-              res: this.state.best.res,
-              ao5: this.state.res.ao5,
-              ao12: this.state.best.ao12
-            }
-          });
-    }
-    if ((this.state.best.ao12 === null && this.state.res.ao12 !== null)
-        || this.state.res.ao12 < this.state.best.ao12) {
-          this.setState({
-            best: {
-              res: this.state.best.res,
-              ao5: this.state.best.ao5,
-              ao12: this.state.res.ao12
-            }
-          });
+    if(!this.state.res.dnf) {
+      if (this.state.best.res === null
+          || this.state.res.time < this.state.best.res.time) {
+        this.setState({
+          best: {
+            res: this.state.res,
+            ao5: this.state.best.ao5,
+            ao12: this.state.best.ao12
+          }
+        });
+      }
+      if ((this.state.best.ao5 === null && this.state.res.ao5 !== null)
+          || this.state.res.ao5 < this.state.best.ao5) {
+            this.setState({
+              best: {
+                res: this.state.best.res,
+                ao5: this.state.res.ao5,
+                ao12: this.state.best.ao12
+              }
+            });
+      }
+      if ((this.state.best.ao12 === null && this.state.res.ao12 !== null)
+          || this.state.res.ao12 < this.state.best.ao12) {
+            this.setState({
+              best: {
+                res: this.state.best.res,
+                ao5: this.state.best.ao5,
+                ao12: this.state.res.ao12
+              }
+            });
+      }
     }
   }
 
@@ -419,9 +525,9 @@ class Timer extends Component {
   addTime(t) {
     const time = t*1000;
     const reps = this.state.reps + 1;
-    const ao5 = this.calculateAv(5, time, reps);
-    const ao12 = this.calculateAv(12, time, reps);
-    const average = this.calculateAverage(time, reps);
+    const ao5 = this.calculateAv(5, time, reps, false);
+    const ao12 = this.calculateAv(12, time, reps, false);
+    const average = this.calculateAverage(time, this.state.validreps + 1);
     if (this.state.best.res === null
         || time < this.state.best.res.time) {
       this.setState({
@@ -432,6 +538,8 @@ class Timer extends Component {
             ao5: ao5,
             ao12: ao12,
             scramble: this.state.res.scramble,
+            dnf: false,
+            plus2: false,
           },
           ao5: this.state.best.ao5,
           ao12: this.state.best.ao12
@@ -467,10 +575,13 @@ class Timer extends Component {
             ao5: ao5,
             ao12: ao12,
             scramble: this.state.res.scramble,
+            dnf: false,
+            plus2: false,
           }
         }
       ].concat(this.state.log),
       reps: reps,
+      validreps: this.state.validreps + 1,
       average: average,
       res: {
         time: time,
@@ -478,6 +589,8 @@ class Timer extends Component {
         ao5: ao5,
         ao12: ao12,
         scramble: this.state.res.scramble,
+        dnf: false,
+        plus2: false,
       },
     });
   }
@@ -486,6 +599,7 @@ class Timer extends Component {
     this.setState({
       log: [],
       reps: 0,
+      validreps: 0,
       average: 0,
       best: {
         res: null,
@@ -497,7 +611,9 @@ class Timer extends Component {
         time: null,
         id: 0,
         ao5: null,
-        ao12: null
+        ao12: null,
+        dnf: false,
+        plus2: false,
       }
     });
     this.resetTime();
@@ -510,7 +626,6 @@ class Timer extends Component {
       x = result.length - id;
     }
     let leftovers = result.splice(id, x);
-    console.log(result);
     if (result.length === 0) {
       this.clearAll();
     } else {
@@ -518,9 +633,14 @@ class Timer extends Component {
         result[i].res.id -= x;
       }
       let newav = this.state.average;
+      let dnfs = 0;
       for (i = 0; i < leftovers.length; i++) {
-        newav = (((newav*(this.state.reps - i)) - leftovers[i].res.time) /
-                  (this.state.reps - i - 1));
+        if(!leftovers[i].res.dnf) {
+          newav = (((newav*(this.state.validreps - i)) - leftovers[i].res.time) /
+                    (this.state.validreps - i - 1));
+        } else {
+          dnfs++;
+        }
       }
 
       this.forceUpdateAv(result, id, 5);
@@ -529,6 +649,7 @@ class Timer extends Component {
       this.setState({
         log: result,
         reps: this.state.reps - x,
+        validreps: this.state.validreps - x + dnfs,
         average: newav,
         best: {
           res: this.forceUpdateBest(result),
@@ -562,7 +683,7 @@ class Timer extends Component {
     var newbest = result[0].res.time;
     var index = 0;
     for (var i = 1; i < result.length; i++) {
-      if (result[i].res.time < newbest) {
+      if (result[i].res.time < newbest && !result[i].res.dnf) {
         newbest = result[i].res.time;
         index = i;
       }
@@ -575,7 +696,7 @@ class Timer extends Component {
       var newbest = result[0].res.ao5;
       var index = 0;
       for (var i = 1; i < result.length - 4; i++) {
-        if (result[i].res.ao5 < newbest) {
+        if (result[i].res.ao5 < newbest && !result[i].res.dnf) {
           newbest = result[i].res.ao5;
           index = i;
         }
@@ -590,7 +711,7 @@ class Timer extends Component {
       var newbest = result[0].res.ao12;
       var index = 0;
       for (var i = 1; i < result.length - 11; i++) {
-        if (result[i].res.ao12 < newbest) {
+        if (result[i].res.ao12 < newbest && !result[i].res.dnf) {
           newbest = result[i].res.ao12;
           index = i;
         }
@@ -598,6 +719,13 @@ class Timer extends Component {
       return result[index].res.ao12;
     }
     return null;
+  }
+
+  toggleInspection() {
+    this.setState({
+      fifteen: !this.state.fifteen,
+      inspecttime: 1499,
+    });
   }
 
   displayScramble() {
@@ -667,23 +795,47 @@ class Timer extends Component {
     }
   }
 
-  display() {
-    let l, s, m, h;
-    h = this.state.hours;
-    m = this.state.minutes;
-    s = this.state.seconds;
-    l = this.state.mil;
-    if (l === null) {
-      return(<p>0.00</p>);
+  displayInspection() {
+    let s = Math.floor(this.state.inspecttime / 100);
+    if (s < -2) {
+      return (
+        <p>DNF</p>
+      );
+    } else if (s < 0) {
+      return (
+        <p>+2</p>
+      );
     }
-
-    return(
+    return (
       <p>
-        {this.displayHour(h)}
-        {this.displayMinute(h, m)}
-        {this.displaySecond(m, s)}.{this.displayMillisecond(l)}
+        {this.displaySecond(0, s+1)}
       </p>
     );
+  }
+
+  display() {
+    if (this.state.fifteen) {
+      return(this.displayInspection());
+    } else if (this.state.stopped && this.state.res.dnf) {
+      return(<p>DNF</p>);
+    } else {
+      let l, s, m, h;
+      h = this.state.hours;
+      m = this.state.minutes;
+      s = this.state.seconds;
+      l = this.state.mil;
+      if (l === null) {
+        return(<p>0.00</p>);
+      }
+
+      return (
+        <p>
+          {this.displayHour(h)}
+          {this.displayMinute(h, m)}
+          {this.displaySecond(m, s)}.{this.displayMillisecond(l)}
+        </p>
+      );
+    }
   }
 
   generateScramble() {
@@ -715,6 +867,8 @@ class Timer extends Component {
         time: this.state.res.time,
         ao5: this.state.res.ao5,
         ao12: this.state.res.ao12,
+        dnf: this.state.res.dnf,
+        plus2: this.state.res.plus2,
       }
     });
   }
@@ -812,12 +966,18 @@ class Timer extends Component {
 
     document.body.onkeyup = function(e) {
       if (e.keyCode === 32 && !this.state.running && this.state.stopped) {
-        this.startTime();
-        this.setState({
-          stopped: false
-        });
-        document.getElementById("time").style.color = "inherit";
-      } else if (e.keyCode !== 18 && e.keyCode !== 9) {
+        if (this.state.inspection_time) {
+          document.getElementById("time").style.color = "#f73b3b";
+          this.toggleInspection();
+        }
+        if (!this.state.fifteen) {
+          this.setState({
+            stopped: false
+          });
+          this.startTime();
+          document.getElementById("time").style.color = "inherit";
+        }
+      } else if (e.keyCode !== 18 && e.keyCode !== 9 && !this.state.fifteen) {
         document.getElementById("time").style.color = "inherit";
         document.getElementById("log").style.display = "block";
         document.getElementById("settings").style.display = "block";

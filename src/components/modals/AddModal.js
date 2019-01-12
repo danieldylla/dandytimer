@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import Button from '@material-ui/core/Button';
-import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core/styles';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import InputNumber from 'react-input-number';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -71,6 +71,9 @@ class AddModal extends Component {
 
   render() {
     const theme = createMuiTheme({
+      typography: {
+        useNextVariants: true,
+      },
       palette: {
         primary: {
           main: this.props.theme.accent,
@@ -85,7 +88,7 @@ class AddModal extends Component {
           light: this.colorLuminance(this.props.theme.accent, -.1)
         }
       },
-      shadows: ["none"]
+      shadows: Array(25).fill('none')
     });
 
     return (
