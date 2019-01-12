@@ -18,6 +18,7 @@ class DownUpModal extends Component {
       tab: 'left',
       filename: "dandytimer_results",
       selectedfile: null,
+      upfilename: "no file chosen",
     }
 
     this.openModal = this.openModal.bind(this);
@@ -26,12 +27,16 @@ class DownUpModal extends Component {
     this.handleFileName = this.handleFileName.bind(this);
     this.handleSelectedFile = this.handleSelectedFile.bind(this);
     this.colorLuminance = this.colorLuminance.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.generageName = this.generateName.bind(this);
 
+    this.inputRef = React.createRef();
   };
 
   openModal() {
     this.setState({modalIsOpen: true});
     this.props.handleModal();
+    this.generateName();
     document.documentElement.style.setProperty('--tabselect', 'var(--primary)');
     document.documentElement.style.setProperty('--tab', 'rgba(0, 0, 0, .3)');
   }
@@ -57,10 +62,32 @@ class DownUpModal extends Component {
     });
   }
 
-  handleSelectedFile(event) {
+  generateName() {
+    let d = new Date();
+    let name = "dandyresults-" + (d.getMonth() + 1) + '-' + d.getDate() + '-' +
+      d.getFullYear() + '-' + d.getHours() + d.getMinutes();
     this.setState({
-      selectedfile: event.target.files[0]
+      filename: name
     });
+  }
+
+  handleSelectedFile(event) {
+    if(event.target.files[0].name) {
+      this.setState({
+        upfilename: event.target.files[0].name
+      });
+    }
+      this.setState({
+        selectedfile: event.target.files[0]
+      });
+  }
+
+  handleClick() {
+    console.log(this.inputRef);
+    console.log('here');
+    if(this.inputRef && this.inputRef.current) {
+      this.inputRef.current.click();
+    }
   }
 
   colorLuminance(hex, lum) {
@@ -114,6 +141,7 @@ class DownUpModal extends Component {
               <TabPanel>
                 <h2>Download JSON File</h2>
                 <input
+                  className="downinput"
                   type="string"
                   value={this.state.filename}
                   onChange={this.handleFileName}
@@ -132,10 +160,16 @@ class DownUpModal extends Component {
               </TabPanel>
               <TabPanel>
                 <h2>Upload JSON File</h2>
-                <input
-                  type="file"
-                  onChange={this.handleSelectedFile}
-                />
+                <div style={{height:"0px", overflow:"hidden"}}>
+                  <input
+                    type="file"
+                    ref={this.inputRef}
+                    onChange={this.handleSelectedFile}
+                  />
+                </div>
+                <button className="upinput" onClick={this.handleClick}>
+                  {this.state.upfilename}
+                </button>
                 <AwesomeButton
                   action={() => this.props.uploadFile(this.state.selectedfile)}
                   type="primary"

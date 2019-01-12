@@ -162,7 +162,7 @@ class Timer extends Component {
   readFileToState(text) {
     let data = JSON.parse(text);
     for (let key in this.state) {
-      if (data.hasOwnProperty(key)) {
+      if (data.hasOwnProperty(key) && key !== "theme") {
         let value = data[key];
         this.setState({ [key]: value });
       }
@@ -179,36 +179,13 @@ class Timer extends Component {
   }
 
   uploadFile(file, callback) {
-    var reader = new FileReader();
-    reader.onload = function(event) {
-      // The file's text will be printed here
-      callback(event.target.result);
-    };
-    reader.readAsText(file);
-    /*
-    console.log(text);
-    let data = JSON.parse(text);
-    for (let key in this.state) {
-      if (data.hasOwnProperty(key)) {
-        let value = data.getItem(key);
-        try {
-          value = JSON.parse(value);
-          this.setState({ [key]: value });
-        } catch (e) {
-          this.setState({ [key]: value });
-        }
-      }
-    }*/
-    /*var rawFile = new XMLHttpRequest();
-    rawFile.overrideMimeType("application/json");
-    rawFile.open("GET", file, true);
-    console.log(rawFile);
-    rawFile.onreadystatechange = function() {
-      if (rawFile.readyState === 4 && rawFile.status == "200") {
-        callback(rawFile.responseText);
-      }
+    if (file) {
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        callback(event.target.result);
+      };
+      reader.readAsText(file);
     }
-    rawFile.send(null);*/
   }
 
   newSession() {
@@ -231,7 +208,6 @@ class Timer extends Component {
   saveSession() {
     let curr = this.state.sessions.slice();
     let currlog = this.state.log.slice();
-    console.log(curr);
     curr[this.state.session].log = currlog;
     curr[this.state.session].best = this.state.best;
     curr[this.state.session].reps = this.state.reps;
