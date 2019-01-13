@@ -69,7 +69,7 @@ const pickerStyles = {
   default: {
     picker: { // See the individual picker source for which keys to use
       boxShadow: 'none',
-      width: '385px',
+      width: '410px',
       fontFamily: 'inherit',
 
     },
@@ -250,6 +250,7 @@ class Settings extends Component {
         <ChromePicker
           color={this.state.primary}
           onChangeComplete={this.handleChangePrimary}
+          disableAlpha
           styles={pickerStyles}
         />
       );
@@ -259,6 +260,7 @@ class Settings extends Component {
         <ChromePicker
           color={this.state.secondary}
           onChangeComplete={this.handleChangeSecondary}
+          disableAlpha
           styles={pickerStyles}
         />
       );
@@ -267,6 +269,7 @@ class Settings extends Component {
         <ChromePicker
           color={this.state.accent}
           onChangeComplete={this.handleChangeAccent}
+          disableAlpha
           styles={pickerStyles}
         />
       );
@@ -275,6 +278,7 @@ class Settings extends Component {
         <ChromePicker
           color={this.state.text}
           onChangeComplete={this.handleChangeText}
+          disableAlpha
           styles={pickerStyles}
         />
       );
@@ -283,6 +287,7 @@ class Settings extends Component {
         <ChromePicker
           color={this.state.texthighlighted}
           onChangeComplete={this.handleChangeTextHighlighted}
+          disableAlpha
           styles={pickerStyles}
         />
       );
