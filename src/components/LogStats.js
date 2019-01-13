@@ -41,7 +41,7 @@ class LogStats extends Component {
     if (s === 'dnf') {
       return ('DNF');
     }
-    if (s === 0 || s === null) {
+    if (s === 0 || s === null || this.props.reps === 0) {
       return ('-');
     }
     s = Math.floor(s);
@@ -63,6 +63,9 @@ class LogStats extends Component {
   displaySingle(res) {
     if (res === null) {
       return('-');
+    }
+    if (res.plus2) {
+      return (this.convertToTime(res.time) + '+');
     }
     return (
       <div>

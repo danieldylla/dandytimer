@@ -92,11 +92,12 @@ class Log extends Component {
           </span>
         </button>
       );
-    } else if (res.plus2) {
+    }
+    if (res.plus2) {
       return (
         <button>
           <span>
-            +2
+            {this.convertToTime(res.time) + '+'}
           </span>
         </button>
       );
@@ -167,6 +168,7 @@ class Log extends Component {
           <LogStats
             best={this.props.best}
             res={this.props.res}
+            reps={this.props.reps}
             sessions={this.props.sessions}
             session={this.props.session}
             theme={this.props.theme}

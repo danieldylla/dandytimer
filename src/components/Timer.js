@@ -357,6 +357,10 @@ class Timer extends Component {
     s = (s - sec) / 60;
     var min = s % 60;
     s = (s - min) / 60;
+    if (this.state.res.plus2) {
+      t = t + 2000;
+      sec = sec + 2;
+    }
 
     this.setState({
       res: {
@@ -642,6 +646,9 @@ class Timer extends Component {
           dnfs++;
         }
       }
+      if (this.state.validreps - x + dnfs === 0) {
+        newav = null;
+      }
 
       this.forceUpdateAv(result, id, 5);
       this.forceUpdateAv(result, id, 12);
@@ -733,7 +740,10 @@ class Timer extends Component {
   }
 
   convertToTime(s) {
-    if (s === 0 || s === null) {
+    if (s === 'dnf') {
+      return ('DNF');
+    }
+    if (s === 0 || s === null || this.state.reps === 0) {
       return ('-');
     }
     s = Math.floor(s);
