@@ -26,6 +26,7 @@ class Timer extends Component {
     this.state = {
       stopped: true,
       running: false,
+      renderlog: true,
       fifteen: false,
       modal: false,
       hours: 0,
@@ -952,10 +953,23 @@ class Timer extends Component {
     });
   }
 
+  handleStopped() {
+    this.setState({
+      stopped: !this.state.stopped
+    })
+  }
+
+  handleRenderLog() {
+    this.setState({
+      renderlog: !this.state.renderlog
+    })
+  }
+
 
   render() {
     document.body.onkeydown = function(e) {
       if (e.keyCode === 32 && !this.state.running && this.state.stopped) {
+        this.handleRenderLog();
         document.getElementById("time").style.color = "#2dff57";
         document.getElementById("log").style.display = "none";
         document.getElementById("settings").style.display = "none";
@@ -965,12 +979,9 @@ class Timer extends Component {
       } else if (e.keyCode === 27 && !this.state.modal) {
         this.resetTime();
       } else if (this.state.running && e.keyCode !== 18 && e.keyCode !== 9) {
-        document.getElementById("time").style.color = "#f73b3b";
         this.endTime();
         this.calculateTime();
-        this.saveTime();
-        this.updateBests();
-        this.generateScramble();
+        document.getElementById("time").style.color = "#f73b3b";
       }
     }.bind(this);
 
@@ -981,9 +992,7 @@ class Timer extends Component {
           this.toggleInspection();
         }
         if (!this.state.fifteen) {
-          this.setState({
-            stopped: false
-          });
+          this.handleStopped();
           this.startTime();
           document.getElementById("time").style.color = "inherit";
         }
@@ -993,9 +1002,12 @@ class Timer extends Component {
         document.getElementById("settings").style.display = "block";
         document.getElementById("scramble").style.display = "block";
         document.getElementById("average").style.display = "block";
-        this.setState({
-          stopped: true,
-        });
+        this.saveTime();
+        this.updateBests();
+        this.generateScramble();
+        this.handleRenderLog();
+        this.handleStopped();
+
       }
     }.bind(this);
 
@@ -1008,6 +1020,8 @@ class Timer extends Component {
             best={this.state.best}
             reps={this.state.reps}
             running={this.state.running}
+            stopped={this.state.stopped}
+            renderlog={this.state.renderlog}
             average={this.state.average}
             new_on_top={this.state.new_on_top}
             sessions={this.state.sessions}
