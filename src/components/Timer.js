@@ -959,17 +959,33 @@ class Timer extends Component {
     })
   }
 
+  handleRenderLogTrue() {
+    this.setState({
+      renderlog: true
+    });
+  }
+
+  handleRenderLogFalse() {
+    this.setState({
+      renderlog: false
+    });
+  }
+
   handleRenderLog() {
     this.setState({
-      renderlog: !this.state.renderlog
-    })
+      renderlog: false
+    }, this.setState({ renderlog: true }));
   }
 
 
   render() {
     document.body.onkeydown = function(e) {
-      if (e.keyCode === 32 && !this.state.running && this.state.stopped) {
-        this.handleRenderLog();
+      if (e.repeat) {
+        return;
+      } else if (e.keyCode === 32 && !this.state.running && this.state.stopped) {
+        if (!this.state.inspection_time || !this.state.fifteen) {
+
+        }
         document.getElementById("time").style.color = "#2dff57";
         document.getElementById("log").style.display = "none";
         document.getElementById("settings").style.display = "none";
@@ -1022,6 +1038,7 @@ class Timer extends Component {
             running={this.state.running}
             stopped={this.state.stopped}
             renderlog={this.state.renderlog}
+            fifteen={this.state.fifteen}
             average={this.state.average}
             new_on_top={this.state.new_on_top}
             sessions={this.state.sessions}

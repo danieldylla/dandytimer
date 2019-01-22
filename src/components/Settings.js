@@ -305,6 +305,7 @@ class Settings extends Component {
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
+          ariaHideApp={false}
           contentLabel="Example Modal"
           className="Modal"
           overlayClassName="Overlay"

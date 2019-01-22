@@ -16,7 +16,7 @@ import { List } from 'react-virtualized'
 
 class Log extends Component {
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.renderlog;
+    return (this.props.renderlog && !this.props.fifteen);
   }
 
   constructor(props) {
