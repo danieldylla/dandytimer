@@ -33,7 +33,7 @@ class Timer extends Component {
       minutes: 0,
       seconds: 0,
       mil: 0,
-      inspecttime: 1499,
+      inspecttime: 15,
       start: null,
       end: null,
       res: {
@@ -98,7 +98,8 @@ class Timer extends Component {
     this.uploadFile = this.uploadFile.bind(this);
     this.readFileToState = this.readFileToState.bind(this);
     this.generateScramble = this.generateScramble.bind(this);
-    this.toggleInspection = this.toggleInspection.bind(this);
+    this.startInspection = this.startInspection.bind(this);
+    this.endInspection = this.endInspection.bind(this);
     this.saveSession = this.saveSession.bind(this);
     this.loadSession = this.loadSession.bind(this);
     this.newSession = this.newSession.bind(this);
@@ -109,8 +110,6 @@ class Timer extends Component {
     this.handleAvUnderTime = this.handleAvUnderTime.bind(this);
     this.saveTheme = this.saveTheme.bind(this);
     this.changeColor = this.changeColor.bind(this);
-
-    setInterval(this.updateTime, 10);
   }
 
    componentDidMount() {
@@ -265,32 +264,28 @@ class Timer extends Component {
   }
 
   updateTime() {
-    if (this.state.running) {
-      if (this.state.mil < 99) {
-        this.setState({
-          mil: this.state.mil + 1
-        });
-      } else if (this.state.mil === 99 && this.state.seconds < 59) {
-        this.setState({
-          seconds: this.state.seconds + 1,
-          mil: 0
-        });
-      } else if (this.state.seconds === 59 && this.state.minutes < 59) {
-        this.setState({
-          minutes: this.state.minutes + 1,
-          seconds: 0,
-          mil: 0,
-        });
-      } else {
-        this.setState({
-          hours: this.state.hours + 1,
-          minutes: 0,
-          seconds: 0,
-          mil: 0
-        });
-      }
-    } else if (this.state.fifteen) {
-      this.updateInspectionTime();
+    if (this.state.mil < 99) {
+      this.setState({
+        mil: this.state.mil + 1
+      });
+    } else if (this.state.mil === 99 && this.state.seconds < 59) {
+      this.setState({
+        seconds: this.state.seconds + 1,
+        mil: 0
+      });
+    } else if (this.state.seconds === 59 && this.state.minutes < 59) {
+      this.setState({
+        minutes: this.state.minutes + 1,
+        seconds: 0,
+        mil: 0,
+      });
+    } else {
+      this.setState({
+        hours: this.state.hours + 1,
+        minutes: 0,
+        seconds: 0,
+        mil: 0
+      });
     }
   }
 
@@ -298,7 +293,7 @@ class Timer extends Component {
     this.setState({
       inspecttime: this.state.inspecttime - 1,
     });
-    if (this.state.inspecttime < -200) {
+    if (this.state.inspecttime < -1 && !this.state.res.dnf) {
       this.setState({
         res: {
           id: 0,
@@ -310,7 +305,7 @@ class Timer extends Component {
           plus2: false,
         },
       });
-    } else if (this.state.inspecttime < 0) {
+    } else if (this.state.inspecttime < 1 && !this.state.res.plus2) {
       this.setState({
         res: {
           id: 0,
@@ -332,6 +327,7 @@ class Timer extends Component {
       start: time,
       running: true
     });
+    this.timer = setInterval(this.updateTime, 10);
   }
 
   endTime() {
@@ -347,6 +343,7 @@ class Timer extends Component {
         validreps: this.state.validreps + 1,
       });
     }
+    clearInterval(this.timer);
   }
 
   calculateTime() {
@@ -729,11 +726,19 @@ class Timer extends Component {
     return null;
   }
 
-  toggleInspection() {
+  startInspection() {
     this.setState({
-      fifteen: !this.state.fifteen,
-      inspecttime: 1499,
+      fifteen: true,
+      inspecttime: 15,
     });
+    this.inspection = setInterval(this.updateInspectionTime, 1000);
+  }
+
+  endInspection() {
+    this.setState({
+      fifteen: false,
+    });
+    clearInterval(this.inspection);
   }
 
   displayScramble() {
@@ -807,19 +812,19 @@ class Timer extends Component {
   }
 
   displayInspection() {
-    let s = Math.floor(this.state.inspecttime / 100);
-    if (s < -2) {
+    let s = this.state.inspecttime;
+    if (s <= -2) {
       return (
         <p>DNF</p>
       );
-    } else if (s < 0) {
+    } else if (s <= 0) {
       return (
         <p>+2</p>
       );
     }
     return (
       <p>
-        {this.displaySecond(0, s+1)}
+        {this.displaySecond(0, s)}
       </p>
     );
   }
@@ -989,8 +994,12 @@ class Timer extends Component {
     document.body.onkeyup = function(e) {
       if (e.keyCode === 32 && !this.state.running && this.state.stopped) {
         if (this.state.inspection_time) {
-          document.getElementById("time").style.color = "#f73b3b";
-          this.toggleInspection();
+          if (!this.state.fifteen) {
+            document.getElementById("time").style.color = "#f73b3b";
+            this.startInspection();
+          } else {
+            this.endInspection();
+          }
         }
         if (!this.state.fifteen) {
           this.handleStopped();
@@ -1008,7 +1017,6 @@ class Timer extends Component {
         this.generateScramble();
         this.handleRenderLog();
         this.handleStopped();
-
       }
     }.bind(this);
 
