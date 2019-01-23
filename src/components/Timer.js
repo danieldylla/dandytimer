@@ -959,18 +959,6 @@ class Timer extends Component {
     })
   }
 
-  handleRenderLogTrue() {
-    this.setState({
-      renderlog: true
-    });
-  }
-
-  handleRenderLogFalse() {
-    this.setState({
-      renderlog: false
-    });
-  }
-
   handleRenderLog() {
     this.setState({
       renderlog: false
@@ -983,9 +971,6 @@ class Timer extends Component {
       if (e.repeat) {
         return;
       } else if (e.keyCode === 32 && !this.state.running && this.state.stopped) {
-        if (!this.state.inspection_time || !this.state.fifteen) {
-
-        }
         document.getElementById("time").style.color = "#2dff57";
         document.getElementById("log").style.display = "none";
         document.getElementById("settings").style.display = "none";

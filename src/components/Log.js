@@ -16,7 +16,7 @@ import { List } from 'react-virtualized'
 
 class Log extends Component {
   shouldComponentUpdate(nextProps, nextState) {
-    return (this.props.renderlog && !this.props.fifteen);
+    return (this.props.renderlog || (this.props.reps !== nextProps.reps && this.props.stopped));
   }
 
   constructor(props) {
@@ -158,7 +158,6 @@ class Log extends Component {
 
 
   render() {
-    console.log('rerendering log...');
     return (
       <div className="results">
         <div className="statistics">
