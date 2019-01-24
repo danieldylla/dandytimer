@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import LogStats from './LogStats';
 import DeleteModal from './modals/DeleteModal';
+import TimeModal from './modals/TimeModal';
 import './Log.css';
 
 // Most of react-virtualized's styles are functional (eg position, size).
@@ -32,7 +33,6 @@ class Log extends Component {
     return (
       <div key={key} style={style} className="row">
         <div className="quarter">
-
           <DeleteModal
             theme={this.props.theme}
             id={item.res.id}
@@ -41,7 +41,11 @@ class Log extends Component {
           />
         </div>
         <div className="quarter">
-          {this.displayLogEntry(item.res)}
+          <TimeModal
+            theme={this.props.theme}
+            res={item.res}
+            handleModal={() => this.props.handleModal()}
+          />
         </div>
         {this.displayAverages(item.res.ao5, item.res.ao12)}
       </div>

@@ -101,6 +101,7 @@ class DeleteModal extends Component {
             <FontAwesomeIcon icon="times" />
           </span>
       </button>
+      {this.state.modalIsOpen ?
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -153,6 +154,7 @@ class DeleteModal extends Component {
             </div>
           </div>
         </Modal>
+        : null}
       </div>
     );
 
