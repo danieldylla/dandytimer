@@ -43,8 +43,10 @@ class Log extends Component {
         <div className="quarter">
           <TimeModal
             theme={this.props.theme}
+            index={index}
             res={item.res}
             handleModal={() => this.props.handleModal()}
+            handlePlus2={(index) => this.props.handlePlus2(index)}
           />
         </div>
         {this.displayAverages(item.res.ao5, item.res.ao12)}

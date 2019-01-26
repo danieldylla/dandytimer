@@ -5,6 +5,7 @@ import { AwesomeButton } from 'react-awesome-button';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { ChromePicker } from 'react-color';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import CustomThemeModal from './modals/CustomThemeModal'
 
 import 'react-awesome-button/dist/styles.css';
 import './Settings.css';
@@ -60,7 +61,7 @@ const dark_red_theme = {
 const dark_theme = {
   primary: '#1a1c21',
   secondary: '#efefef',
-  accent: '#2160ff',
+  accent: '#9621ff',
   text: 'rgba(255, 255, 255, .6)',
   texthighlighted: '#efefef'
 }
@@ -105,6 +106,7 @@ class Settings extends Component {
     this.selectAccent = this.selectAccent.bind(this);
     this.selectText = this.selectText.bind(this);
     this.selectTextHighlighted = this.selectTextHighlighted.bind(this);
+    this.displaySavedThemes = this.displaySavedThemes.bind(this);
   };
 
   componentDidMount() {
@@ -294,6 +296,46 @@ class Settings extends Component {
     }
   }
 
+  setUpTheme(theme) {
+    var elements = document.getElementsByClassName("ice");
+  }
+
+  renderCustomTheme(i, name) {
+    return (
+      <AwesomeButton
+        action={this.selectText}
+        type="primary"
+        className={name}
+        id={name}
+        size="medium"
+      >
+        {name}
+      </AwesomeButton>
+    );
+  }
+
+  displaySavedThemes() {
+    let themes = this.props.themes;
+    let custom = themes.map((theme, step) => {
+      console.log(theme);
+      return (
+        <li key={step}>
+          {this.renderCustomTheme(step, theme.name)}
+          {this.setUpTheme(theme)}
+        </li>
+      )
+    });
+
+    return (
+      <div className="btnlist">
+        <span> Saved Themes </span>
+        <ul className="unstyledlist">
+          {custom}
+        </ul>
+      </div>
+    );
+  }
+
 
   render() {
     return (
@@ -310,7 +352,7 @@ class Settings extends Component {
           className="Modal"
           overlayClassName="Overlay"
         >
-          <div className="modalinfo">
+          <div className="setmodalinfo">
             <Tabs defaultIndex={1}>
               <div className="tabs">
                 <TabList>
@@ -320,189 +362,187 @@ class Settings extends Component {
                 </TabList>
               </div>
               <div className="pages">
-              <TabPanel>
-                Settings
-              </TabPanel>
-              <TabPanel>
-                <h2>Timer Options</h2>
-                <div className="setting" id="setting">
-                  Inspection Time
-                  <div className="switches">
-                    <Switch
-                      checked={this.props.inspection_time}
-                      onChange={this.props.handleInspection}
-                      onColor={this.colorLuminance(this.state.accent, -.4)}
-                      onHandleColor={this.state.accent}
-                      handleDiameter={30}
-                      uncheckedIcon={false}
-                      checkedIcon={false}
-                      boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                      activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                      height={20}
-                      width={48}
-                      className="react-switch"
-                      id="material-switch"
-                    />
+                <TabPanel>
+                  Settings
+                </TabPanel>
+                <TabPanel>
+                  <h2>Timer Options</h2>
+                  <div className="setting" id="setting">
+                    Inspection Time
+                    <div className="switches">
+                      <Switch
+                        checked={this.props.inspection_time}
+                        onChange={this.props.handleInspection}
+                        onColor={this.colorLuminance(this.state.accent, -.4)}
+                        onHandleColor={this.state.accent}
+                        handleDiameter={30}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                        height={20}
+                        width={48}
+                        className="react-switch"
+                        id="material-switch"
+                      />
+                    </div>
+                    <div className="desc">
+                      15 second inspection time after first spacebar press
+                    </div>
                   </div>
-                  <div className="desc">
-                    15 second inspection time after first spacebar press
+                  <div className="setting">
+                    Hold To Start
+                    <div className="switches">
+                      <Switch
+                        checked={this.props.hold_to_start}
+                        onChange={this.props.handleHoldToStart}
+                        onColor={this.colorLuminance(this.state.accent, -.4)}
+                        onHandleColor={this.state.accent}
+                        handleDiameter={30}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                        height={20}
+                        width={48}
+                        className="react-switch"
+                        id="material-switch"
+                      />
+                    </div>
+                    <div className="desc">
+                      spacebar must be held to start timer
+                    </div>
                   </div>
-                </div>
-                <div className="setting">
-                  Hold To Start
-                  <div className="switches">
-                    <Switch
-                      checked={this.props.hold_to_start}
-                      onChange={this.props.handleHoldToStart}
-                      onColor={this.colorLuminance(this.state.accent, -.4)}
-                      onHandleColor={this.state.accent}
-                      handleDiameter={30}
-                      uncheckedIcon={false}
-                      checkedIcon={false}
-                      boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                      activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                      height={20}
-                      width={48}
-                      className="react-switch"
-                      id="material-switch"
-                    />
+                  <div className="setting">
+                    Show Averages Under Time
+                    <div className="switches">
+                      <Switch
+                        checked={this.props.av_under_time}
+                        onChange={this.props.handleAvUnderTime}
+                        onColor={this.colorLuminance(this.state.accent, -.4)}
+                        onHandleColor={this.state.accent}
+                        handleDiameter={30}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                        height={20}
+                        width={48}
+                        className="react-switch"
+                        id="material-switch"
+                      />
+                    </div>
+                    <div className="desc">
+                      ao5 and ao12 are shown below time as well as on left side
+                    </div>
                   </div>
-                  <div className="desc">
-                    spacebar must be held to start timer
+                </TabPanel>
+                <TabPanel>
+                  <h2>Colors and Theming</h2>
+                  <div className="presets">
+                    Presets
+                    <div className="select">
+                      <AwesomeButton
+                        action={() => this.handleColor(dark_theme)}
+                        type="primary"
+                        className="dark-theme"
+                        size="medium"
+                      >
+                        Dark
+                      </AwesomeButton>
+                      <AwesomeButton
+                        action={() => this.handleColor(light_theme)}
+                        type="primary"
+                        className="light-theme"
+                        size="medium"
+                      >
+                        Light
+                      </AwesomeButton>
+                      <AwesomeButton
+                        action={() => this.handleColor(gray_theme)}
+                        type="primary"
+                        className="gray-theme"
+                        size="medium"
+                      >
+                        Gray
+                      </AwesomeButton>
+                      <AwesomeButton
+                        action={() => this.handleColor(blue_theme)}
+                        type="primary"
+                        className="blue-theme"
+                        size="medium"
+                      >
+                        Blue
+                      </AwesomeButton>
+                      <AwesomeButton
+                        action={() => this.handleColor(red_theme)}
+                        type="primary"
+                        className="red-theme"
+                        size="medium"
+                      >
+                        Red
+                      </AwesomeButton>
+                      <AwesomeButton
+                        action={() => this.handleColor(dark_blue_theme)}
+                        type="primary"
+                        className="dark-blue-theme"
+                        size="medium"
+                      >
+                        Dark Blue
+                      </AwesomeButton>
+                      <AwesomeButton
+                        action={() => this.handleColor(dark_red_theme)}
+                        type="primary"
+                        className="dark-red-theme"
+                        size="medium"
+                      >
+                        Dark Red
+                      </AwesomeButton>
+                    </div>
                   </div>
-                </div>
-                <div className="setting">
-                  Show Averages Under Time
-                  <div className="switches">
-                    <Switch
-                      checked={this.props.av_under_time}
-                      onChange={this.props.handleAvUnderTime}
-                      onColor={this.colorLuminance(this.state.accent, -.4)}
-                      onHandleColor={this.state.accent}
-                      handleDiameter={30}
-                      uncheckedIcon={false}
-                      checkedIcon={false}
-                      boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                      activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                      height={20}
-                      width={48}
-                      className="react-switch"
-                      id="material-switch"
-                    />
-                  </div>
-                  <div className="desc">
-                    ao5 and ao12 are shown below time as well as on left side
-                  </div>
-                </div>
-              </TabPanel>
-              <TabPanel>
-                <h2>Colors and Theming</h2>
-                <div className="presets">
-                  Presets
-                  <div className="select">
-                    <AwesomeButton
-                      action={() => this.handleColor(dark_theme)}
-                      type="primary"
-                      className="dark-theme"
-                      size="medium"
-                    >
-                      Dark
-                    </AwesomeButton>
-                    <AwesomeButton
-                      action={() => this.handleColor(light_theme)}
-                      type="primary"
-                      className="light-theme"
-                      size="medium"
-                    >
-                      Light
-                    </AwesomeButton>
-                    <AwesomeButton
-                      action={() => this.handleColor(gray_theme)}
-                      type="primary"
-                      className="gray-theme"
-                      size="medium"
-                    >
-                      Gray
-                    </AwesomeButton>
-                    <AwesomeButton
-                      action={() => this.handleColor(blue_theme)}
-                      type="primary"
-                      className="blue-theme"
-                      size="medium"
-                    >
-                      Blue
-                    </AwesomeButton>
-                    <AwesomeButton
-                      action={() => this.handleColor(red_theme)}
-                      type="primary"
-                      className="red-theme"
-                      size="medium"
-                    >
-                      Red
-                    </AwesomeButton>
-                    <AwesomeButton
-                      action={() => this.handleColor(dark_blue_theme)}
-                      type="primary"
-                      className="dark-blue-theme"
-                      size="medium"
-                    >
-                      Dark Blue
-                    </AwesomeButton>
-                    <AwesomeButton
-                      action={() => this.handleColor(dark_red_theme)}
-                      type="primary"
-                      className="dark-red-theme"
-                      size="medium"
-                    >
-                      Dark Red
-                    </AwesomeButton>
-                  </div>
-                </div>
-                <div className="custom">
-                  Custom Theme
-                  <div className="theme">
-                    <div className="colorbuttons">
-                      <div className="choosecolor">
-                        <AwesomeButton
-                          action={this.selectPrimary}
-                          type="primary"
-                          className="primary"
-                          size="large"
-                        >
-                          Background
-                        </AwesomeButton>
-                      </div>
-                      <div className="choosecolor">
-                        <AwesomeButton
-                          action={this.selectSecondary}
-                          type="primary"
-                          className="secondary"
-                          size="large"
-                        >
-                          Time
-                        </AwesomeButton>
-                      </div>
-                      <div className="choosecolor">
-                        <AwesomeButton
-                          action={this.selectAccent}
-                          type="primary"
-                          className="accent"
-                          size="large"
-                        >
-                          Accent
-                        </AwesomeButton>
-                      </div>
-                      <div className="choosecolor">
-                        <AwesomeButton
-                          action={this.selectText}
-                          type="primary"
-                          className="text"
-                          size="large"
-                        >
-                          Text
-                        </AwesomeButton>
-                      </div>
+                  <div className="custom">
+                    Custom Theme
+                    <div className="theme">
+                      <div className="colorbuttons">
                         <div className="choosecolor">
+                          <AwesomeButton
+                            action={this.selectPrimary}
+                            type="primary"
+                            className="primary"
+                            size="large"
+                          >
+                            Background
+                          </AwesomeButton>
+                        </div>
+                        <div className="choosecolor">
+                          <AwesomeButton
+                            action={this.selectSecondary}
+                            type="primary"
+                            className="secondary"
+                            size="large"
+                          >
+                            Time
+                          </AwesomeButton>
+                        </div>
+                        <div className="choosecolor">
+                          <AwesomeButton
+                            action={this.selectAccent}
+                            type="primary"
+                            className="accent"
+                            size="large"
+                          >
+                            Accent
+                          </AwesomeButton>
+                        </div>
+                        <div className="choosecolor">
+                          <AwesomeButton
+                            action={this.selectText}
+                            type="primary"
+                            className="text"
+                            size="large"
+                          >
+                            Text
+                          </AwesomeButton>
                           <AwesomeButton
                             action={this.selectTextHighlighted}
                             type="primary"
@@ -511,14 +551,23 @@ class Settings extends Component {
                           >
                             Emphasized Text
                           </AwesomeButton>
+                        </div>
+                        <div className="choosecolor">
+                          <CustomThemeModal
+                            theme={this.props.theme}
+                            saveTheme={(name, theme) => this.props.saveTheme(name, theme)}
+                          />
+                        </div>
+                      </div>
+                      <div className="colors">
+                        {this.displayColorPicker()}
+                      </div>
+                      <div className="savedthemes">
+                        {this.displaySavedThemes()}
                       </div>
                     </div>
-                    <div className="colors">
-                      {this.displayColorPicker()}
-                    </div>
                   </div>
-                </div>
-              </TabPanel>
+                </TabPanel>
               </div>
             </Tabs>
           </div>

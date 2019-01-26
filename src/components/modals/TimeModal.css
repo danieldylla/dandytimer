@@ -1,17 +1,17 @@
-.ArrowModal {
+.TimeModal {
     position: absolute;
     top: 2vh;
-    left: 25vw;
-    right: 25vw;
+    left: 20vw;
+    right: 20vw;
     background-color: var(--primary);
     color: var(--text);
     overflow: scroll;
-    height: 250px;
+    height: 500px;
     min-width: 250px;
     outline: none;
   }
 
-.ArrowOverlay {
+.TimeOverlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -29,14 +29,38 @@
     padding-bottom: 1vh;
   }
 
-  .choose {
+  .timeinfo {
+    margin: 30px;
+    font-size: 1.5rem;
+  }
+
+  .plus2btnoff {
+    opacity: .5;
+    width: 50px;
+  }
+
+  .plus2btnon {
+    opacity: 1;
+    width: 50px;
+  }
+
+  .plus2btnon:hover, .plus2btnoff:hover {
+    cursor: default;
+    background-color: inherit;
+  }
+
+  .category {
+    width: 150px;
+  }
+
+  .okay {
     position: absolute;
-    top: 180px;
+    top: 430px;
     display: inline-block;
     right: 1%;
   }
 
-  .cancel {
+  .copy {
     float: left;
     margin-left: 10px;
     margin-right: 10px;
@@ -48,17 +72,9 @@
     margin-right: 10px;
   }
 
-  .input {
-    background-color: rgb(0, 0, 0, .3);
-    color: var(--texthighlighted);
-    border-style: none;
-    padding: 5px;
-    width: 2vw;
-    margin-left: 1vw;
-  }
-
-  #title {
+  #titletime {
     margin: 0px;
+    font-size: 40px;
     color: var(--texthighlighted);
   }
 

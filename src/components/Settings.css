@@ -20,8 +20,9 @@
     background-color: rgba(0, 0, 0, .5);
   }
 
-  .modalinfo {
+  .setmodalinfo {
     margin-right: 20px;
+    height: 75vh;
   }
 
   .modalinfo > h {
@@ -50,14 +51,6 @@
     min-width: 200px;
     margin-right: 0px;
     margin-top: 0px;
-  }
-
-  .pages {
-    margin-top: 0px;
-    display: inline-block;
-    position: relative;
-    width: 80%;
-    overflow: auto;
   }
 
   .setting {
@@ -120,13 +113,28 @@
   }
 
   .colorbuttons {
-    position: absolute;
+    float: left;
     width: 200px;
+    margin-bottom: 0px;
   }
 
   .colors {
-    margin-left: 40%;
+    float: left;
+    margin: 0px 50px;
+  }
 
+  .savedthemes {
+    overflow: auto;
+    min-width: 100px;
+    width: 20%;
+    text-align: center;
+    float: left;
+    background-color: red;
+  }
+
+  .unstyledlist {
+    list-style-type: none;
+    background-color: blue;
   }
 
 
@@ -191,6 +199,16 @@
     display: block;
     margin-top: 30px;
     margin-left: 10px;
+
+  }
+
+  .pages {
+    margin-top: 0px;
+    display: inline-block;
+    position: relative;
+    width: 80%;
+    height: 75vh;
+    overflow: auto;
   }
 
   .gray-theme {
@@ -332,7 +350,7 @@
     --button-primary-color: var(--primary);
     --button-primary-color-dark: var(--primary);
     --button-primary-color-light: var(--text);
-    --button-primary-color-hover: var(--primary);
+    --button-primary-color-hover: var(--buttonhover);
     --button-primary-color-active: var(--primary);
     --button-primary-border: 1px solid var(--text);
   }
@@ -350,7 +368,7 @@
     --button-primary-color: var(--secondary);
     --button-primary-color-dark: var(--secondary);
     --button-primary-color-light: var(--primary);
-    --button-primary-color-hover: var(--secondary);
+    --button-primary-color-hover: var(--buttonhover);
     --button-primary-color-active: var(--secondary);
     --button-primary-border: 0px solid var(--text);
   }
@@ -368,7 +386,7 @@
     --button-primary-color: var(--accent);
     --button-primary-color-dark: var(--accent);
     --button-primary-color-light: var(--texthighlighted);
-    --button-primary-color-hover: var(--accent);
+    --button-primary-color-hover: var(--buttonhover);
     --button-primary-color-active: var(--accent);
     --button-primary-border: 0px solid var(--texthighlighted);
   }
@@ -386,7 +404,7 @@
     --button-primary-color: var(--text);
     --button-primary-color-dark: var(--text);
     --button-primary-color-light: var(--primary);
-    --button-primary-color-hover: var(--text);
+    --button-primary-color-hover: var(--buttonhover);
     --button-primary-color-active: var(--text);
     --button-primary-border: 0px solid var(--texthighlighted);
   }
@@ -404,7 +422,7 @@
     --button-primary-color: var(--texthighlighted);
     --button-primary-color-dark: var(--texthighlighted);
     --button-primary-color-light: var(--primary);
-    --button-primary-color-hover: var(--texthighlighted);
+    --button-primary-color-hover: var(--buttonhover);
     --button-primary-color-active: var(--texthighlighted);
     --button-primary-border: 0px solid var(--texthighlighted);
   }

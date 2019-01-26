@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Modal from 'react-modal';
 import Button from '@material-ui/core/Button';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './TimeModal.css';
 
@@ -11,11 +12,15 @@ class TimeModal extends Component {
 
     this.state = {
       modalIsOpen: false,
+      plus2: this.props.res.plus2,
     }
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.convertToTime = this.convertToTime.bind(this);
+    this.copyTime = this.copyTime.bind(this);
+    this.plus2 = this.plus2.bind(this);
   };
 
   openModal() {
@@ -34,6 +39,14 @@ class TimeModal extends Component {
 
   handleFocus(event) {
     event.target.select();
+  }
+
+  copyTime(text) {
+    document.body.insertAdjacentHTML("beforeend","<div id=\"copy\" contenteditable>"+text+"</div>")
+    document.getElementById("copy").focus();
+    document.execCommand("selectAll");
+    document.execCommand("copy");
+    document.getElementById("copy").remove();
   }
 
   colorLuminance(hex, lum) {
@@ -129,6 +142,14 @@ class TimeModal extends Component {
     );
   }
 
+  plus2() {
+    this.props.handlePlus2(this.props.index);
+    this.setState({
+      plus2: !this.state.plus2
+    });
+    console.log('here');
+  }
+
   render() {
     const theme = createMuiTheme({
       typography: {
@@ -163,18 +184,49 @@ class TimeModal extends Component {
             onRequestClose={this.closeModal}
             ariaHideApp={false}
             contentLabel="Example Modal"
-            className="ArrowModal"
-            overlayClassName="ArrowOverlay"
+            className="TimeModal"
+            overlayClassName="TimeOverlay"
           >
             <div className="clearinfo">
-              <h1 id="title">{this.convertToTime(this.props.res.time)}</h1>
+              <h3 id="titletime">{this.displayLogEntry(this.props.res)}</h3>
               <br />
-              <p>
-
-
-              </p>
-              <div className="choose">
+              <div className="timeinfo">
+                  <button onClick={this.plus2}>
+                  {this.state.plus2 ?
+                    <p className="plus2btnon"> +2 </p>
+                    : <p  className="plus2btnoff"> +2 </p>
+                  }
+                  </button>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td className="category"> Scramble: </td>
+                      <td> {this.props.res.scramble} </td>
+                    </tr>
+                    <tr>
+                      <td className="category"> ao5: </td>
+                      <td> {this.convertToTime(this.props.res.ao5)} </td>
+                    </tr>
+                    <tr>
+                      <td className="category"> ao12: </td>
+                      <td> {this.convertToTime(this.props.res.ao12)} </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className="okay">
                 <MuiThemeProvider theme={theme}>
+                  <div className="copy">
+                    <Button
+                      onClick={() => this.copyTime(this.convertToTime(this.props.res.time))}
+                      variant="outlined"
+                      color="primary"
+                      className="confirm"
+                      tabIndex="1"
+                    >
+                      <FontAwesomeIcon icon="copy" />
+                    </Button>
+                  </div>
                   <div className="confirm">
                     <Button
                       onClick={this.closeModal}

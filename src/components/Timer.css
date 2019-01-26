@@ -9,6 +9,7 @@
   --click: #1d2026;
 
   --tabselect: rgba(0, 0, 0, .3);
+  --buttonhover: rgba(0, 0, 0, .2);
   --tab: var(--primary);
 }
 

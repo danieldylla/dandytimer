@@ -11,6 +11,7 @@ import {faArrowDown} from '@fortawesome/free-solid-svg-icons';
 import {faArrowUp} from '@fortawesome/free-solid-svg-icons';
 import {faDownload} from '@fortawesome/free-solid-svg-icons';
 import {faUpload} from '@fortawesome/free-solid-svg-icons';
+import {faCopy} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCog);
 library.add(faTimes);
@@ -19,6 +20,7 @@ library.add(faArrowDown);
 library.add(faArrowUp);
 library.add(faDownload);
 library.add(faUpload);
+library.add(faCopy);
 
 class Timer extends Component {
   constructor(props) {
@@ -108,6 +110,7 @@ class Timer extends Component {
     this.handleInspection = this.handleInspection.bind(this);
     this.handleHoldToStart = this.handleHoldToStart.bind(this);
     this.handleAvUnderTime = this.handleAvUnderTime.bind(this);
+    this.handlePlus2 = this.handlePlus2.bind(this);
     this.saveTheme = this.saveTheme.bind(this);
     this.changeColor = this.changeColor.bind(this);
   }
@@ -889,9 +892,9 @@ class Timer extends Component {
     });
   }
 
-  saveTheme(theme) {
+  saveTheme(name, theme) {
     this.setState({
-      themes: this.state.themes.concat([theme])
+      themes: this.state.themes.concat([{name, theme}])
     });
   }
 
@@ -970,6 +973,15 @@ class Timer extends Component {
     }, this.setState({ renderlog: true }));
   }
 
+  handlePlus2(index) {
+    let logcopy = this.state.log;
+    logcopy[index].res.plus2 = !logcopy[index].res.plus2;
+    this.setState({
+      log: logcopy
+    });
+    this.handleRenderLog();
+  }
+
 
   render() {
     document.body.onkeydown = function(e) {
@@ -1006,7 +1018,7 @@ class Timer extends Component {
           this.startTime();
           document.getElementById("time").style.color = "inherit";
         }
-      } else if (e.keyCode !== 18 && e.keyCode !== 9 && !this.state.fifteen) {
+      } else if (e.keyCode !== 18 && e.keyCode !== 9 && !this.state.fifteen &&!this.state.stopped) {
         document.getElementById("time").style.color = "inherit";
         document.getElementById("log").style.display = "block";
         document.getElementById("settings").style.display = "block";
@@ -1038,6 +1050,7 @@ class Timer extends Component {
             session={this.state.session}
             theme={this.state.theme}
             handleModal={() => this.handleModal()}
+            handlePlus2={(index) => this.handlePlus2(index)}
             clearAll = {() => this.clearAll()}
             deleteEntry = {(id, x) => this.deleteEntry(id, x)}
             addTime = {(t) => this.addTime(t)}
@@ -1062,7 +1075,7 @@ class Timer extends Component {
             handleInspection={this.handleInspection}
             handleHoldToStart={this.handleHoldToStart}
             handleAvUnderTime={this.handleAvUnderTime}
-            saveTheme={(theme) => this.saveTheme(theme)}
+            saveTheme={(name, theme) => this.saveTheme(name, theme)}
             changeColor={(theme) => this.changeColor(theme)}
           />
         </div>
