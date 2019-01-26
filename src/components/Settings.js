@@ -159,6 +159,7 @@ class Settings extends Component {
       text: theme.text,
       texthighlighted: theme.texthighlighted
     });
+    console.log('here');
   }
 
   handleChangePrimary(color, event) {
@@ -296,21 +297,22 @@ class Settings extends Component {
     }
   }
 
-  setUpTheme(theme) {
-    var elements = document.getElementsByClassName("ice");
-  }
-
-  renderCustomTheme(i, name) {
+  renderCustomTheme(i, theme) {
     return (
-      <AwesomeButton
-        action={this.selectText}
-        type="primary"
-        className={name}
-        id={name}
-        size="medium"
+      <button
+        onClick={() => this.handleColor(theme.theme)}
+        className="themebtn"
+        id={theme.name}
+        style={{
+          backgroundColor: theme.theme.primary,
+          color: theme.theme.secondary,
+          borderColor: theme.theme.accent,
+          borderStyle: 'none',
+          borderWidth: '1px'
+        }}
       >
-        {name}
-      </AwesomeButton>
+        {theme.name}
+      </button>
     );
   }
 
@@ -319,9 +321,8 @@ class Settings extends Component {
     let custom = themes.map((theme, step) => {
       console.log(theme);
       return (
-        <li key={step}>
-          {this.renderCustomTheme(step, theme.name)}
-          {this.setUpTheme(theme)}
+        <li className="listitem" key={step}>
+          {this.renderCustomTheme(step, theme)}
         </li>
       )
     });

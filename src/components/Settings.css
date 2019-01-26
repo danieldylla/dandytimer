@@ -7,7 +7,6 @@
     background-color: var(--primary);
     color: var(--texthighlighted);
     outline: none;
-    overflow-x: scroll;
     transition: .2s;
   }
 
@@ -23,6 +22,7 @@
   .setmodalinfo {
     margin-right: 20px;
     height: 75vh;
+    min-width: 1000px;
   }
 
   .modalinfo > h {
@@ -65,7 +65,6 @@
     border-bottom: solid;
     border-bottom-color: var(--text);
     border-bottom-width: 2px;
-    overflow: auto;
   }
 
   .desc {
@@ -99,7 +98,7 @@
     width: 100%;
     display: inline-block;
     font-size: 1.5rem;
-    height: 100%;
+    height: 48vh;
     margin: 0 0 0 20px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -108,8 +107,7 @@
 
   .theme {
     margin: 30px;
-    min-width: 500px;
-    overflow: auto;
+    min-width: 1000px;
   }
 
   .colorbuttons {
@@ -126,16 +124,33 @@
   .savedthemes {
     overflow: auto;
     min-width: 100px;
-    width: 20%;
+    width: 270px;
     text-align: center;
     float: left;
-    background-color: red;
+    margin-top: -60px;
   }
 
   .unstyledlist {
     list-style-type: none;
-    background-color: blue;
+    height: 430px;
+    overflow: scroll;
+    margin-top: 10px;
+
   }
+
+  .themebtn {
+    margin: 30px 0px;
+    width: 190px;
+    height: 42px;
+    font-weight: 700;
+    font-size: .65em;
+  }
+
+  .themebtn:hover {
+    cursor: pointer;
+    filter: brightness(80%);
+  }
+
 
 
 
@@ -208,7 +223,6 @@
     position: relative;
     width: 80%;
     height: 75vh;
-    overflow: auto;
   }
 
   .gray-theme {
