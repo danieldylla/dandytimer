@@ -147,7 +147,6 @@ class TimeModal extends Component {
     this.setState({
       plus2: !this.state.plus2
     });
-    console.log('here');
   }
 
   render() {
