@@ -299,27 +299,34 @@ class Settings extends Component {
 
   renderCustomTheme(i, theme) {
     return (
-      <button
-        onClick={() => this.handleColor(theme.theme)}
-        className="themebtn"
-        id={theme.name}
-        style={{
-          backgroundColor: theme.theme.primary,
-          color: theme.theme.secondary,
-          borderColor: theme.theme.accent,
-          borderStyle: 'none',
-          borderWidth: '1px'
-        }}
-      >
-        {theme.name}
-      </button>
+      <div>
+        <button
+          onClick={() => this.handleColor(theme.theme)}
+          className="themebtn"
+          id={theme.name}
+          style={{
+            backgroundColor: theme.theme.primary,
+            color: theme.theme.secondary,
+            borderColor: theme.theme.accent,
+            borderStyle: 'none',
+            borderWidth: '1px'
+          }}
+        >
+          {theme.name}
+        </button>
+        <button
+          className="deletetheme"
+          onClick={() => this.props.deleteTheme(i)}
+        >
+          <FontAwesomeIcon icon="times" />
+        </button>
+      </div>
     );
   }
 
   displaySavedThemes() {
     let themes = this.props.themes;
     let custom = themes.map((theme, step) => {
-      console.log(theme);
       return (
         <li className="listitem" key={step}>
           {this.renderCustomTheme(step, theme)}

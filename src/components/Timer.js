@@ -107,11 +107,13 @@ class Timer extends Component {
     this.newSession = this.newSession.bind(this);
     this.changeSession = this.changeSession.bind(this);
     this.handleModal = this.handleModal.bind(this);
+    this.handleModalFalse = this.handleModalFalse.bind(this);
     this.handleInspection = this.handleInspection.bind(this);
     this.handleHoldToStart = this.handleHoldToStart.bind(this);
     this.handleAvUnderTime = this.handleAvUnderTime.bind(this);
     this.handlePlus2 = this.handlePlus2.bind(this);
     this.saveTheme = this.saveTheme.bind(this);
+    this.deleteTheme = this.deleteTheme.bind(this);
     this.changeColor = this.changeColor.bind(this);
   }
 
@@ -124,6 +126,7 @@ class Timer extends Component {
       this.saveStateToLocalStorage.bind(this)
     );
     this.generateScramble();
+    this.handleModalFalse();
 
     let lasttheme = localStorage.getItem('theme');
     if(lasttheme) {
@@ -136,7 +139,7 @@ class Timer extends Component {
     window.removeEventListener(
       "beforeunload",
       this.saveStateToLocalStorage.bind(this),
-      this.saveSession.bind(this)
+      this.saveSession.bind(this),
     );
     // saves if component has a chance to unmount
     this.saveSession();
@@ -898,6 +901,14 @@ class Timer extends Component {
     });
   }
 
+  deleteTheme(index) {
+    let result = this.state.themes;
+    result.splice(index, 1);
+    this.setState({
+      themes: result
+    });
+  }
+
   colorLuminance(hex, lum) {
   	// validate hex string
   	hex = String(hex).replace(/[^0-9a-f]/gi, '');
@@ -973,9 +984,21 @@ class Timer extends Component {
     }, this.setState({ renderlog: true }));
   }
 
+  handleModalFalse() {
+    this.setState({
+      modal: false
+    });
+  }
+
   handlePlus2(index) {
     let logcopy = this.state.log;
+    let res = logcopy[index].res;
     logcopy[index].res.plus2 = !logcopy[index].res.plus2;
+    if (logcopy[index].res.plus2) {
+      logcopy[index].res.time += 2000;
+    } else {
+      logcopy[index].res.time -= 2000;
+    }
     this.setState({
       log: logcopy
     });
@@ -987,7 +1010,7 @@ class Timer extends Component {
     document.body.onkeydown = function(e) {
       if (e.repeat) {
         return;
-      } else if (e.keyCode === 32 && !this.state.running && this.state.stopped) {
+      } else if (e.keyCode === 32 && !this.state.running && this.state.stopped && !this.state.modal) {
         document.getElementById("time").style.color = "#2dff57";
         document.getElementById("log").style.display = "none";
         document.getElementById("settings").style.display = "none";
@@ -1004,7 +1027,7 @@ class Timer extends Component {
     }.bind(this);
 
     document.body.onkeyup = function(e) {
-      if (e.keyCode === 32 && !this.state.running && this.state.stopped) {
+      if (e.keyCode === 32 && !this.state.running && this.state.stopped && !this.state.modal) {
         if (this.state.inspection_time) {
           if (!this.state.fifteen) {
             document.getElementById("time").style.color = "#f73b3b";
@@ -1076,6 +1099,7 @@ class Timer extends Component {
             handleHoldToStart={this.handleHoldToStart}
             handleAvUnderTime={this.handleAvUnderTime}
             saveTheme={(name, theme) => this.saveTheme(name, theme)}
+            deleteTheme={(i) => this.deleteTheme(i)}
             changeColor={(theme) => this.changeColor(theme)}
           />
         </div>

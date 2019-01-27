@@ -5,7 +5,7 @@
     right: 20vw;
     background-color: var(--primary);
     color: var(--texthighlighted);
-    overflow: scroll;
+    overflow: hidden;
     height: 500px;
     min-width: 250px;
     outline: none;

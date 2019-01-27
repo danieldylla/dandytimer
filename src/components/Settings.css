@@ -144,11 +144,27 @@
     height: 42px;
     font-weight: 700;
     font-size: .65em;
+    transition: .2s;
   }
 
   .themebtn:hover {
     cursor: pointer;
     filter: brightness(80%);
+  }
+
+  .deletetheme {
+    width: 20px;
+    float: right;
+    margin-top: -65px;
+    color: var(--text);
+  }
+
+  .deletetheme:hover {
+    background-color: inherit;
+  }
+
+  .deletetheme:active {
+    color: var(--texthighlighted);
   }
 
 
