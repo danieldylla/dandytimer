@@ -144,7 +144,6 @@ class Timer extends Component {
     // saves if component has a chance to unmount
     this.saveSession();
     this.saveStateToLocalStorage();
-    console.log('here');
   }
 
   hydrateStateWithLocalStorage() {
@@ -991,18 +990,36 @@ class Timer extends Component {
   }
 
   handlePlus2(index) {
-    let logcopy = this.state.log;
+    let logcopy = this.state.log.slice();
     let res = logcopy[index].res;
     logcopy[index].res.plus2 = !logcopy[index].res.plus2;
+    let newav;
     if (logcopy[index].res.plus2) {
       logcopy[index].res.time += 2000;
+      newav = this.state.average + (2000/this.state.validreps);
     } else {
       logcopy[index].res.time -= 2000;
+      newav = this.state.average - (2000/this.state.validreps);
     }
+    let i;
+    for (i = index; i > index - 12; i--) {
+      if (i >= 0 && i > index - 5) {
+        logcopy[i].res.ao5 = this.forceCalculateAv(5, logcopy, i);
+      }
+      if (i >= 0) {
+        logcopy[i].res.ao12 = this.forceCalculateAv(12, logcopy, i);
+      }
+    }
+
     this.setState({
-      log: logcopy
+      log: logcopy,
+      best: {
+        res: this.forceUpdateBest(logcopy),
+        ao5: this.forceUpdateBestAo5(logcopy),
+        ao12: this.forceUpdateBestAo12(logcopy)
+      },
+      average: newav,
     });
-    this.handleRenderLog();
   }
 
 

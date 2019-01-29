@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import LogStats from './LogStats';
 import DeleteModal from './modals/DeleteModal';
 import TimeModal from './modals/TimeModal';
+import Ao5Modal from './modals/Ao5Modal';
 import './Log.css';
 
 // Most of react-virtualized's styles are functional (eg position, size).
@@ -17,7 +18,11 @@ import { List } from 'react-virtualized'
 
 class Log extends Component {
   shouldComponentUpdate(nextProps, nextState) {
-    return (this.props.renderlog || (this.props.reps !== nextProps.reps && this.props.stopped));
+    return (
+      this.props.renderlog ||
+      (this.props.reps !== nextProps.reps && this.props.stopped) ||
+      (this.props.average !== nextProps.average && this.props.stopped)
+    );
   }
 
   constructor(props) {
@@ -49,7 +54,22 @@ class Log extends Component {
             handlePlus2={(index) => this.props.handlePlus2(index)}
           />
         </div>
-        {this.displayAverages(item.res.ao5, item.res.ao12)}
+        <div className="quarter">
+          <Ao5Modal
+            theme={this.props.theme}
+            index={index}
+            res={item.res}
+            handleModal={() => this.props.handleModal()}
+          />
+        </div>
+        <div className="quarter">
+          <Ao5Modal
+            theme={this.props.theme}
+            index={index}
+            res={item.res}
+            handleModal={() => this.props.handleModal()}
+          />
+        </div>
       </div>
     );
   }
@@ -164,6 +184,7 @@ class Log extends Component {
 
 
   render() {
+    console.log('rerendering log...');
     return (
       <div className="results">
         <div className="statistics">
