@@ -12,7 +12,7 @@ class TimeModal extends Component {
 
     this.state = {
       modalIsOpen: false,
-      plus2: this.props.res.plus2,
+      dnf: this.props.res.dnf
     }
 
     this.openModal = this.openModal.bind(this);
@@ -21,6 +21,7 @@ class TimeModal extends Component {
     this.convertToTime = this.convertToTime.bind(this);
     this.copyTime = this.copyTime.bind(this);
     this.plus2 = this.plus2.bind(this);
+    this.dnf = this.dnf.bind(this);
   };
 
   openModal() {
@@ -143,10 +144,19 @@ class TimeModal extends Component {
   }
 
   plus2() {
-    this.props.handlePlus2(this.props.index);
-    this.setState({
-      plus2: !this.state.plus2
-    });
+    if (this.props.res.dnf) {
+      this.props.handleDNF(this.props.index, true);
+    } else {
+      this.props.handlePlus2(this.props.index, false);
+    }
+  }
+
+  dnf() {
+    if (this.props.res.plus2) {
+      this.props.handlePlus2(this.props.index, true);
+    } else {
+      this.props.handleDNF(this.props.index, false);
+    }
   }
 
   render() {
@@ -190,10 +200,16 @@ class TimeModal extends Component {
               <h3 id="titletime">{this.displayLogEntry(this.props.res)}</h3>
               <br />
               <div className="timeinfo">
-                  <button onClick={this.plus2}>
-                  {this.state.plus2 ?
+                  <button onClick={this.plus2} className="plus2btn">
+                  {this.props.res.plus2 ?
                     <p className="plus2btnon"> +2 </p>
                     : <p  className="plus2btnoff"> +2 </p>
+                  }
+                  </button>
+                  <button onClick={this.dnf} className="plus2btn">
+                  {this.props.res.dnf ?
+                    <p className="plus2btnon"> DNF </p>
+                    : <p  className="plus2btnoff"> DNF </p>
                   }
                   </button>
                 <table>

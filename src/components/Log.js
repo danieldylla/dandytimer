@@ -27,8 +27,45 @@ class Log extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      rowheight: 30,
+    }
 
     this.renderRow = this.renderRow.bind(this);
+  }
+
+  handlePlus2(i, s) {
+    this.props.handlePlus2(i);
+    if (this.state.rowheight === 30) {
+      this.setState({
+        rowheight: 30.001
+      });
+    } else {
+      this.setState({
+        rowheight: 30
+      });
+    }
+    this.forceUpdate();
+    if (s) {
+      this.handleDNF(i);
+    }
+  }
+
+  handleDNF(i, s) {
+    this.props.handleDNF(i);
+    if (this.state.rowheight === 30) {
+      this.setState({
+        rowheight: 29.999
+      });
+    } else {
+      this.setState({
+        rowheight: 30
+      });
+    }
+    this.forceUpdate();
+    if (s) {
+      this.handlePlus2(i);
+    }
   }
 
 
@@ -51,7 +88,8 @@ class Log extends Component {
             index={index}
             res={item.res}
             handleModal={() => this.props.handleModal()}
-            handlePlus2={(index) => this.props.handlePlus2(index)}
+            handlePlus2={(index, s) => this.handlePlus2(index, s)}
+            handleDNF={(index, s) => this.handleDNF(index, s)}
           />
         </div>
         <div className="quarter">
@@ -206,7 +244,7 @@ class Log extends Component {
           <List
             width={window.innerWidth}
             height={window.innerHeight}
-            rowHeight={30}
+            rowHeight={this.state.rowheight}
             rowRenderer={this.renderRow}
             rowCount={this.props.log.length}
             overscanRowCount={5}

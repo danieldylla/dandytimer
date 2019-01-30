@@ -112,6 +112,7 @@ class Timer extends Component {
     this.handleHoldToStart = this.handleHoldToStart.bind(this);
     this.handleAvUnderTime = this.handleAvUnderTime.bind(this);
     this.handlePlus2 = this.handlePlus2.bind(this);
+    this.handleDNF = this.handleDNF.bind(this);
     this.saveTheme = this.saveTheme.bind(this);
     this.deleteTheme = this.deleteTheme.bind(this);
     this.changeColor = this.changeColor.bind(this);
@@ -394,6 +395,18 @@ class Timer extends Component {
     }
   }
 
+  forceCalculateAverage(arr) {
+    let sum = 0;
+    let j = 0;
+    for (let i = 0; i < arr.length; i++) {
+      if (!arr[i].res.dnf) {
+        sum += arr[i].res.time;
+        j++;
+      }
+    }
+    return (sum / j);
+  }
+
   calculateAv(howmany, t, reps, dnf) {
     if (reps < howmany) {
       return null;
@@ -660,7 +673,7 @@ class Timer extends Component {
         log: result,
         reps: this.state.reps - x,
         validreps: this.state.validreps - x + dnfs,
-        average: newav,
+        average: this.forceCalculateAverage(result),
         best: {
           res: this.forceUpdateBest(result),
           ao5: this.forceUpdateBestAo5(result),
@@ -690,8 +703,13 @@ class Timer extends Component {
   }
 
   forceUpdateBest(result) {
-    var newbest = result[0].res.time;
-    var index = 0;
+    var newbest;
+    let j = 0;
+    while (result[j].res.dnf && j < result.length) {
+      j++;
+    }
+    newbest = result[j].res.time;
+    var index = j;
     for (var i = 1; i < result.length; i++) {
       if (result[i].res.time < newbest && !result[i].res.dnf) {
         newbest = result[i].res.time;
@@ -704,9 +722,14 @@ class Timer extends Component {
   forceUpdateBestAo5(result) {
     if (result.length > 4) {
       var newbest = result[0].res.ao5;
+      let j = 0;
+      while (result[j].res.ao5 === 'dnf' && j < result.length) {
+        j++;
+      }
+      var newbest = result[j].res.ao5;
       var index = 0;
       for (var i = 1; i < result.length - 4; i++) {
-        if (result[i].res.ao5 < newbest && !result[i].res.dnf) {
+        if (result[i].res.ao5 < newbest && !(result[i].res.ao5 === 'dnf')) {
           newbest = result[i].res.ao5;
           index = i;
         }
@@ -719,9 +742,14 @@ class Timer extends Component {
   forceUpdateBestAo12(result) {
     if (result.length > 11) {
       var newbest = result[0].res.ao12;
+      let j = 0;
+      while (result[j].res.ao12 === 'dnf' && j < result.length) {
+        j++;
+      }
+      var newbest = result[j].res.ao12;
       var index = 0;
       for (var i = 1; i < result.length - 11; i++) {
-        if (result[i].res.ao12 < newbest && !result[i].res.dnf) {
+        if (result[i].res.ao12 < newbest && !(result[i].res.ao12 === 'dnf')) {
           newbest = result[i].res.ao12;
           index = i;
         }
@@ -1010,7 +1038,6 @@ class Timer extends Component {
         logcopy[i].res.ao12 = this.forceCalculateAv(12, logcopy, i);
       }
     }
-
     this.setState({
       log: logcopy,
       best: {
@@ -1018,7 +1045,43 @@ class Timer extends Component {
         ao5: this.forceUpdateBestAo5(logcopy),
         ao12: this.forceUpdateBestAo12(logcopy)
       },
-      average: newav,
+      average: this.forceCalculateAverage(logcopy),
+    });
+  }
+
+  handleDNF(index) {
+    let logcopy = this.state.log.slice();
+    let res = logcopy[index].res;
+    logcopy[index].res.dnf = !logcopy[index].res.dnf;
+    let newav;
+    if (logcopy[index].res.dnf) {
+      if (this.state.validreps - 1 === 0) {
+        newav = null;
+      } else {
+        newav = ((((this.state.average) * (this.state.validreps)) - res.time) / (this.state.validreps - 1));
+      }
+      this.setState({ validreps: this.state.validreps - 1 });
+    } else {
+      newav = ((((this.state.average) * (this.state.validreps)) + res.time) / (this.state.validreps + 1));
+      this.setState({ validreps: this.state.validreps + 1 });
+    }
+    let i;
+    for (i = index; i > index - 12; i--) {
+      if (i >= 0 && i > index - 5) {
+        logcopy[i].res.ao5 = this.forceCalculateAv(5, logcopy, i);
+      }
+      if (i >= 0) {
+        logcopy[i].res.ao12 = this.forceCalculateAv(12, logcopy, i);
+      }
+  }
+    this.setState({
+      log: logcopy,
+      best: {
+        res: this.forceUpdateBest(logcopy),
+        ao5: this.forceUpdateBestAo5(logcopy),
+        ao12: this.forceUpdateBestAo12(logcopy)
+      },
+      average: this.forceCalculateAverage(logcopy),
     });
   }
 
@@ -1091,6 +1154,7 @@ class Timer extends Component {
             theme={this.state.theme}
             handleModal={() => this.handleModal()}
             handlePlus2={(index) => this.handlePlus2(index)}
+            handleDNF={(index) => this.handleDNF(index)}
             clearAll = {() => this.clearAll()}
             deleteEntry = {(id, x) => this.deleteEntry(id, x)}
             addTime = {(t) => this.addTime(t)}

@@ -34,14 +34,29 @@
     font-size: 1.5rem;
   }
 
+  .timeinfo:hover {
+    background-color: inherit;
+  }
+
   .plus2btnoff {
     opacity: .5;
-    width: 50px;
   }
 
   .plus2btnon {
     opacity: 1;
+  }
+
+  .plus2btn, .plus2btnon, .plus2btnoff {
     width: 50px;
+    font-size: 1em;
+  }
+
+  .plus2btn:hover {
+    background-color: var(--primary);
+  }
+
+  .plus2btnon:hover, .plus2btnoff:hover {
+    background-color: var(--buttonhover);
   }
 
   .plus2btnon:hover, .plus2btnoff:hover {

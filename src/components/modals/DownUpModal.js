@@ -81,8 +81,6 @@ class DownUpModal extends Component {
   }
 
   handleClick() {
-    console.log(this.inputRef);
-    console.log('here');
     if(this.inputRef && this.inputRef.current) {
       this.inputRef.current.click();
     }
