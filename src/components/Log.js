@@ -3,6 +3,7 @@ import LogStats from './LogStats';
 import DeleteModal from './modals/DeleteModal';
 import TimeModal from './modals/TimeModal';
 import Ao5Modal from './modals/Ao5Modal';
+import Ao12Modal from './modals/Ao12Modal';
 import './Log.css';
 
 // Most of react-virtualized's styles are functional (eg position, size).
@@ -102,7 +103,7 @@ class Log extends Component {
           />
         </div>
         <div className="quarter">
-          <Ao5Modal
+          <Ao12Modal
             theme={this.props.theme}
             index={index}
             log={this.props.log}

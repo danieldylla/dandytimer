@@ -20,9 +20,8 @@
     background-color: rgba(0, 0, 0, .5);
   }
 
-  .clearinfo {
+  .averageinfo {
     position: relative;
-    margin: 10px;
     padding-left: 1vw;
     padding-top: 1vh;
     padding-right: 1vw;
@@ -30,54 +29,44 @@
   }
 
   .avinfo {
-    margin: 30px;
+    margin: 30px 0px 30px -1vw;
     font-size: 1.5rem;
   }
 
-  .plus2btnoff {
-    opacity: .5;
-    width: 50px;
-  }
-
-  .plus2btnon {
-    opacity: 1;
-    width: 50px;
-  }
-
-  .plus2btnon:hover, .plus2btnoff:hover {
-    cursor: default;
-    background-color: inherit;
-  }
-
   .category-time {
-    width: 150px;
+    width: 100px;
     text-align: left;
   }
 
   .category-solve {
-    width: 50px;
+    width: 100px;
+    text-align: center;
   }
 
   .tablehead {
     height: 2em;
     text-align: left;
+    position: fixed;
+    margin-top: -40px;
+    padding-bottom: 10px;
+    font-size: 24px;
   }
 
-  .tableinfo {
-    margin-left: 0px;
-  }
 
   .tableview {
     display: block;
+    background-color: var(--buttonhover);
     height: 300px;
+    width: 60vw;
     overflow: scroll;
+    font-size: 16px;
   }
 
-  .okay {
+  .avbuttons {
     position: absolute;
-    top: 430px;
+    top: 440px;
     display: inline-block;
-    right: 1%;
+    right: 1vw;
   }
 
   .copy {
@@ -92,8 +81,9 @@
     margin-right: 10px;
   }
 
-  #titletime {
+  #titleav {
     margin: 0px;
+    margin-left: .5vw;
     font-size: 40px;
     color: var(--texthighlighted);
   }

@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './AvModal.css';
 
-class Ao5Modal extends Component {
+class Ao12Modal extends Component {
   constructor(props) {
     super(props);
 
@@ -220,7 +220,7 @@ class Ao5Modal extends Component {
     return (
       <div className="modal">
         <button onClick={this.openModal}>
-          {this.convertToTime(this.props.res.ao5)}
+          {this.convertToTime(this.props.res.ao12)}
         </button>
         {this.state.modalIsOpen ?
           <Modal
@@ -233,10 +233,10 @@ class Ao5Modal extends Component {
             overlayClassName="TimeOverlay"
           >
             <div className="averageinfo">
-              <h3 id="titleav">{this.convertToTime(this.props.res.ao5)}</h3>
+              <h3 id="titleav">{this.convertToTime(this.props.res.ao12)}</h3>
               <br />
               <div className="avinfo">
-                {this.displayScrambles(5)}
+                {this.displayScrambles(12)}
               </div>
               <div className="avbuttons">
                 <MuiThemeProvider theme={theme}>
@@ -274,4 +274,4 @@ class Ao5Modal extends Component {
   }
 }
 
-export default Ao5Modal;
+export default Ao12Modal;
