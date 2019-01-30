@@ -38,6 +38,14 @@ class Ao5Modal extends Component {
     event.target.select();
   }
 
+  copyTime(text) {
+    document.body.insertAdjacentHTML("beforeend","<div id=\"copy\" contenteditable>"+text+"</div>")
+    document.getElementById("copy").focus();
+    document.execCommand("selectAll");
+    document.execCommand("copy");
+    document.getElementById("copy").remove();
+  }
+
   colorLuminance(hex, lum) {
   	// validate hex string
   	hex = String(hex).replace(/[^0-9a-f]/gi, '');
@@ -90,20 +98,20 @@ class Ao5Modal extends Component {
     if (res.dnf) {
       return (
         <span>
-          {this.convertToTime(res.ao5)}
+          DNF
         </span>
       );
     }
     if (res.plus2) {
       return (
         <span>
-          {this.convertToTime(res.ao5)}
+          {this.convertToTime(res.time) + '+'}
         </span>
       );
     }
     return (
       <span>
-        {this.convertToTime(res.ao5)}
+        {this.convertToTime(res.time)}
       </span>
     );
   }
@@ -128,6 +136,62 @@ class Ao5Modal extends Component {
     return (
       this.displayHour(s) + this.displayMinute(s, min) +
       this.displaySecond(min, sec) + '.' + this.displayMillisecond(ms)
+    );
+  }
+
+  displayScrambles(x) {
+    const arr = this.props.log.slice(this.props.index, this.props.index + x);
+    let j = 0;
+    while (arr[j].res.dnf && j < arr.length) {
+      j++;
+    }
+    let best = arr[j].res.time;
+    let worst = arr[0].res.time;
+    let worstisdnf = arr[0].res.dnf;
+    for (let i = j + 1; i < x; i++) {
+      if (arr[i].res.time < best && !arr[i].res.dnf) {
+        best = arr[i].res.time;
+      }
+      if (!worstisdnf && arr[i].res.time > worst) {
+        worst = arr[i].res.time;
+      }
+    }
+    const scrambles = arr.map((item, step) => {
+      let isbest = (item.res.time === best);
+      let isworst = (item.res.time === worst);
+      return (
+        <tr>
+          <td className="category-solve">
+            {step + 1}
+          </td>
+          {(isbest || isworst) ?
+            <td className="category-time">
+              <span className="tableinfo">({this.displayLogEntry(item.res)})</span>
+            </td>
+          :
+            <td className="category-time">
+              <span className="tableinfo">{this.displayLogEntry(item.res)}</span>
+            </td>
+          }
+          <td>
+            <span className="tableinfo">{item.res.scramble}</span>
+          </td>
+        </tr>
+      );
+    });
+    return (
+      <div className="tableview">
+        <table>
+          <tbody>
+            <tr className="tablehead">
+              <th className="category-solve"></th>
+              <th className="category-time"> Time </th>
+              <th> Scramble </th>
+            </tr>
+            {scrambles}
+          </tbody>
+        </table>
+      </div>
     );
   }
 
@@ -156,7 +220,7 @@ class Ao5Modal extends Component {
     return (
       <div className="modal">
         <button onClick={this.openModal}>
-          {this.displayLogEntry(this.props.res)}
+          {this.convertToTime(this.props.res.ao5)}
         </button>
         {this.state.modalIsOpen ?
           <Modal
@@ -168,7 +232,40 @@ class Ao5Modal extends Component {
             className="TimeModal"
             overlayClassName="TimeOverlay"
           >
-
+            <div className="clearinfo">
+              <h3 id="titletime">{this.convertToTime(this.props.res.ao5)}</h3>
+              <br />
+              <div className="avinfo">
+                {this.displayScrambles(5)}
+              </div>
+              <div className="okay">
+                <MuiThemeProvider theme={theme}>
+                  <div className="copy">
+                    <Button
+                      onClick={() => this.copyTime(this.convertToTime(this.props.res.time))}
+                      variant="outlined"
+                      color="primary"
+                      className="confirm"
+                      tabIndex="1"
+                    >
+                      <FontAwesomeIcon icon="copy" />
+                    </Button>
+                  </div>
+                  <div className="confirm">
+                    <Button
+                      onClick={this.closeModal}
+                      id="confirm"
+                      variant="contained"
+                      color="primary"
+                      className="confirm"
+                      tabIndex="2"
+                    >
+                      ok
+                    </Button>
+                  </div>
+                </MuiThemeProvider>
+              </div>
+            </div>
           </Modal>
         : null}
       </div>

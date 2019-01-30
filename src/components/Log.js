@@ -96,6 +96,7 @@ class Log extends Component {
           <Ao5Modal
             theme={this.props.theme}
             index={index}
+            log={this.props.log}
             res={item.res}
             handleModal={() => this.props.handleModal()}
           />
@@ -104,6 +105,7 @@ class Log extends Component {
           <Ao5Modal
             theme={this.props.theme}
             index={index}
+            log={this.props.log}
             res={item.res}
             handleModal={() => this.props.handleModal()}
           />
@@ -222,7 +224,6 @@ class Log extends Component {
 
 
   render() {
-    console.log('rerendering log...');
     return (
       <div className="results">
         <div className="statistics">

@@ -298,32 +298,33 @@ class Timer extends Component {
   updateInspectionTime() {
     this.setState({
       inspecttime: this.state.inspecttime - 1,
-    });
-    if (this.state.inspecttime < -1 && !this.state.res.dnf) {
-      this.setState({
-        res: {
-          id: 0,
-          time: null,
-          ao5: null,
-          ao12: null,
-          scramble: null,
-          dnf: true,
-          plus2: false,
-        },
-      });
-    } else if (this.state.inspecttime < 1 && !this.state.res.plus2) {
-      this.setState({
-        res: {
-          id: 0,
-          time: null,
-          ao5: null,
-          ao12: null,
-          scramble: null,
-          dnf: false,
-          plus2: true,
-        },
-      })
-    }
+    }, () => {
+      if (this.state.inspecttime < -1 && !this.state.res.dnf) {
+        this.setState({
+          res: {
+            id: this.state.res.id,
+            time: this.state.res.time,
+            ao5: this.state.res.ao5,
+            ao12: this.state.res.ao12,
+            scramble: this.state.res.scramble,
+            dnf: true,
+            plus2: false,
+          },
+        });
+      } else if (this.state.inspecttime < 1 && !this.state.res.plus2 && !this.state.res.dnf) {
+        this.setState({
+          res: {
+            id: this.state.res.id,
+            time: this.state.res.time,
+            ao5: this.state.res.ao5,
+            ao12: this.state.res.ao12,
+            scramble: this.state.res.scramble,
+            dnf: false,
+            plus2: true,
+          },
+        })
+      }}
+    );
   }
 
   startTime() {
@@ -613,6 +614,7 @@ class Timer extends Component {
         plus2: false,
       },
     });
+    this.generateScramble();
   }
 
   clearAll() {
@@ -727,7 +729,7 @@ class Timer extends Component {
         j++;
       }
       var newbest = result[j].res.ao5;
-      var index = 0;
+      var index = j;
       for (var i = 1; i < result.length - 4; i++) {
         if (result[i].res.ao5 < newbest && !(result[i].res.ao5 === 'dnf')) {
           newbest = result[i].res.ao5;
@@ -747,7 +749,7 @@ class Timer extends Component {
         j++;
       }
       var newbest = result[j].res.ao12;
-      var index = 0;
+      var index = j;
       for (var i = 1; i < result.length - 11; i++) {
         if (result[i].res.ao12 < newbest && !(result[i].res.ao12 === 'dnf')) {
           newbest = result[i].res.ao12;
@@ -1096,8 +1098,10 @@ class Timer extends Component {
         document.getElementById("settings").style.display = "none";
         document.getElementById("scramble").style.display = "none";
         document.getElementById("average").style.display = "none";
-        this.resetTime();
-      } else if (e.keyCode === 27 && !this.state.modal) {
+        if (!this.state.fifteen) {
+          this.resetTime();
+        }
+      } else if (e.keyCode === 27 && !this.state.modal && !this.state.fifteen) {
         this.resetTime();
       } else if (this.state.running && e.keyCode !== 18 && e.keyCode !== 9) {
         this.endTime();

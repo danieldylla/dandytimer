@@ -29,7 +29,7 @@
     padding-bottom: 1vh;
   }
 
-  .timeinfo {
+  .avinfo {
     margin: 30px;
     font-size: 1.5rem;
   }
@@ -49,8 +49,28 @@
     background-color: inherit;
   }
 
-  .category {
+  .category-time {
     width: 150px;
+    text-align: left;
+  }
+
+  .category-solve {
+    width: 50px;
+  }
+
+  .tablehead {
+    height: 2em;
+    text-align: left;
+  }
+
+  .tableinfo {
+    margin-left: 0px;
+  }
+
+  .tableview {
+    display: block;
+    height: 300px;
+    overflow: scroll;
   }
 
   .okay {

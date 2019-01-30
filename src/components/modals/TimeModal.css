@@ -39,16 +39,18 @@
   }
 
   .plus2btnoff {
-    opacity: .5;
+    color: var(--text);
   }
 
   .plus2btnon {
-    opacity: 1;
+    color: var(--texthighlighted);
   }
 
   .plus2btn, .plus2btnon, .plus2btnoff {
     width: 50px;
     font-size: 1em;
+    display: inline-block;
+    margin: 0px 6vw 20px 0vw;
   }
 
   .plus2btn:hover {
