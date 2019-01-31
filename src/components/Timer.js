@@ -1174,6 +1174,7 @@ class Timer extends Component {
         </div>
         <div className="settings" id="settings">
           <Settings
+            stopped={this.state.stopped}
             theme={this.state.theme}
             inspection_time={this.state.inspection_time}
             hold_to_start={this.state.hold_to_start}

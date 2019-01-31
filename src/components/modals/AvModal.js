@@ -6,32 +6,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './AvModal.css';
 
-class Ao5Modal extends Component {
+class AvModal extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      modalIsOpen: false,
-      plus2: this.props.res.plus2
-    }
-
-    this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
     this.convertToTime = this.convertToTime.bind(this);
   };
 
-  openModal() {
-    this.setState({modalIsOpen: true});
-    this.props.handleModal();
-  }
-
   afterOpenModal() {
-  }
-
-  closeModal() {
-    this.setState({modalIsOpen: false});
-    this.props.handleModal();
   }
 
   handleFocus(event) {
@@ -219,24 +202,21 @@ class Ao5Modal extends Component {
 
     return (
       <div className="modal">
-        <button onClick={this.openModal}>
-          {this.convertToTime(this.props.res.ao5)}
-        </button>
-        {this.state.modalIsOpen ?
+        {this.props.modalIsOpen ?
           <Modal
-            isOpen={this.state.modalIsOpen}
+            isOpen={this.props.modalIsOpen}
             onAfterOpen={this.afterOpenModal}
-            onRequestClose={this.closeModal}
+            onRequestClose={this.props.closeModal}
             ariaHideApp={false}
             contentLabel="Example Modal"
             className="TimeModal"
             overlayClassName="TimeOverlay"
           >
             <div className="averageinfo">
-              <h3 id="titleav">{this.convertToTime(this.props.res.ao5)}</h3>
+              <h3 id="titleav">{this.convertToTime(this.props.av)}</h3>
               <br />
               <div className="avinfo">
-                {this.displayScrambles(5)}
+                {this.displayScrambles(this.props.howmany)}
               </div>
               <div className="avbuttons">
                 <MuiThemeProvider theme={theme}>
@@ -253,7 +233,7 @@ class Ao5Modal extends Component {
                   </div>
                   <div className="confirm">
                     <Button
-                      onClick={this.closeModal}
+                      onClick={this.props.closeModal}
                       id="confirm"
                       variant="contained"
                       color="primary"
@@ -274,4 +254,4 @@ class Ao5Modal extends Component {
   }
 }
 
-export default Ao5Modal;
+export default AvModal;

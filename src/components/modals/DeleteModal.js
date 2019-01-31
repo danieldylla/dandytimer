@@ -12,29 +12,15 @@ class DeleteModal extends Component {
     super(props);
 
     this.state = {
-      modalIsOpen: false,
       x: 1
     }
 
-    this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   };
 
-  openModal() {
-    this.setState({modalIsOpen: true});
-    this.props.handleModal();
-  }
-
   afterOpenModal() {
     document.getElementById('clearconfirm').focus();
-  }
-
-  closeModal() {
-    this.setState({modalIsOpen: false});
-    this.handleChange(1);
-    this.props.handleModal();
   }
 
   handleChange(value) {
@@ -49,7 +35,7 @@ class DeleteModal extends Component {
 
   handleDelete(id) {
     this.props.deleteEntry(id, this.state.x);
-    this.closeModal();
+    this.props.closeModal();
   }
 
   colorLuminance(hex, lum) {
@@ -93,19 +79,11 @@ class DeleteModal extends Component {
 
     return (
       <div className="modal">
-        <button onClick={this.openModal}>
-          <span id="step">
-            {this.props.id}
-          </span>
-          <span id="delete">
-            <FontAwesomeIcon icon="times" />
-          </span>
-      </button>
-      {this.state.modalIsOpen ?
+      {this.props.modalIsOpen ?
         <Modal
-          isOpen={this.state.modalIsOpen}
+          isOpen={this.props.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
-          onRequestClose={this.closeModal}
+          onRequestClose={this.props.closeModal}
           ariaHideApp={false}
           contentLabel="Example Modal"
           className="ArrowModal"
@@ -129,7 +107,7 @@ class DeleteModal extends Component {
               <MuiThemeProvider theme={theme}>
                 <div className="cancel">
                   <Button
-                    onClick={this.closeModal}
+                    onClick={this.props.closeModal}
                     variant="outlined"
                     color="primary"
                     className="confirm"
@@ -140,7 +118,7 @@ class DeleteModal extends Component {
                 </div>
                 <div className="confirm">
                   <Button
-                    onClick={() => this.handleDelete(this.props.id)}
+                    onClick={() => this.handleDelete(this.props.res.id)}
                     id="clearconfirm"
                     variant="contained"
                     color="primary"

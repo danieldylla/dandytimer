@@ -26,7 +26,6 @@ class TimeModal extends Component {
 
   openModal() {
     this.setState({modalIsOpen: true});
-    this.props.handleModal();
   }
 
   afterOpenModal() {
@@ -35,7 +34,6 @@ class TimeModal extends Component {
 
   closeModal() {
     this.setState({modalIsOpen: false});
-    this.props.handleModal();
   }
 
   handleFocus(event) {
@@ -183,14 +181,11 @@ class TimeModal extends Component {
 
     return (
       <div className="modal">
-        <button onClick={this.openModal}>
-          {this.displayLogEntry(this.props.res)}
-        </button>
-        {this.state.modalIsOpen ?
+        {this.props.modalIsOpen ?
           <Modal
-            isOpen={this.state.modalIsOpen}
-            onAfterOpen={this.afterOpenModal}
-            onRequestClose={this.closeModal}
+            isOpen={this.props.modalIsOpen}
+            onAfterOpen={this.props.afterOpenModal}
+            onRequestClose={this.props.closeModal}
             ariaHideApp={false}
             contentLabel="Example Modal"
             className="TimeModal"
@@ -244,7 +239,7 @@ class TimeModal extends Component {
                   </div>
                   <div className="confirm">
                     <Button
-                      onClick={this.closeModal}
+                      onClick={this.props.closeModal}
                       id="confirm"
                       variant="contained"
                       color="primary"

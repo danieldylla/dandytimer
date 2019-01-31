@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
+import Modal from 'react-modal';
+import Button from '@material-ui/core/Button';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LogStats from './LogStats';
 import DeleteModal from './modals/DeleteModal';
 import TimeModal from './modals/TimeModal';
-import Ao5Modal from './modals/Ao5Modal';
-import Ao12Modal from './modals/Ao12Modal';
+import AvModal from './modals/AvModal';
 import './Log.css';
+import './modals/TimeModal.css';
+import './modals/AvModal.css';
 
 // Most of react-virtualized's styles are functional (eg position, size).
 // Functional styles are applied directly to DOM elements.
@@ -22,7 +27,11 @@ class Log extends Component {
     return (
       this.props.renderlog ||
       (this.props.reps !== nextProps.reps && this.props.stopped) ||
-      (this.props.average !== nextProps.average && this.props.stopped)
+      (this.props.average !== nextProps.average && this.props.stopped) ||
+      this.state.timeModalIsOpen !== nextState.timeModalIsOpen ||
+      this.state.avModalIsOpen !== nextState.avModalIsOpen ||
+      this.state.ao12ModalIsOpen !== nextState.ao12ModalIsOpen ||
+      this.state.deleteModalIsOpen !== nextState.deleteModalIsOpen
     );
   }
 
@@ -30,9 +39,74 @@ class Log extends Component {
     super(props);
     this.state = {
       rowheight: 30,
+      deleteModalIsOpen: false,
+      timeModalIsOpen: false,
+      avModalIsOpen: false,
+      timeindex: null,
+      av: null,
+      howmany: 5,
+      timeres: {
+        id: 0,
+        time: null,
+        ao5: null,
+        ao12: null,
+        scramble: null,
+        dnf: false,
+        plus2: false,
+      },
     }
 
     this.renderRow = this.renderRow.bind(this);
+    this.openDeleteModal = this.openDeleteModal.bind(this);
+    this.closeDeleteModal = this.closeDeleteModal.bind(this);
+    this.openTimeModal = this.openTimeModal.bind(this);
+    this.closeTimeModal = this.closeTimeModal.bind(this);
+    this.openAvModal = this.openAvModal.bind(this);
+    this.closeAvModal = this.closeAvModal.bind(this);
+  }
+
+  openDeleteModal(i, res) {
+    this.setState({
+      timeindex: i,
+      timeres: res,
+      deleteModalIsOpen: true
+    });
+    this.props.handleModal();
+  }
+
+  closeDeleteModal() {
+    this.setState({deleteModalIsOpen: false});
+    this.props.handleModal();
+  }
+
+  openTimeModal(i, res) {
+    this.setState({
+      timeindex: i,
+      timeres: res,
+      timeModalIsOpen: true
+    });
+    this.props.handleModal();
+  }
+
+  closeTimeModal() {
+    this.setState({timeModalIsOpen: false});
+    this.props.handleModal();
+  }
+
+  openAvModal(i, res, av, howmany) {
+    this.setState({
+      timeindex: i,
+      timeres: res,
+      av: av,
+      howmany: howmany,
+      avModalIsOpen: true
+    });
+    this.props.handleModal();
+  }
+
+  closeAvModal() {
+    this.setState({avModalIsOpen: false});
+    this.props.handleModal();
   }
 
   handlePlus2(i, s) {
@@ -69,47 +143,34 @@ class Log extends Component {
     }
   }
 
-
-
   renderRow({ index, key, style }) {
     let item = this.props.log[index];
     return (
       <div key={key} style={style} className="row">
         <div className="quarter">
-          <DeleteModal
-            theme={this.props.theme}
-            id={item.res.id}
-            deleteEntry={(id, x) => this.props.deleteEntry(id, x)}
-            handleModal={() => this.props.handleModal()}
-          />
+          <button onClick={() => this.openDeleteModal(index, item.res)}>
+            <span id="step">
+              {item.res.id}
+            </span>
+            <span id="delete">
+              <FontAwesomeIcon icon="times" />
+            </span>
+        </button>
         </div>
         <div className="quarter">
-          <TimeModal
-            theme={this.props.theme}
-            index={index}
-            res={item.res}
-            handleModal={() => this.props.handleModal()}
-            handlePlus2={(index, s) => this.handlePlus2(index, s)}
-            handleDNF={(index, s) => this.handleDNF(index, s)}
-          />
+          <button onClick={() => this.openTimeModal(index, item.res)}>
+            {this.displayLogEntry(item.res)}
+          </button>
         </div>
         <div className="quarter">
-          <Ao5Modal
-            theme={this.props.theme}
-            index={index}
-            log={this.props.log}
-            res={item.res}
-            handleModal={() => this.props.handleModal()}
-          />
+          <button onClick={() => this.openAvModal(index, item.res, item.res.ao5, 5)}>
+            {this.convertToTime(item.res.ao5)}
+          </button>
         </div>
         <div className="quarter">
-          <Ao12Modal
-            theme={this.props.theme}
-            index={index}
-            log={this.props.log}
-            res={item.res}
-            handleModal={() => this.props.handleModal()}
-          />
+          <button onClick={() => this.openAvModal(index, item.res, item.res.ao12, 12)}>
+            {this.convertToTime(item.res.ao12)}
+          </button>
         </div>
       </div>
     );
@@ -149,49 +210,22 @@ class Log extends Component {
   displayLogEntry(res) {
     if (res.dnf) {
       return (
-        <button>
-          <span>
-            DNF
-          </span>
-        </button>
+        <span>
+          DNF
+        </span>
       );
     }
     if (res.plus2) {
       return (
-        <button>
-          <span>
-            {this.convertToTime(res.time) + '+'}
-          </span>
-        </button>
+        <span>
+          {this.convertToTime(res.time) + '+'}
+        </span>
       );
     }
     return (
-      <button>
-        <span>
-          {this.convertToTime(res.time)}
-        </span>
-      </button>
-    );
-  }
-
-  displayAverages(ao5, ao12) {
-    return (
-      <div>
-        <div className="quarter">
-          <button>
-            <span>
-              {this.convertToTime(ao5)}
-            </span>
-          </button>
-        </div>
-        <div className="quarter">
-          <button>
-            <span>
-              {this.convertToTime(ao12)}
-            </span>
-          </button>
-        </div>
-      </div>
+      <span>
+        {this.convertToTime(res.time)}
+      </span>
     );
   }
 
@@ -223,8 +257,46 @@ class Log extends Component {
     );
   }
 
+  colorLuminance(hex, lum) {
+  	// validate hex string
+  	hex = String(hex).replace(/[^0-9a-f]/gi, '');
+  	if (hex.length < 6) {
+  		hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+  	}
+  	lum = lum || 0;
+  	// convert to decimal and change luminosity
+  	var rgb = "#", c, i;
+  	for (i = 0; i < 3; i++) {
+  		c = parseInt(hex.substr(i*2,2), 16);
+  		c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+  		rgb += ("00"+c).substr(c.length);
+  	}
+  	return rgb;
+  }
+
 
   render() {
+    const theme = createMuiTheme({
+      typography: {
+        useNextVariants: true,
+      },
+      palette: {
+        primary: {
+          main: this.props.theme.accent,
+          contrastText: this.props.theme.primary,
+          dark: this.colorLuminance(this.props.theme.accent, -.2),
+          light: this.colorLuminance(this.props.theme.accent, .2)
+        },
+        secondary: {
+          main: this.colorLuminance(this.props.theme.accent, -.3),
+          contrastText: this.props.theme.primary,
+          dark: this.colorLuminance(this.props.theme.accent, -.5),
+          light: this.colorLuminance(this.props.theme.accent, -.1)
+        }
+      },
+      shadows: Array(25).fill('none')
+    });
+
     return (
       <div className="results">
         <div className="statistics">
@@ -242,6 +314,38 @@ class Log extends Component {
             uploadFile={(file) => this.props.uploadFile(file)}
           />
         </div>
+        <div className="singlemodal">
+          <DeleteModal
+            theme={this.props.theme}
+            res={this.state.timeres}
+            modalIsOpen={this.state.deleteModalIsOpen}
+            openModal={this.openDeleteModal}
+            closeModal={this.closeDeleteModal}
+            deleteEntry={(id, x) => this.props.deleteEntry(id, x)}
+          />
+          <TimeModal
+            theme={this.props.theme}
+            index={this.state.timeindex}
+            log={this.props.log}
+            res={this.state.timeres}
+            modalIsOpen={this.state.timeModalIsOpen}
+            openModal={this.openTimeModal}
+            closeModal={this.closeTimeModal}
+            handlePlus2={(i, s) => this.handlePlus2(i, s)}
+            handleDNF={(i, s) => this.handleDNF(i, s)}
+          />
+          <AvModal
+            theme={this.props.theme}
+            index={this.state.timeindex}
+            log={this.props.log}
+            res={this.state.timeres}
+            av={this.state.av}
+            howmany={this.state.howmany}
+            modalIsOpen={this.state.avModalIsOpen}
+            openModal={this.openAvModal}
+            closeModal={this.closeAvModal}
+          />
+        </div>
         <div className="scroll">
           <List
             width={window.innerWidth}
@@ -249,7 +353,7 @@ class Log extends Component {
             rowHeight={this.state.rowheight}
             rowRenderer={this.renderRow}
             rowCount={this.props.log.length}
-            overscanRowCount={10}
+            overscanRowCount={5}
           />
         </div>
         <div className="av">
