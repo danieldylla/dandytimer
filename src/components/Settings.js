@@ -109,16 +109,6 @@ class Settings extends Component {
     this.displaySavedThemes = this.displaySavedThemes.bind(this);
   };
 
-  componentDidMount() {
-    this.setState({
-      primary: this.props.theme.primary,
-      secondary: this.props.theme.secondary,
-      accent: this.props.theme.accent,
-      text: this.props.theme.text,
-      texthighlighted: this.props.theme.texthighlighted
-    });
-  }
-
   colorLuminance(hex, lum) {
   	// validate hex string
   	hex = String(hex).replace(/[^0-9a-f]/gi, '');
@@ -137,7 +127,14 @@ class Settings extends Component {
   }
 
   openModal() {
-    this.setState({modalIsOpen: true});
+    this.setState({
+      primary: this.props.theme.primary,
+      secondary: this.props.theme.secondary,
+      accent: this.props.theme.accent,
+      text: this.props.theme.text,
+      texthighlighted: this.props.theme.texthighlighted,
+      modalIsOpen: true
+    });
     this.props.handleModal();
   }
 
@@ -159,7 +156,6 @@ class Settings extends Component {
       text: theme.text,
       texthighlighted: theme.texthighlighted
     });
-    console.log('here');
   }
 
   handleChangePrimary(color, event) {
@@ -258,7 +254,6 @@ class Settings extends Component {
         />
       );
     } else if (this.state.selected === 'secondary') {
-      console.log('here');
       return (
         <ChromePicker
           color={this.state.secondary}

@@ -94,14 +94,16 @@ class Log extends Component {
   }
 
   openAvModal(i, res, av, howmany) {
-    this.setState({
-      timeindex: i,
-      timeres: res,
-      av: av,
-      howmany: howmany,
-      avModalIsOpen: true
-    });
-    this.props.handleModal();
+    if (av) {
+      this.setState({
+        timeindex: i,
+        timeres: res,
+        av: av,
+        howmany: howmany,
+        avModalIsOpen: true
+      });
+      this.props.handleModal();
+    }
   }
 
   closeAvModal() {
