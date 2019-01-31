@@ -31,6 +31,7 @@
 
   .timeinfo {
     margin: 30px;
+    margin-top: 60px;
     font-size: 1.5rem;
   }
 
@@ -40,6 +41,7 @@
 
   .plus2btnoff {
     color: var(--text);
+    opacity: .5
   }
 
   .plus2btnon {
@@ -48,9 +50,10 @@
 
   .plus2btn, .plus2btnon, .plus2btnoff {
     width: 50px;
-    font-size: 1em;
+    font-size: 1.1em;
     display: inline-block;
-    margin: 0px 6vw 20px 0vw;
+
+    margin: 30px 6vw 30px 0vw;
   }
 
   .plus2btn:hover {
@@ -66,8 +69,13 @@
     background-color: inherit;
   }
 
-  .category {
-    width: 150px;
+  .btncenter {
+    display: flex;
+    justify-content: center;
+  }
+
+  .timestats {
+    font-size: .9em;
   }
 
   .okay {

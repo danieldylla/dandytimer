@@ -200,6 +200,21 @@ class TimeModal extends Component {
               <h3 id="titletime">{this.displayLogEntry(this.props.res)}</h3>
               <br />
               <div className="timeinfo">
+                <table>
+                  <tbody>
+                    <tr className="tablehead">
+                      <th className="category-time"> ao5 </th>
+                      <th className="category-time"> ao12 </th>
+                      <th> Scramble </th>
+                    </tr>
+                    <tr>
+                      <td className="category-time timestats"> {this.convertToTime(this.props.res.ao5)} </td>
+                      <td className="category-time timestats"> {this.convertToTime(this.props.res.ao12)} </td>
+                      <td className="timestats"> {this.props.res.scramble} </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div className="btncenter">
                   <button onClick={this.plus2} className="plus2btn">
                   {this.props.res.plus2 ?
                     <p className="plus2btnon"> +2 </p>
@@ -212,22 +227,7 @@ class TimeModal extends Component {
                     : <p  className="plus2btnoff"> DNF </p>
                   }
                   </button>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td className="category"> Scramble: </td>
-                      <td> {this.props.res.scramble} </td>
-                    </tr>
-                    <tr>
-                      <td className="category"> ao5: </td>
-                      <td> {this.convertToTime(this.props.res.ao5)} </td>
-                    </tr>
-                    <tr>
-                      <td className="category"> ao12: </td>
-                      <td> {this.convertToTime(this.props.res.ao12)} </td>
-                    </tr>
-                  </tbody>
-                </table>
+                </div>
               </div>
               <div className="okay">
                 <MuiThemeProvider theme={theme}>

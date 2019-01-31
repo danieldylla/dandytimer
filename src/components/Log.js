@@ -249,7 +249,7 @@ class Log extends Component {
             rowHeight={this.state.rowheight}
             rowRenderer={this.renderRow}
             rowCount={this.props.log.length}
-            overscanRowCount={5}
+            overscanRowCount={10}
           />
         </div>
         <div className="av">
