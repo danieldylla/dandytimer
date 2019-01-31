@@ -67,7 +67,9 @@ class Timer extends Component {
       validreps: 0,
       average: 0,
       scramble_on_side: false,
-      av_under_time: true,
+      show_av: true,
+      show_scramble: true,
+      show_log: true,
       inspection_time: false,
       hold_to_start: false,
       theme: {
@@ -110,7 +112,9 @@ class Timer extends Component {
     this.handleModalFalse = this.handleModalFalse.bind(this);
     this.handleInspection = this.handleInspection.bind(this);
     this.handleHoldToStart = this.handleHoldToStart.bind(this);
-    this.handleAvUnderTime = this.handleAvUnderTime.bind(this);
+    this.handleShowAv = this.handleShowAv.bind(this);
+    this.handleShowScramble = this.handleShowScramble.bind(this);
+    this.handleShowLog = this.handleShowLog.bind(this);
     this.handlePlus2 = this.handlePlus2.bind(this);
     this.handleDNF = this.handleDNF.bind(this);
     this.saveTheme = this.saveTheme.bind(this);
@@ -776,10 +780,6 @@ class Timer extends Component {
     clearInterval(this.inspection);
   }
 
-  displayScramble() {
-    return(this.state.res.scramble);
-  }
-
   convertToTime(s) {
     if (s === 'dnf') {
       return ('DNF');
@@ -835,14 +835,24 @@ class Timer extends Component {
   }
 
   displayAverages() {
-    if(this.state.av_under_time) {
-      return (
-        <div>
-            ao5: {this.convertToTime(this.state.res.ao5)}
-            <br />
-            ao12: {this.convertToTime(this.state.res.ao12)}
-        </div>
-      );
+    if(this.state.show_av) {
+      if (this.state.log.length) {
+        return (
+          <div>
+              ao5: {this.convertToTime(this.state.log[0].res.ao5)}
+              <br />
+              ao12: {this.convertToTime(this.state.log[0].res.ao12)}
+          </div>
+        );
+      } else {
+        return (
+          <div>
+              ao5: {this.convertToTime(this.state.res.ao5)}
+              <br />
+              ao12: {this.convertToTime(this.state.res.ao12)}
+          </div>
+        );
+      }
     }
   }
 
@@ -995,9 +1005,21 @@ class Timer extends Component {
     });
   }
 
-  handleAvUnderTime() {
+  handleShowAv() {
     this.setState({
-      av_under_time: !this.state.av_under_time
+      show_av: !this.state.show_av
+    });
+  }
+
+  handleShowScramble() {
+    this.setState({
+      show_scramble: !this.state.show_scramble
+    });
+  }
+
+  handleShowLog() {
+    this.setState({
+      show_log: !this.state.show_log
     });
   }
 
@@ -1142,32 +1164,34 @@ class Timer extends Component {
     return (
       <div id="body" className="timer">
         <div className="log" id="log">
-          <Log
-            log={this.state.log}
-            res={this.state.res}
-            best={this.state.best}
-            reps={this.state.reps}
-            running={this.state.running}
-            stopped={this.state.stopped}
-            renderlog={this.state.renderlog}
-            fifteen={this.state.fifteen}
-            average={this.state.average}
-            new_on_top={this.state.new_on_top}
-            sessions={this.state.sessions}
-            session={this.state.session}
-            theme={this.state.theme}
-            handleModal={() => this.handleModal()}
-            handlePlus2={(index) => this.handlePlus2(index)}
-            handleDNF={(index) => this.handleDNF(index)}
-            clearAll = {() => this.clearAll()}
-            deleteEntry = {(id, x) => this.deleteEntry(id, x)}
-            addTime = {(t) => this.addTime(t)}
-            downloadFile = {(fileName, contentType) => this.downloadFile(fileName, contentType)}
-            uploadFile = {(file) => this.uploadFile(file, this.readFileToState)}
-          />
+          {this.state.show_log ?
+            <Log
+              log={this.state.log}
+              res={this.state.res}
+              best={this.state.best}
+              reps={this.state.reps}
+              running={this.state.running}
+              stopped={this.state.stopped}
+              renderlog={this.state.renderlog}
+              fifteen={this.state.fifteen}
+              average={this.state.average}
+              new_on_top={this.state.new_on_top}
+              sessions={this.state.sessions}
+              session={this.state.session}
+              theme={this.state.theme}
+              handleModal={() => this.handleModal()}
+              handlePlus2={(index) => this.handlePlus2(index)}
+              handleDNF={(index) => this.handleDNF(index)}
+              clearAll = {() => this.clearAll()}
+              deleteEntry = {(id, x) => this.deleteEntry(id, x)}
+              addTime = {(t) => this.addTime(t)}
+              downloadFile = {(fileName, contentType) => this.downloadFile(fileName, contentType)}
+              uploadFile = {(file) => this.uploadFile(file, this.readFileToState)}
+            />
+          : null}
         </div>
         <div className="scramble" id="scramble">
-          {this.displayScramble()}
+          {this.state.show_scramble && this.state.res.scramble}
         </div>
         <div className="average" id="average">
           {this.displayAverages()}
@@ -1178,12 +1202,16 @@ class Timer extends Component {
             theme={this.state.theme}
             inspection_time={this.state.inspection_time}
             hold_to_start={this.state.hold_to_start}
-            av_under_time={this.state.av_under_time}
+            show_av={this.state.show_av}
+            show_scramble={this.state.show_scramble}
+            show_log={this.state.show_log}
             themes={this.state.themes}
             handleModal={() => this.handleModal()}
             handleInspection={this.handleInspection}
             handleHoldToStart={this.handleHoldToStart}
-            handleAvUnderTime={this.handleAvUnderTime}
+            handleShowAv={this.handleShowAv}
+            handleShowScramble={this.handleShowScramble}
+            handleShowLog={this.handleShowLog}
             saveTheme={(name, theme) => this.saveTheme(name, theme)}
             deleteTheme={(i) => this.deleteTheme(i)}
             changeColor={(theme) => this.changeColor(theme)}

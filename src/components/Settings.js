@@ -360,85 +360,14 @@ class Settings extends Component {
               <div className="tabs">
                 <TabList>
                   <Tab disabled><b>Settings</b></Tab>
-                  <Tab>Options</Tab>
                   <Tab>Colors</Tab>
+                  <Tab>Timer</Tab>
+                  <Tab>Display</Tab>
                 </TabList>
               </div>
               <div className="pages">
                 <TabPanel>
                   Settings
-                </TabPanel>
-                <TabPanel>
-                  <h2>Timer Options</h2>
-                  <div className="setting" id="setting">
-                    Inspection Time
-                    <div className="switches">
-                      <Switch
-                        checked={this.props.inspection_time}
-                        onChange={this.props.handleInspection}
-                        onColor={this.colorLuminance(this.state.accent, -.4)}
-                        onHandleColor={this.state.accent}
-                        handleDiameter={30}
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                        height={20}
-                        width={48}
-                        className="react-switch"
-                        id="material-switch"
-                      />
-                    </div>
-                    <div className="desc">
-                      15 second inspection time after first spacebar press
-                    </div>
-                  </div>
-                  <div className="setting">
-                    Hold To Start
-                    <div className="switches">
-                      <Switch
-                        checked={this.props.hold_to_start}
-                        onChange={this.props.handleHoldToStart}
-                        onColor={this.colorLuminance(this.state.accent, -.4)}
-                        onHandleColor={this.state.accent}
-                        handleDiameter={30}
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                        height={20}
-                        width={48}
-                        className="react-switch"
-                        id="material-switch"
-                      />
-                    </div>
-                    <div className="desc">
-                      spacebar must be held to start timer
-                    </div>
-                  </div>
-                  <div className="setting">
-                    Show Averages Under Time
-                    <div className="switches">
-                      <Switch
-                        checked={this.props.av_under_time}
-                        onChange={this.props.handleAvUnderTime}
-                        onColor={this.colorLuminance(this.state.accent, -.4)}
-                        onHandleColor={this.state.accent}
-                        handleDiameter={30}
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                        height={20}
-                        width={48}
-                        className="react-switch"
-                        id="material-switch"
-                      />
-                    </div>
-                    <div className="desc">
-                      ao5 and ao12 are shown below time as well as on left side
-                    </div>
-                  </div>
                 </TabPanel>
                 <TabPanel>
                   <h2>Colors and Theming</h2>
@@ -568,6 +497,127 @@ class Settings extends Component {
                       <div className="savedthemes">
                         {this.displaySavedThemes()}
                       </div>
+                    </div>
+                  </div>
+                </TabPanel>
+                <TabPanel>
+                  <h2>Timer Options</h2>
+                  <div className="setting" id="setting">
+                    Inspection Time
+                    <div className="switches">
+                      <Switch
+                        checked={this.props.inspection_time}
+                        onChange={this.props.handleInspection}
+                        onColor={this.colorLuminance(this.state.accent, -.4)}
+                        onHandleColor={this.state.accent}
+                        handleDiameter={30}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                        height={20}
+                        width={48}
+                        className="react-switch"
+                        id="material-switch"
+                      />
+                    </div>
+                    <div className="desc">
+                      15 second inspection time after first spacebar press
+                    </div>
+                  </div>
+                  <div className="setting">
+                    Hold To Start
+                    <div className="switches">
+                      <Switch
+                        checked={this.props.hold_to_start}
+                        onChange={this.props.handleHoldToStart}
+                        onColor={this.colorLuminance(this.state.accent, -.4)}
+                        onHandleColor={this.state.accent}
+                        handleDiameter={30}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                        height={20}
+                        width={48}
+                        className="react-switch"
+                        id="material-switch"
+                      />
+                    </div>
+                    <div className="desc">
+                      spacebar must be held to start timer
+                    </div>
+                  </div>
+                </TabPanel>
+                <TabPanel>
+                  <h2>Display Options</h2>
+                  <div className="setting">
+                    Show Time List
+                    <div className="switches">
+                      <Switch
+                        checked={this.props.show_log}
+                        onChange={this.props.handleShowLog}
+                        onColor={this.colorLuminance(this.state.accent, -.4)}
+                        onHandleColor={this.state.accent}
+                        handleDiameter={30}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                        height={20}
+                        width={48}
+                        className="react-switch"
+                        id="material-switch"
+                      />
+                    </div>
+                    <div className="desc">
+                      list of times, as well as current and best times, is shown on left side
+                    </div>
+                  </div>
+                  <div className="setting">
+                    Show Averages Under Time
+                    <div className="switches">
+                      <Switch
+                        checked={this.props.show_av}
+                        onChange={this.props.handleShowAv}
+                        onColor={this.colorLuminance(this.state.accent, -.4)}
+                        onHandleColor={this.state.accent}
+                        handleDiameter={30}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                        height={20}
+                        width={48}
+                        className="react-switch"
+                        id="material-switch"
+                      />
+                    </div>
+                    <div className="desc">
+                      ao5 and ao12 are shown below time as well as on left side
+                    </div>
+                  </div>
+                  <div className="setting">
+                    Show Scramble
+                    <div className="switches">
+                      <Switch
+                        checked={this.props.show_scramble}
+                        onChange={this.props.handleShowScramble}
+                        onColor={this.colorLuminance(this.state.accent, -.4)}
+                        onHandleColor={this.state.accent}
+                        handleDiameter={30}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                        height={20}
+                        width={48}
+                        className="react-switch"
+                        id="material-switch"
+                      />
+                    </div>
+                    <div className="desc">
+                      scramble is generated for each solve and displayed on screen
                     </div>
                   </div>
                 </TabPanel>

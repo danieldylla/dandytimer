@@ -130,18 +130,22 @@ class AvModal extends Component {
     }
     let best = arr[j].res.time;
     let worst = arr[0].res.time;
+    let bestid = arr[j].res.id;
+    let worstid = arr[0].res.id;
     let worstisdnf = arr[0].res.dnf;
     for (let i = j + 1; i < x; i++) {
       if (arr[i].res.time < best && !arr[i].res.dnf) {
         best = arr[i].res.time;
+        bestid = arr[i].res.id;
       }
       if (!worstisdnf && arr[i].res.time > worst) {
         worst = arr[i].res.time;
+        worstid = arr[i].res.id;
       }
     }
     const scrambles = arr.map((item, step) => {
-      let isbest = (item.res.time === best);
-      let isworst = (item.res.time === worst);
+      let isbest = (item.res.id === bestid);
+      let isworst = (item.res.id === worstid);
       return (
         <tr>
           <td className="category-solve">
