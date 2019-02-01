@@ -95,3 +95,28 @@
 .ReactModal__Overlay--before-close{
     opacity: 0;
 }
+
+@media screen and (max-width: 900px) {
+    .log {
+      top: 100vh;
+      width: 100vw !important;
+    }
+
+    .logstats {
+      width: 100vw !important;
+    }
+
+    .scroll {
+      width: 100vw !important;
+    }
+
+    .third {
+      width: 33%;
+    }
+
+    .quarter {
+      width: 25%;
+    }
+
+
+  }
