@@ -136,7 +136,7 @@ class LogStats extends Component {
         <button
           className="third"
           onClick={this.props.best.res ? () =>
-            this.props.openTimeModal(this.props.log.length - this.props.res.id, this.props.best.res) : null}
+            this.props.openTimeModal(this.props.log.length - this.props.best.res.id, this.props.best.res) : null}
         >
           {this.displaySingle(this.props.best.res)}
         </button>
