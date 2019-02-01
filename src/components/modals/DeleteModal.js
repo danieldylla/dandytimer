@@ -3,7 +3,6 @@ import Modal from 'react-modal';
 import Button from '@material-ui/core/Button';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import InputNumber from 'react-input-number';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './DeleteModal.css';
 

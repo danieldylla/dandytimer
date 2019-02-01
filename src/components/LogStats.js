@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ClearModal from './modals/ClearModal';
 import AddModal from './modals/AddModal';
 import DownUpModal from './modals/DownUpModal';
@@ -112,6 +112,24 @@ class LogStats extends Component {
         </div>
         <div className="third">
           {this.convertToTime(this.props.best.ao12)}
+        </div>
+        <div className="third" id="rowlabel">
+          ao50
+        </div>
+        <div className="third">
+          {this.convertToTime(this.props.res.ao50)}
+        </div>
+        <div className="third">
+          {this.convertToTime(this.props.best.ao50)}
+        </div>
+        <div className="third" id="rowlabel">
+          ao100
+        </div>
+        <div className="third">
+          {this.convertToTime(this.props.res.ao100)}
+        </div>
+        <div className="third">
+          {this.convertToTime(this.props.best.ao100)}
         </div>
       </div>
     );
