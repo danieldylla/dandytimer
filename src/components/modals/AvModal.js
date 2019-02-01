@@ -124,6 +124,7 @@ class AvModal extends Component {
 
   displayScrambles(x) {
     const arr = this.props.log.slice(this.props.index, this.props.index + x);
+    arr.reverse();
     let j = 0;
     while (arr[j].res.dnf && j < arr.length) {
       j++;

@@ -75,62 +75,147 @@ class LogStats extends Component {
   }
 
   displaySession() {
-
     return (
       <p></p>
     );
   }
 
+  findAo5BestIndex(ao5) {
+    var i;
+    for (i = 0; i < this.props.log.length; i++) {
+      if (ao5 === this.props.log[i].res.ao5) {
+        return i;
+      }
+    }
+  }
+
+  findAo12BestIndex(ao12) {
+    var i;
+    for (i = 0; i < this.props.log.length; i++) {
+      if (ao12 === this.props.log[i].res.ao12) {
+        return i;
+      }
+    }
+  }
+
+  findAo50BestIndex(ao50) {
+    var i;
+    for (i = 0; i < this.props.log.length; i++) {
+      if (ao50 === this.props.log[i].res.ao50) {
+        return i;
+      }
+    }
+  }
+
+  findAo100BestIndex(ao100) {
+    var i;
+    for (i = 0; i < this.props.log.length; i++) {
+      if (ao100 === this.props.log[i].res.ao100) {
+        return i;
+      }
+    }
+  }
+
   displayStats() {
+    let ao5index = this.findAo5BestIndex(this.props.best.ao5);
+    let ao12index = this.findAo12BestIndex(this.props.best.ao12);
+    let ao50index = this.findAo50BestIndex(this.props.best.ao50);
+    let ao100index = this.findAo100BestIndex(this.props.best.ao100);
     return(
       <div className="topstats">
         <div className="third" id="rowlabel">
           single
         </div>
-        <div className="third">
-          {this.displaySingle(this.props.res)}
-        </div>
-        <div className="third">
+        <button
+          className="third"
+          onClick={this.props.res ? () =>
+            this.props.openTimeModal(0, this.props.res) : null}
+        >
+            {this.displaySingle(this.props.res)}
+        </button>
+        <button
+          className="third"
+          onClick={this.props.best.res ? () =>
+            this.props.openTimeModal(this.props.log.length - this.props.res.id, this.props.best.res) : null}
+        >
           {this.displaySingle(this.props.best.res)}
-        </div>
+        </button>
 
         <div className="third" id="rowlabel">
           ao5
         </div>
-        <div className="third">
+        <button
+          className="third"
+          onClick={this.props.res.ao5 ? () =>
+            this.props.openAvModal(0, this.props.res, this.props.res.ao5, 5) : null}
+        >
           {this.convertToTime(this.props.res.ao5)}
-        </div>
-        <div className="third">
+        </button>
+        <button
+          className="third"
+          onClick={this.props.best.ao5 ? () =>
+            this.props.openAvModal(ao5index, this.props.log[ao5index].res,
+              this.props.log[ao5index].res.ao5, 5) : null}
+        >
           {this.convertToTime(this.props.best.ao5)}
-        </div>
+        </button>
 
         <div className="third" id="rowlabel">
           ao12
         </div>
-        <div className="third">
+        <button
+          className="third"
+          onClick={this.props.res.ao12 ? () =>
+            this.props.openAvModal(0, this.props.res, this.props.res.ao12, 12) : null}
+        >
           {this.convertToTime(this.props.res.ao12)}
-        </div>
-        <div className="third">
+        </button>
+        <button
+          className="third"
+          onClick={this.props.best.ao12 ? () =>
+            this.props.openAvModal(ao12index, this.props.log[ao12index].res,
+              this.props.log[ao12index].res.ao12, 12) : null}
+        >
           {this.convertToTime(this.props.best.ao12)}
-        </div>
+        </button>
+
         <div className="third" id="rowlabel">
           ao50
         </div>
-        <div className="third">
+        <button
+          className="third"
+          onClick={this.props.res.ao50 ? () =>
+            this.props.openAvModal(0, this.props.res, this.props.res.ao50, 50) : null}
+        >
           {this.convertToTime(this.props.res.ao50)}
-        </div>
-        <div className="third">
+        </button>
+        <button
+          className="third"
+          onClick={this.props.best.ao50 ? () =>
+            this.props.openAvModal(ao50index, this.props.log[ao50index].res,
+              this.props.log[ao50index].res.ao50, 50) : null}
+        >
           {this.convertToTime(this.props.best.ao50)}
-        </div>
+        </button>
+
         <div className="third" id="rowlabel">
           ao100
         </div>
-        <div className="third">
+        <button
+          className="third"
+          onClick={this.props.res.ao100 ? () =>
+            this.props.openAvModal(0, this.props.res, this.props.res.ao100, 100) : null}
+        >
           {this.convertToTime(this.props.res.ao100)}
-        </div>
-        <div className="third">
+        </button>
+        <button
+          className="third"
+          onClick={this.props.best.ao100 ? () =>
+            this.props.openAvModal(ao100index, this.props.log[ao100index].res,
+              this.props.log[ao100index].res.ao100, 100) : null}
+        >
           {this.convertToTime(this.props.best.ao100)}
-        </div>
+        </button>
       </div>
     );
   }

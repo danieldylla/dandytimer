@@ -129,7 +129,7 @@ class Log extends Component {
     this.props.handleDNF(i);
     if (this.state.rowheight === 30) {
       this.setState({
-        rowheight: 29.999
+        rowheight: 30.001
       });
     } else {
       this.setState({
@@ -280,13 +280,16 @@ class Log extends Component {
         <div className="statistics">
           <LogStats
             best={this.props.best}
-            res={this.props.res}
+            res={this.props.log.length ? this.props.log[0].res : this.props.reps}
+            log={this.props.log}
             reps={this.props.reps}
             sessions={this.props.sessions}
             session={this.props.session}
             theme={this.props.theme}
             clearAll={() => this.props.clearAll()}
             handleModal={() => this.props.handleModal()}
+            openTimeModal={(i, s) => this.openTimeModal(i, s)}
+            openAvModal={(i, s, r, h) => this.openAvModal(i, s, r, h)}
             addTime={(t) => this.props.addTime(t)}
             downloadFile={(fileName, contentType) => this.props.downloadFile(fileName, contentType)}
             uploadFile={(file) => this.props.uploadFile(file)}

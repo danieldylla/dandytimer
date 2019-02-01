@@ -7,11 +7,10 @@
 }
 
 h4 {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 #columnlabel {
-  margin-bottom: 5px;
   font-weight: lighter;
 }
 
@@ -26,8 +25,9 @@ h4 {
 .third {
   width: 5vw;
   display: inline-block;
-  margin-top: 5px;
-  padding: 0;
+  margin: 0;
+  padding-top: 3px;
+  padding-bottom: 3px;
   align-items: center;
   justify-content: center;
   min-width: 65px;
