@@ -93,7 +93,7 @@ class AddModal extends Component {
 
     return (
       <div className="modal">
-        <button id="clear" onClick={this.openModal}>
+        <button id="logstatbtn" onClick={this.openModal}>
           <FontAwesomeIcon icon="plus" />
         </button>
         <Modal
