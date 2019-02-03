@@ -42,7 +42,7 @@
   display: block;
   position: fixed;
   align-items: center;
-  float: right;
+  bottom: 0;
   width: 15vw;
   height: 30px;
   padding-top: 10px;

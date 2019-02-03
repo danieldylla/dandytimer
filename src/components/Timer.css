@@ -96,7 +96,7 @@
     opacity: 0;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1080px) and (orientation: portrait) {
     .log {
       top: 100vh;
       width: 100vw !important;
@@ -108,6 +108,11 @@
 
     .scroll {
       width: 100vw !important;
+    }
+
+    .av {
+      width: 100vw;
+      position: absolute;
     }
 
     .third {

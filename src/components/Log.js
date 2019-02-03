@@ -60,6 +60,21 @@ class Log extends Component {
     this.closeTimeModal = this.closeTimeModal.bind(this);
     this.openAvModal = this.openAvModal.bind(this);
     this.closeAvModal = this.closeAvModal.bind(this);
+    this.handleResize = this.handleResize.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  handleResize() {
+    if (window.innerWidth < 1080) {
+      this.forceUpdate();
+    }
   }
 
   openDeleteModal(i, res) {
@@ -336,7 +351,6 @@ class Log extends Component {
             rowCount={this.props.log.length}
             overscanRowCount={5}
           />
-
         </div>
         <div className="av">
           <b>Average: {this.convertToTime(this.props.average)}</b>
