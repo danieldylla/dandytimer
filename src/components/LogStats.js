@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, } from 'react';
 import ClearModal from './modals/ClearModal';
 import AddModal from './modals/AddModal';
 import DownUpModal from './modals/DownUpModal';

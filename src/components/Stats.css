@@ -1,22 +1,21 @@
-.Modal {
+.StatsModal {
     position: absolute;
-    top: 10vh;
-    left: 10vw;
-    right: 10vw;
-    bottom: 10vh;
+    top: 60vh;
+    left: 60vw;
+    right: 0vw;
+    bottom: 0vh;
     background-color: var(--primary);
     color: var(--texthighlighted);
     outline: none;
     transition: .2s;
   }
 
-.Overlay {
+.StatsOverlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, .5);
   }
 
   .setmodalinfo {
@@ -35,14 +34,27 @@
     padding-top: 15px;
   }
 
-  #icon {
+
+
+  #statsicon {
     font-size: 2rem;
   }
 
-  #icon:hover {
+  #statsicon:hover {
     background-color: inherit;
     border-radius: 10px;
   }
+
+  #statsiconon {
+    font-size: 2rem;
+    color: var(--texthighlighted)
+  }
+
+  #statsiconon:hover {
+    background-color: inherit;
+    border-radius: 10px;
+  }
+
 
   .tabs {
     float: left;

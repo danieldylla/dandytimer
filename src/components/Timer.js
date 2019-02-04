@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Log from './Log';
 import Settings from './Settings';
+import Stats from './Stats'
 import './Timer.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -12,6 +13,7 @@ import {faArrowUp} from '@fortawesome/free-solid-svg-icons';
 import {faDownload} from '@fortawesome/free-solid-svg-icons';
 import {faUpload} from '@fortawesome/free-solid-svg-icons';
 import {faCopy} from '@fortawesome/free-solid-svg-icons';
+import {faChartPie} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCog);
 library.add(faTimes);
@@ -21,6 +23,7 @@ library.add(faArrowUp);
 library.add(faDownload);
 library.add(faUpload);
 library.add(faCopy);
+library.add(faChartPie);
 
 class Timer extends Component {
   constructor(props) {
@@ -1252,6 +1255,7 @@ class Timer extends Component {
         document.getElementById("settings").style.display = "none";
         document.getElementById("scramble").style.display = "none";
         document.getElementById("average").style.display = "none";
+        document.getElementById("stats").style.display = "none";
         if (!this.state.fifteen) {
           this.resetTime();
         }
@@ -1285,6 +1289,7 @@ class Timer extends Component {
         document.getElementById("settings").style.display = "block";
         document.getElementById("scramble").style.display = "block";
         document.getElementById("average").style.display = "block";
+        document.getElementById("stats").style.display = "block";
         this.saveTime();
         this.updateBests();
         this.generateScramble();
@@ -1347,6 +1352,11 @@ class Timer extends Component {
             saveTheme={(name, theme) => this.saveTheme(name, theme)}
             deleteTheme={(i) => this.deleteTheme(i)}
             changeColor={(theme) => this.changeColor(theme)}
+          />
+        </div>
+        <div className="stats" id="stats">
+          <Stats
+            log={this.state.log}
           />
         </div>
         <div id="time">

@@ -70,8 +70,8 @@
 }
 
 #settings {
-  margin-left: 95vw;
-  margin-top: 2vw;
+  top: 1.5vw;
+  right: 1.5vw;
   background-color: inherit;
   display: block;
   position: absolute;
@@ -81,6 +81,16 @@
 
 #settings:hover {
   color: var(--texthighlighted)
+}
+
+#stats {
+  bottom: 1.5vw;
+  right: 1.5vw;
+  background-color: inherit;
+  display: block;
+  position: absolute;
+  color: var(--text);
+  transition: 0s;
 }
 
 .ReactModal__Overlay {
@@ -96,7 +106,7 @@
     opacity: 0;
 }
 
-@media screen and (max-width: 1080px) and (orientation: portrait) {
+@media screen and (max-width: 1080px) {
     .log {
       top: 100vh;
       width: 100vw !important;
