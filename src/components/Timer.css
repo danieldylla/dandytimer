@@ -84,7 +84,7 @@
 }
 
 #stats {
-  bottom: 1.5vw;
+  top: 6em;
   right: 1.5vw;
   background-color: inherit;
   display: block;
@@ -131,6 +131,12 @@
 
     .quarter {
       width: 25%;
+    }
+
+    .StatsModal {
+      height: 50vw;
+      top: 200vh;
+      width: 100vw;
     }
 
 

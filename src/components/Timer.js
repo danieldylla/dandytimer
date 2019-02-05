@@ -77,6 +77,7 @@ class Timer extends Component {
       show_av: true,
       show_scramble: true,
       show_log: true,
+      show_stats: false,
       inspection_time: false,
       hold_to_start: false,
       theme: {
@@ -122,6 +123,7 @@ class Timer extends Component {
     this.handleShowAv = this.handleShowAv.bind(this);
     this.handleShowScramble = this.handleShowScramble.bind(this);
     this.handleShowLog = this.handleShowLog.bind(this);
+    this.handleShowStats = this.handleShowStats.bind(this);
     this.handlePlus2 = this.handlePlus2.bind(this);
     this.handleDNF = this.handleDNF.bind(this);
     this.saveTheme = this.saveTheme.bind(this);
@@ -1166,6 +1168,12 @@ class Timer extends Component {
     });
   }
 
+  handleShowStats() {
+    this.setState({
+      show_stats: !this.state.show_stats
+    });
+  }
+
   handleStopped() {
     this.setState({
       stopped: !this.state.stopped
@@ -1255,7 +1263,7 @@ class Timer extends Component {
         document.getElementById("settings").style.display = "none";
         document.getElementById("scramble").style.display = "none";
         document.getElementById("average").style.display = "none";
-        document.getElementById("stats").style.display = "none";
+        document.getElementById("statistics").style.display = "none";
         if (!this.state.fifteen) {
           this.resetTime();
         }
@@ -1289,7 +1297,7 @@ class Timer extends Component {
         document.getElementById("settings").style.display = "block";
         document.getElementById("scramble").style.display = "block";
         document.getElementById("average").style.display = "block";
-        document.getElementById("stats").style.display = "block";
+        document.getElementById("statistics").style.display = "block";
         this.saveTime();
         this.updateBests();
         this.generateScramble();
@@ -1354,9 +1362,13 @@ class Timer extends Component {
             changeColor={(theme) => this.changeColor(theme)}
           />
         </div>
-        <div className="stats" id="stats">
+        <div className="statistics" id="statistics">
           <Stats
             log={this.state.log}
+            running={this.state.running}
+            theme={this.state.theme}
+            show_stats={this.state.show_stats}
+            handleShowStats={this.handleShowStats}
           />
         </div>
         <div id="time">

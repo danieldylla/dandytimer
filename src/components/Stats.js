@@ -11,32 +11,96 @@ ReactChartkick.addAdapter(Chart);
 
 
 class Stats extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      !this.props.running
+    );
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
-      modalIsOpen: false,
+      tab: 1,
     };
 
-    this.openModal = this.openModal.bind(this);
-    this.afterOpenModal = this.afterOpenModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-
+    this.handleGraph = this.handleGraph.bind(this);
+    this.handleDist = this.handleDist.bind(this);
+    this.handleStats = this.handleStats.bind(this);
   };
 
-  openModal() {
+  handleGraph() {
     this.setState({
-      modalIsOpen: true
+      tab: 1,
     });
   }
 
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
+  handleDist() {
+    this.setState({
+      tab: 2,
+    });
   }
 
-  closeModal() {
-    this.setState({modalIsOpen: false});
+  handleStats() {
+    this.setState({
+      tab: 3,
+    });
   }
+
+  displayHour(h) {
+    if (h) {
+      return(h + ':');
+    }
+    return('');
+  }
+
+  displayMinute(h, m) {
+    if (m) {
+      if (m < 10 && h) {
+        return('0' + m + ':');
+      }
+      return(m + ':');
+    }
+    return('');
+  }
+
+  displaySecond(m, s) {
+    if (s < 10 && m) {
+      return('0' + s);
+    }
+    return(s);
+  }
+
+  displayMillisecond(l) {
+    if (l < 10) {
+      return('0' + l);
+    }
+    return(l);
+  }
+
+  convertToTime(s) {
+    if (s === 'dnf') {
+      return ('DNF');
+    }
+    if (s === 0 || s === null) {
+      return ('-');
+    }
+    s = Math.floor(s);
+    var ms = s % 1000;
+    s = (s - ms) / 1000;
+    var sec = s % 60;
+    s = (s - sec) / 60;
+    var min = s % 60;
+    s = (s - min) / 60;
+
+    ms = Math.floor(ms/10);
+
+    return (
+      this.displayHour(s) + this.displayMinute(s, min) +
+      this.displaySecond(min, sec) + '.' + this.displayMillisecond(ms)
+    );
+  }
+
 
   colorLuminance(hex, lum) {
   	// validate hex string
@@ -64,9 +128,9 @@ class Stats extends Component {
     log.map((item, i) => {
       let intstep = i + 1;
       let step = intstep.toString();
-      times[step] = item.res.time;
-      av5s[step] = item.res.ao5;
-      av12s[step] = item.res.ao12;
+      times[step] = this.convertToTime(item.res.time);
+      av5s[step] = this.convertToTime(item.res.ao5);
+      av12s[step] = this.convertToTime(item.res.ao12);
     });
     let data = [
       {"name":"single", "data": times},
@@ -74,33 +138,84 @@ class Stats extends Component {
       {"name":"ao12", "data": av12s}
     ];
     return (
-      <LineChart data={data} />
+      <LineChart
+        data={data}
+        curve={false}
+        legend="top"
+        download={true}
+        dataset={{borderWidth: 2}}
+        points={false}
+        colors={[
+          this.props.theme.accent, this.props.theme.text, this.props.theme.texthighlighted
+        ]}
+      />
     );
   }
 
+  displayDist() {
+
+  }
+
+  displayTab() {
+    if (this.state.tab === 1) {
+      return this.displayGraph();
+    } else if (this.state.tab === 2) {
+      return this.displayDist();
+    }
+  }
 
   render() {
+    console.log(this.state.tab);
     return (
       <div>
-        <button id="statsicon" onClick ={this.openModal}>
-          <FontAwesomeIcon icon="chart-pie" />
-        </button>
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
-          onRequestClose={() => {}}
-          ariaHideApp={false}
-          contentLabel="Example Modal"
-          className="StatsModal"
-          overlayClassName="StatsOverlay"
-        >
-          {this.displayGraph()}
-          <div className="stats" id="stats">
-            <button id="statsiconon" onClick ={this.closeModal}>
+        <script src="https://www.gstatic.com/charts/loader.js"></script>
+        <div className="stats" id="stats">
+          {this.props.show_stats ?
+            <button id="statsiconon" onClick={this.props.handleShowStats}>
               <FontAwesomeIcon icon="chart-pie" />
             </button>
-          </div>
-        </Modal>
+          :
+            <button id="statsicon" onClick ={this.props.handleShowStats}>
+              <FontAwesomeIcon icon="chart-pie" />
+            </button>
+          }
+        </div>
+        {this.props.show_stats ?
+            <div className="StatsModal">
+              <div className="statpanel">
+                {this.displayTab()}
+              </div>
+              <div className="stattab">
+                {this.state.tab === 1 ?
+                  <button className="tabbtnselected">
+                    Graph
+                  </button>
+                :
+                  <button className="tabbtn" onClick={this.handleGraph}>
+                    Graph
+                  </button>
+                }
+                {this.state.tab === 2 ?
+                  <button className="tabbtnselected">
+                    Dist
+                  </button>
+                :
+                  <button className="tabbtn" onClick={this.handleDist}>
+                    Dist
+                  </button>
+                }
+                {this.state.tab === 3 ?
+                  <button className="tabbtnselected">
+                    Stats
+                  </button>
+                :
+                  <button className="tabbtn" onClick={this.handleStats}>
+                    Stats
+                  </button>
+                }
+              </div>
+            </div>
+        : null}
       </div>
     );
 
