@@ -1363,13 +1363,17 @@ class Timer extends Component {
           />
         </div>
         <div className="statistics" id="statistics">
+          {this.state.stopped &&
           <Stats
             log={this.state.log}
+            best={this.state.best}
             running={this.state.running}
+            stopped={this.state.stopped}
+            fifteen={this.state.fifteen}
             theme={this.state.theme}
             show_stats={this.state.show_stats}
             handleShowStats={this.handleShowStats}
-          />
+          />}
         </div>
         <div id="time">
           {this.display()}
