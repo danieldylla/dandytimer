@@ -189,10 +189,12 @@ class Stats extends Component {
     let av5s = {};
     let av12s = {};
     let worst = 0;
-    log.map((item, i) => {
-      if (item.res.time > worst) {
-        worst = item.res.time;
+    for (let i = 0; i < log.length; i++) {
+      if (log[i].res.time > worst) {
+        worst = log[i].res.time;
       }
+    }
+    log.map((item, i) => {
       let intstep = i + 1;
       let step = intstep.toString();
       if (item.res.dnf) {
