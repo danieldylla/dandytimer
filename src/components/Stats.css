@@ -1,7 +1,7 @@
 .StatsModal {
     position: absolute;
     width: 40vw;
-    height: 50vh;
+    height: 40vh;
     bottom: 0;
     right: 0vw;
     background-color: var(--primary);
@@ -45,7 +45,7 @@
   }
 
   .graphpanel {
-    bottom: 1rem;
+    bottom: 0rem;
     position: absolute;
     width: 98%;
     margin-left: 1%;
