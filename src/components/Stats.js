@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Modal from 'react-modal';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactChartkick, { LineChart } from 'react-chartkick';
 import Chart from 'chart.js';
@@ -13,8 +11,10 @@ ReactChartkick.addAdapter(Chart);
 class Stats extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return (
-      !this.props.running &&
-      !this.props.fifteen
+      this.props.renderlog ||
+      this.props.show_stats !== nextProps.show_stats ||
+      this.props.reps > nextProps.reps ||
+      this.state.tab !== nextState.tab
     );
   }
 
@@ -23,7 +23,6 @@ class Stats extends Component {
 
     this.state = {
       tab: 1,
-      update: this.props.stopped,
     };
 
     this.handleGraph = this.handleGraph.bind(this);
@@ -123,7 +122,6 @@ class Stats extends Component {
   }
 
   shiftColor(hex, degrees){
-    // Convert hex to rgb
     // Credit to Denis http://stackoverflow.com/a/36253499/4939630
     var rgb = 'rgb(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length/3 + '})', 'g')).map(function(l) { return parseInt(hex.length%2 ? l+l : l, 16); }).join(',') + ')';
     // Get array of RGB values
@@ -137,18 +135,18 @@ class Stats extends Component {
     var max = Math.max(r, g, b);
     var min = Math.min(r, g, b);
     var h, s, l = (max + min) / 2.0;
-    if(max == min) {
+    if(max === min) {
         h = s = 0;  //achromatic
     } else {
         var d = max - min;
         s = (l > 0.5 ? d / (2.0 - max - min) : d / (max + min));
-        if(max == r && g >= b) {
+        if(max === r && g >= b) {
             h = 1.0472 * (g - b) / d ;
-        } else if(max == r && g < b) {
+        } else if(max === r && g < b) {
             h = 1.0472 * (g - b) / d + 6.2832;
-        } else if(max == g) {
+        } else if(max === g) {
             h = 1.0472 * (b - r) / d + 2.0944;
-        } else if(max == b) {
+        } else if(max === b) {
             h = 1.0472 * (r - g) / d + 4.1888;
         }
     }
@@ -211,20 +209,22 @@ class Stats extends Component {
       {"name":"ao12", "data": av12s}
     ];
     return (
-      <LineChart
-        data={data}
-        curve={false}
-        legend="top"
-        download={true}
-        dataset={{borderWidth: 2}}
-        points={false}
-        colors={[
-          this.props.theme.accent,
-          this.shiftColor(this.props.theme.accent, 60),
-          this.shiftColor(this.props.theme.accent, 300)
-        ]}
-        min={null}
-      />
+      <div className="graphpanel">
+        <LineChart
+          data={data}
+          curve={false}
+          legend="top"
+          download={true}
+          dataset={{borderWidth: 2}}
+          points={false}
+          colors={[
+            this.props.theme.accent,
+            this.shiftColor(this.props.theme.accent, 60),
+            this.shiftColor(this.props.theme.accent, 300)
+          ]}
+          min={null}
+        />
+      </div>
     );
   }
 
@@ -241,55 +241,12 @@ class Stats extends Component {
   }
 
   render() {
-    console.log(this.state.tab);
+    console.log('rerendering stats...');
     return (
       <div>
-        <script src="https://www.gstatic.com/charts/loader.js"></script>
-        <div className="stats" id="stats">
-          {this.props.show_stats ?
-            <button id="statsiconon" onClick={this.props.handleShowStats}>
-              <FontAwesomeIcon icon="chart-pie" />
-            </button>
-          :
-            <button id="statsicon" onClick ={this.props.handleShowStats}>
-              <FontAwesomeIcon icon="chart-pie" />
-            </button>
-          }
-        </div>
         {this.props.show_stats ?
             <div className="StatsModal">
-              <div className="statpanel">
-                {this.displayTab()}
-              </div>
-              <div className="stattab">
-                {this.state.tab === 1 ?
-                  <button className="tabbtnselected">
-                    Graph
-                  </button>
-                :
-                  <button className="tabbtn" onClick={this.handleGraph}>
-                    Graph
-                  </button>
-                }
-                {this.state.tab === 2 ?
-                  <button className="tabbtnselected">
-                    Dist
-                  </button>
-                :
-                  <button className="tabbtn" onClick={this.handleDist}>
-                    Dist
-                  </button>
-                }
-                {this.state.tab === 3 ?
-                  <button className="tabbtnselected">
-                    Stats
-                  </button>
-                :
-                  <button className="tabbtn" onClick={this.handleStats}>
-                    Stats
-                  </button>
-                }
-              </div>
+              {this.displayTab()}
             </div>
         : null}
       </div>

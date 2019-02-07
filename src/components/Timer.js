@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Log from './Log';
 import Settings from './Settings';
 import Stats from './Stats'
@@ -14,6 +15,10 @@ import {faDownload} from '@fortawesome/free-solid-svg-icons';
 import {faUpload} from '@fortawesome/free-solid-svg-icons';
 import {faCopy} from '@fortawesome/free-solid-svg-icons';
 import {faChartPie} from '@fortawesome/free-solid-svg-icons';
+import {faCaretUp} from '@fortawesome/free-solid-svg-icons';
+import {faCaretDown} from '@fortawesome/free-solid-svg-icons';
+import {faCaretRight} from '@fortawesome/free-solid-svg-icons';
+import {faCaretLeft} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCog);
 library.add(faTimes);
@@ -24,6 +29,10 @@ library.add(faDownload);
 library.add(faUpload);
 library.add(faCopy);
 library.add(faChartPie);
+library.add(faCaretUp);
+library.add(faCaretDown);
+library.add(faCaretRight);
+library.add(faCaretLeft);
 
 class Timer extends Component {
   constructor(props) {
@@ -1363,17 +1372,29 @@ class Timer extends Component {
           />
         </div>
         <div className="statistics" id="statistics">
-          {this.state.stopped &&
+          <div className="stats" id="stats">
+            {this.state.show_stats ?
+              <button id="statsiconon" onClick={this.handleShowStats}>
+                <FontAwesomeIcon icon="chart-pie" />
+              </button>
+            :
+              <button id="statsicon" onClick ={this.handleShowStats}>
+                <FontAwesomeIcon icon="chart-pie" />
+              </button>
+            }
+          </div>
           <Stats
             log={this.state.log}
             best={this.state.best}
             running={this.state.running}
             stopped={this.state.stopped}
+            renderlog={this.state.renderlog}
+            reps={this.state.reps}
             fifteen={this.state.fifteen}
             theme={this.state.theme}
             show_stats={this.state.show_stats}
             handleShowStats={this.handleShowStats}
-          />}
+          />
         </div>
         <div id="time">
           {this.display()}

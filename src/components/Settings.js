@@ -78,6 +78,12 @@ const pickerStyles = {
 }
 
 class Settings extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.state.modalIsOpen !== nextState.modalIsOpen
+    );
+  }
+
   constructor(props) {
     super(props);
 

@@ -70,7 +70,7 @@
 }
 
 #settings {
-  top: 1.5vw;
+  top: 3em;
   right: 1.5vw;
   background-color: inherit;
   display: block;
@@ -91,6 +91,25 @@
   position: absolute;
   color: var(--text);
   transition: 0s;
+}
+
+#statsicon {
+  font-size: 2rem;
+}
+
+#statsicon:hover {
+  background-color: inherit;
+  border-radius: 10px;
+}
+
+#statsiconon {
+  font-size: 2rem;
+  color: var(--texthighlighted)
+}
+
+#statsiconon:hover {
+  background-color: inherit;
+  border-radius: 10px;
 }
 
 .ReactModal__Overlay {
