@@ -2,9 +2,31 @@ import React, { Component, } from 'react';
 import ClearModal from './modals/ClearModal';
 import AddModal from './modals/AddModal';
 import DownUpModal from './modals/DownUpModal';
+import AboutModal from './modals/AboutModal';
 import './LogStats.css';
 
 class LogStats extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      aboutModalIsOpen: false,
+    }
+
+    this.openAboutModal = this.openAboutModal.bind(this);
+    this.closeAboutModal = this.closeAboutModal.bind(this);
+  }
+
+  openAboutModal() {
+    this.setState({
+      aboutModalIsOpen: true
+    });
+    this.props.handleModal();
+  }
+
+  closeAboutModal() {
+    this.setState({aboutModalIsOpen: false});
+    this.props.handleModal();
+  }
 
   displayHour(h) {
     if (h) {
@@ -224,7 +246,14 @@ class LogStats extends Component {
     return (
       <div>
         <div className="logstats">
-          <h4>dandytimer</h4>
+          <h4 onClick={this.openAboutModal}>dandytimer</h4>
+          <AboutModal
+            theme={this.props.theme}
+            clearAll={() => this.props.clearAll()}
+            modalIsOpen={this.state.aboutModalIsOpen}
+            openModal={this.openAboutModal}
+            closeModal={this.closeAboutModal}
+          />
           <div className="third" id="columnlabel">
             <p></p>
           </div>
