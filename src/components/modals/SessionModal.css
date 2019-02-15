@@ -1,0 +1,34 @@
+.SessionModal {
+    position: absolute;
+    top: 15vh;
+    left: 40vw;
+    right: 40vw;
+    background-color: var(--primary);
+    color: var(--text);
+    overflow: scroll;
+    height: 70vh;
+    min-width: 250px;
+    outline: none;
+  }
+
+.SessionOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+  }
+
+#titlesess {
+  margin: 0px;
+  color: var(--texthighlighted);
+  text-align: center;
+}
+
+.choosesess {
+  position: absolute;
+  top: 610px;
+  display: inline-block;
+  right: 1%;
+}

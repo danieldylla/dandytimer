@@ -24,7 +24,7 @@
     "react-switch": "^3.0.4",
     "react-tabs": "^3.0.0",
     "react-virtualized": "^9.21.0",
-    "reactstrap": "6.5.0"
+    "reactstrap": "^6.5.0"
   },
   "scripts": {
     "start": "react-scripts start",

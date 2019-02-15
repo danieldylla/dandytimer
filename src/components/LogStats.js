@@ -3,6 +3,7 @@ import ClearModal from './modals/ClearModal';
 import AddModal from './modals/AddModal';
 import DownUpModal from './modals/DownUpModal';
 import AboutModal from './modals/AboutModal';
+import SessionModal from './modals/SessionModal';
 import './LogStats.css';
 
 class LogStats extends Component {
@@ -10,10 +11,13 @@ class LogStats extends Component {
     super(props);
     this.state = {
       aboutModalIsOpen: false,
+      sessionModalIsOpen: false,
     }
 
     this.openAboutModal = this.openAboutModal.bind(this);
     this.closeAboutModal = this.closeAboutModal.bind(this);
+    this.openSessionModal = this.openSessionModal.bind(this);
+    this.closeSessionModal = this.closeSessionModal.bind(this);
   }
 
   openAboutModal() {
@@ -26,6 +30,18 @@ class LogStats extends Component {
   closeAboutModal() {
     this.setState({aboutModalIsOpen: false});
     this.props.handleModal();
+  }
+
+  openSessionModal() {
+    this.setState({
+      sessionModalIsOpen: true,
+    });
+  }
+
+  closeSessionModal() {
+    this.setState({
+      sessionModalIsOpen: false,
+    });
   }
 
   displayHour(h) {
@@ -93,12 +109,6 @@ class LogStats extends Component {
       <div>
         {this.convertToTime(res.time)}
       </div>
-    );
-  }
-
-  displaySession() {
-    return (
-      <p></p>
     );
   }
 
@@ -249,10 +259,15 @@ class LogStats extends Component {
           <h4 onClick={this.openAboutModal}>dandytimer</h4>
           <AboutModal
             theme={this.props.theme}
-            clearAll={() => this.props.clearAll()}
             modalIsOpen={this.state.aboutModalIsOpen}
             openModal={this.openAboutModal}
             closeModal={this.closeAboutModal}
+          />
+          <SessionModal
+            theme={this.props.theme}
+            modalIsOpen={this.state.sessionModalIsOpen}
+            openModal={this.openSessionModal}
+            closeModal={this.closeSessionModal}
           />
           <div className="third" id="columnlabel">
             <p></p>
@@ -289,8 +304,8 @@ class LogStats extends Component {
             </div>
           </div>
           <div className = "toprow">
-            <div className="quarter">
-              {this.displaySession()}
+            <div className="quarter" onClick={this.openSessionModal}>
+              {this.props.session + 1}
             </div>
             <div className="quarter">
               time

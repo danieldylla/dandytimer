@@ -23,6 +23,16 @@ h4 {
   font-size: 18px;
 }
 
+.sessionbtn {
+  background-color: inherit;
+  font-weight: lighter;
+  cursor: default;
+}
+
+.sessionbtn:hover {
+  background-color: inherit;
+}
+
 .third {
   width: 5vw;
   display: inline-block;
@@ -32,17 +42,4 @@ h4 {
   align-items: center;
   justify-content: center;
   min-width: 65px;
-}
-
-.dropdown {
-    display: inline-block;
-}
-
-.dropdown__content {
-    display: none;
-    position: absolute;
-}
-
-.dropdown--active .dropdown__content {
-    display: block;
 }
