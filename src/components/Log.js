@@ -28,7 +28,8 @@ class Log extends Component {
       this.state.timeModalIsOpen !== nextState.timeModalIsOpen ||
       this.state.avModalIsOpen !== nextState.avModalIsOpen ||
       this.state.ao12ModalIsOpen !== nextState.ao12ModalIsOpen ||
-      this.state.deleteModalIsOpen !== nextState.deleteModalIsOpen
+      this.state.deleteModalIsOpen !== nextState.deleteModalIsOpen ||
+      this.props.session !== nextProps.session
     );
   }
 
@@ -308,6 +309,8 @@ class Log extends Component {
             addTime={(t) => this.props.addTime(t)}
             downloadFile={(fileName, contentType) => this.props.downloadFile(fileName, contentType)}
             uploadFile={(file) => this.props.uploadFile(file)}
+            newSession={this.props.newSession}
+            changeSession={(i) => this.props.changeSession(i)}
           />
         </div>
         <div className="singlemodal">

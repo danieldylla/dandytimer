@@ -5,30 +5,86 @@
     right: 40vw;
     background-color: var(--primary);
     color: var(--text);
-    overflow: scroll;
+    overflow: auto;
     height: 70vh;
-    min-width: 250px;
+    min-width: 300px;
     outline: none;
   }
 
 .SessionOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, .5);
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, .5);
+}
+
 
 #titlesess {
+  height: 45px;
+  padding-top: 15px;
   margin: 0px;
+  position: relative;
   color: var(--texthighlighted);
   text-align: center;
 }
 
+.sessions {
+
+  display: block;
+  height: calc(70vh - 141px);
+  width: 100%;
+  overflow: auto;
+  background-color: var(--buttonhover);
+}
+
+.sesslist {
+  list-style-type: none;
+  height: calc(70vh - 141px);
+  overflow: scroll;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+.addsess {
+  background-color: inherit;
+  position: fixed;
+  display: block;
+  height: 60px;
+  width: 20vw;
+  min-width: 300px;
+  text-align: center;
+}
+
+.sessionbtn {
+  text-align: center;
+  width: 100%;
+  height: 60px;
+  margin: 0;
+}
+
 .choosesess {
-  position: absolute;
-  top: 610px;
+  margin: 0;
+}
+
+.sessionname {
+  margin: 5px 0px;
+}
+
+.half {
+  margin: 0px;
+  width: 40%;
   display: inline-block;
-  right: 1%;
+}
+
+.newsess {
+  width: 100%;
+  margin: 0px;
+}
+
+.newsess:hover {
+  background-color: inherit;
+  color: var(--texthighlighted);
 }

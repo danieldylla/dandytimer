@@ -146,7 +146,8 @@ class Timer extends Component {
     // when user leaves/refreshes the page
     window.addEventListener(
       "beforeunload",
-      this.saveStateToLocalStorage.bind(this)
+      this.saveStateToLocalStorage.bind(this),
+      this.saveSession.bind(this),
     );
     this.generateScramble();
     this.handleModalFalse();
@@ -232,14 +233,20 @@ class Timer extends Component {
         {
           id: this.state.sessions.length,
           name: this.state.sessions.length + 1,
-          best: null,
+          best: {
+            res: null,
+            ao5: null,
+            ao12: null,
+            ao50: null,
+            ao100: null,
+          },
           log: [],
           average: null,
           reps: 0
         }
       ]),
-      session: this.state.session + 1
-    });
+      session: this.state.sessions.length,
+    }, this.loadSession(this.state.sessions.length - 1));
   }
 
   saveSession() {
@@ -254,12 +261,12 @@ class Timer extends Component {
     });
   }
 
-  loadSession() {
+  loadSession(i) {
     this.setState({
-      log: this.state.sessions[this.state.session].log,
-      best: this.state.sessions[this.state.session].best,
-      reps: this.state.sessions[this.state.session].reps,
-      average: this.state.sessions[this.state.session].average
+      log: this.state.sessions[i].log,
+      best: this.state.sessions[i].best,
+      reps: this.state.sessions[i].reps,
+      average: this.state.sessions[i].average
     });
   }
 
@@ -268,7 +275,7 @@ class Timer extends Component {
     this.setState({
       session: i,
     });
-    this.loadSession();
+    this.loadSession(i);
   }
 
   resetTime() {
@@ -1341,6 +1348,8 @@ class Timer extends Component {
               addTime = {(t) => this.addTime(t)}
               downloadFile = {(fileName, contentType) => this.downloadFile(fileName, contentType)}
               uploadFile = {(file) => this.uploadFile(file, this.readFileToState)}
+              newSession = {this.newSession}
+              changeSession = {(i) => this.changeSession(i)}
             />
           : null}
         </div>

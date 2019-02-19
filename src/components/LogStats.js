@@ -265,9 +265,13 @@ class LogStats extends Component {
           />
           <SessionModal
             theme={this.props.theme}
+            sessions={this.props.sessions}
+            session={this.props.session}
             modalIsOpen={this.state.sessionModalIsOpen}
             openModal={this.openSessionModal}
             closeModal={this.closeSessionModal}
+            newSession={this.props.newSession}
+            changeSession={(i) => this.props.changeSession(i)}
           />
           <div className="third" id="columnlabel">
             <p></p>
