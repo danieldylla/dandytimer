@@ -362,6 +362,7 @@ class Settings extends Component {
           contentLabel="Example Modal"
           className="Modal"
           overlayClassName="Overlay"
+          id="settingsmodal"
         >
           <div className="setmodalinfo">
             <Tabs defaultIndex={1}>
@@ -559,6 +560,29 @@ class Settings extends Component {
                 </TabPanel>
                 <TabPanel>
                   <h2>Display Options</h2>
+                  <div className="setting">
+                    Party Mode
+                    <div className="switches">
+                      <Switch
+                        checked={this.props.party_mode}
+                        onChange={this.props.partyMode}
+                        onColor={this.colorLuminance(this.state.accent, -.4)}
+                        onHandleColor={this.state.accent}
+                        handleDiameter={30}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                        height={20}
+                        width={48}
+                        className="react-switch"
+                        id="material-switch"
+                      />
+                    </div>
+                    <div className="desc">
+                      really mess with your eyes
+                    </div>
+                  </div>
                   <div className="setting">
                     Show Time List
                     <div className="switches">

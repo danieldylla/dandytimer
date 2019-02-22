@@ -89,6 +89,7 @@ class Timer extends Component {
       show_stats: false,
       inspection_time: false,
       hold_to_start: false,
+      party_mode: false,
       theme: {
         primary: '#282c34',
         secondary: '#fff',
@@ -98,6 +99,8 @@ class Timer extends Component {
       },
       themes: [],
     };
+
+    let party_mode_timer;
 
     this.display = this.display.bind(this);
     this.resetTime = this.resetTime.bind(this);
@@ -138,6 +141,7 @@ class Timer extends Component {
     this.saveTheme = this.saveTheme.bind(this);
     this.deleteTheme = this.deleteTheme.bind(this);
     this.changeColor = this.changeColor.bind(this);
+    this.partyMode = this.partyMode.bind(this);
   }
 
    componentDidMount() {
@@ -151,6 +155,7 @@ class Timer extends Component {
     );
     this.generateScramble();
     this.handleModalFalse();
+    this.handlePartyModeOff();
 
     let lasttheme = localStorage.getItem('theme');
     if(lasttheme) {
@@ -1140,11 +1145,55 @@ class Timer extends Component {
     });
   }
 
+  partyMode() {
+    if (this.state.party_mode) {
+      this.setState({
+        party_mode: false,
+      });
+      clearInterval(this.party_mode_timer);
+      this.changeColor(this.state.theme);
+    } else {
+      this.setState({
+        party_mode: true,
+      });
+      document.documentElement.style.setProperty('--secondary', "#000");
+      document.documentElement.style.setProperty('--accent', "#303030");
+      document.documentElement.style.setProperty('--text', "#1d1d1d");
+      document.documentElement.style.setProperty('--texthighlighted', "#000");
+      var r = 255;
+      var g = 0;
+      var b = 0;
+      function changeColor() {
+          if (r === 255 && b === 0 && g !== 255) {
+            g++;
+          } else if (g === 255 && b === 0 && r !== 0) {
+            r--;
+          } else if (r === 0 && g === 255 && b !== 255) {
+            b++;
+          } else if (r ===  0&& b === 255 && g!== 0) {
+            g--;
+          } else if (g === 0 && b === 255 && r !== 255) {
+            r++;
+          } else if (r === 255 && g === 0 && b !== 0) {
+            b--;
+          }
+          document.documentElement.style.setProperty('--primary', "rgb(" + r + "," + g + "," + b + ")");
+      };
+      this.party_mode_timer = setInterval(changeColor, 33);
+    }
+  }
+
   // HANDLERS
 
   handleModal() {
     this.setState({
       modal: !this.state.modal
+    });
+  }
+
+  handlePartyModeOff() {
+    this.setState({
+      party_mode: false,
     });
   }
 
@@ -1363,6 +1412,7 @@ class Timer extends Component {
           <Settings
             stopped={this.state.stopped}
             theme={this.state.theme}
+            party_mode={this.state.party_mode}
             inspection_time={this.state.inspection_time}
             hold_to_start={this.state.hold_to_start}
             show_av={this.state.show_av}
@@ -1378,6 +1428,7 @@ class Timer extends Component {
             saveTheme={(name, theme) => this.saveTheme(name, theme)}
             deleteTheme={(i) => this.deleteTheme(i)}
             changeColor={(theme) => this.changeColor(theme)}
+            partyMode={this.partyMode}
           />
         </div>
         <div className="statistics" id="statistics">
