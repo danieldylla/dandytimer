@@ -252,6 +252,7 @@ class Timer extends Component {
       ]),
       session: this.state.sessions.length,
     }, this.loadSession(this.state.sessions.length - 1));
+    this.clearAll();
   }
 
   saveSession() {

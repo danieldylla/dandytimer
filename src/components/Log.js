@@ -29,7 +29,7 @@ class Log extends Component {
       this.state.avModalIsOpen !== nextState.avModalIsOpen ||
       this.state.ao12ModalIsOpen !== nextState.ao12ModalIsOpen ||
       this.state.deleteModalIsOpen !== nextState.deleteModalIsOpen ||
-      this.props.session !== nextProps.session
+      this.state.sessionModalIsOpen !== nextState.sessionModalIsOpen
     );
   }
 
@@ -40,6 +40,7 @@ class Log extends Component {
       deleteModalIsOpen: false,
       timeModalIsOpen: false,
       avModalIsOpen: false,
+      sessionModalIsOpen: false,
       timeindex: null,
       av: null,
       howmany: 5,
@@ -61,6 +62,8 @@ class Log extends Component {
     this.closeTimeModal = this.closeTimeModal.bind(this);
     this.openAvModal = this.openAvModal.bind(this);
     this.closeAvModal = this.closeAvModal.bind(this);
+    this.openSessionModal = this.openSessionModal.bind(this);
+    this.closeSessionModal = this.closeSessionModal.bind(this);
     this.handleResize = this.handleResize.bind(this);
   }
 
@@ -122,6 +125,18 @@ class Log extends Component {
   closeAvModal() {
     this.setState({avModalIsOpen: false});
     this.props.handleModal();
+  }
+
+  openSessionModal() {
+    this.setState({
+      sessionModalIsOpen: true,
+    });
+  }
+
+  closeSessionModal() {
+    this.setState({
+      sessionModalIsOpen: false,
+    });
   }
 
   handlePlus2(i, s) {
@@ -306,6 +321,9 @@ class Log extends Component {
             handleModal={() => this.props.handleModal()}
             openTimeModal={(i, s) => this.openTimeModal(i, s)}
             openAvModal={(i, s, r, h) => this.openAvModal(i, s, r, h)}
+            sessionModalIsOpen={this.state.sessionModalIsOpen}
+            openSessionModal={() => this.openSessionModal()}
+            closeSessionModal={() => this.closeSessionModal()}
             addTime={(t) => this.props.addTime(t)}
             downloadFile={(fileName, contentType) => this.props.downloadFile(fileName, contentType)}
             uploadFile={(file) => this.props.uploadFile(file)}

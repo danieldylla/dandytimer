@@ -11,24 +11,13 @@ class SessionModal extends Component {
   constructor(props) {
     super(props);
 
-    this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
     this.convertToTime = this.convertToTime.bind(this);
   };
-
-  openModal() {
-    this.setState({modalIsOpen: true});
-    this.props.handleModal();
-  }
 
   afterOpenModal() {
   }
 
-  closeModal() {
-    this.setState({modalIsOpen: false});
-    this.props.handleModal();
-  }
 
   colorLuminance(hex, lum) {
   	// validate hex string
