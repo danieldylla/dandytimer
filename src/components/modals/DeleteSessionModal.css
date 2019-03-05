@@ -1,0 +1,72 @@
+.DeleteSessionModal {
+    position: absolute;
+    top: 15vh;
+    left: 40vw;
+    right: 40vw;
+    background-color: var(--primary);
+    color: var(--text);
+    overflow: auto;
+    height: 70vh;
+    min-width: 300px;
+    outline: none;
+    transition: 0s;
+  }
+
+.DeleteSessionOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.dsinfo {
+  margin-left: 10px;
+}
+
+  .deletesessinfo {
+    position: relative;
+    margin: 20px 10px;
+    padding-left: 1vw;
+    padding-top: 1vh;
+    padding-right: 1vw;
+    padding-bottom: 1vh;
+  }
+
+  .sesschoose {
+    position: absolute;
+    top: calc(70vh - 80px);
+    display: inline-block;
+    right: 1%;
+  }
+
+  .sesscancel {
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .sessconfirm {
+    float: right;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .input {
+    background-color: rgb(0, 0, 0, .3);
+    color: var(--texthighlighted);
+    border-style: none;
+    padding: 5px;
+    width: 2vw;
+    margin-left: 1vw;
+  }
+
+  #dstitle {
+    margin: 0px;
+    font-size: 28px;
+    color: var(--texthighlighted);
+  }
+
+#clear {
+  font-size: 1vw;
+}

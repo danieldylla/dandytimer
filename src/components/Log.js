@@ -30,7 +30,7 @@ class Log extends Component {
       this.state.ao12ModalIsOpen !== nextState.ao12ModalIsOpen ||
       this.state.deleteModalIsOpen !== nextState.deleteModalIsOpen ||
       this.state.sessionModalIsOpen !== nextState.sessionModalIsOpen ||
-      this.props.session !== nextProps.session
+      this.state.sessionModalIsOpen
     );
   }
 
@@ -133,12 +133,14 @@ class Log extends Component {
       sessionModalIsOpen: true,
     });
     this.props.saveSession();
+    this.props.handleModal();
   }
 
   closeSessionModal() {
     this.setState({
       sessionModalIsOpen: false,
     });
+    this.props.handleModal();
   }
 
   handlePlus2(i, s) {
@@ -331,6 +333,7 @@ class Log extends Component {
             uploadFile={(file) => this.props.uploadFile(file)}
             newSession={this.props.newSession}
             changeSession={(i) => this.props.changeSession(i)}
+            deleteSession={(i) => this.props.deleteSession(i)}
           />
         </div>
         <div className="singlemodal">

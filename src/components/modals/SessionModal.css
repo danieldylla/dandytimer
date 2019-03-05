@@ -61,7 +61,7 @@
 .sessionbtn {
   text-align: center;
   width: 100%;
-  height: 60px;
+  height: 80px;
   margin: 0;
 }
 
@@ -70,12 +70,14 @@
 }
 
 .sessionname {
-  margin: 5px 0px;
+  margin: 10px 0px;
+  float: left;
+  width: 10%;
 }
 
-.half {
+.midsess {
   margin: 0px;
-  width: 40%;
+  width: 80%;
   display: inline-block;
 }
 
@@ -86,5 +88,18 @@
 
 .newsess:hover {
   background-color: inherit;
+  color: var(--texthighlighted);
+}
+
+.deletesess {
+  display: flex;
+  float: right;
+  width: 10%;
+  margin-top: 12px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.deletesess:hover {
   color: var(--texthighlighted);
 }

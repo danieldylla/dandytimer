@@ -71,7 +71,7 @@ class Timer extends Component {
       log: [],
       sessions: [{
         id: 0,
-        name: 1,
+        name: null,
         log: [],
         best: null,
         reps: 0,
@@ -127,6 +127,7 @@ class Timer extends Component {
     this.loadSession = this.loadSession.bind(this);
     this.newSession = this.newSession.bind(this);
     this.changeSession = this.changeSession.bind(this);
+    this.deleteSession = this.deleteSession.bind(this);
     this.handleModal = this.handleModal.bind(this);
     this.handleModalFalse = this.handleModalFalse.bind(this);
     this.handleInspection = this.handleInspection.bind(this);
@@ -236,7 +237,7 @@ class Timer extends Component {
       sessions: this.state.sessions.concat([
         {
           id: this.state.sessions.length,
-          name: this.state.sessions.length + 1,
+          name: null,
           best: {
             res: null,
             ao5: null,
@@ -281,6 +282,45 @@ class Timer extends Component {
       session: i,
     });
     this.loadSession(i);
+  }
+
+  deleteSession(i) {
+    let sess = this.state.sessions.slice();
+    if (sess.length > 1) {
+      sess.splice(i, 1);
+      for (let j = i; j < sess.length; j++) {
+        sess[j].id -= 1;
+      }
+      this.setState({
+        sessions: sess,
+      });
+      if (i <= this.state.sessions.length - 2) {
+        this.loadSession(i);
+        this.setState({
+          session: i,
+          name: i + 1,
+        });
+      } else {
+        this.loadSession(this.state.sessions.length - 2);
+        this.setState({
+          session: this.state.sessions.length - 2,
+          name: this.state.sessions.length - 1,
+        });
+      }
+    } else {
+      this.clearAll();
+      this.setState({
+        sessions: [{
+          id: 0,
+          name: null,
+          log: [],
+          best: null,
+          reps: 0,
+          validreps: 0,
+          average: null
+        }],
+      });
+    }
   }
 
   resetTime() {
@@ -1157,7 +1197,6 @@ class Timer extends Component {
         party_mode: true,
       });
       document.documentElement.style.setProperty('--secondary', "#000");
-      document.documentElement.style.setProperty('--accent', "#303030");
       document.documentElement.style.setProperty('--text', "#1d1d1d");
       document.documentElement.style.setProperty('--texthighlighted', "#000");
       var r = 255;
@@ -1400,6 +1439,7 @@ class Timer extends Component {
               newSession = {this.newSession}
               changeSession = {(i) => this.changeSession(i)}
               saveSession = {this.saveSession}
+              deleteSession = {(i) => this.deleteSession(i)}
             />
           : null}
         </div>

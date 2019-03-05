@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import DeleteSessionModal from './DeleteSessionModal'
 
 import './SessionModal.css';
 
@@ -8,11 +9,37 @@ class SessionModal extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      deleteSessionModalIsOpen: false,
+      deleteId: 0,
+    }
+
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.convertToTime = this.convertToTime.bind(this);
+    this.openDeleteSessionModal = this.openDeleteSessionModal.bind(this);
+    this.closeDeleteSessionModal = this.closeDeleteSessionModal.bind(this);
   };
 
+  componentDidMount() {
+    this.setState({
+      deleteSessionModalIsOpen: false,
+    });
+  }
+
   afterOpenModal() {
+  }
+
+  openDeleteSessionModal(i) {
+    this.setState({
+      deleteSessionModalIsOpen: true,
+      deleteId: i,
+    });
+  }
+
+  closeDeleteSessionModal() {
+    this.setState({
+      deleteSessionModalIsOpen: false,
+    });
   }
 
 
@@ -93,9 +120,14 @@ class SessionModal extends Component {
       return (
         <li className="sessionbtn" key={step}>
           <button className="choosesess" onClick={() => this.props.changeSession(step)}>
-            <h3 className="sessionname">{session.name}</h3>
-            <div className="half">Solves: {session.reps}</div>
-            <div className="half">Average: {this.convertToTime(session.average)}</div>
+            <h3 className="sessionname">{session.name ? session.name : step + 1}</h3>
+            <div className="midsess">
+              Solves: {session.reps} <br />
+              Average: {this.convertToTime(session.average)}
+            </div>
+            <FontAwesomeIcon className="deletesess" icon="times"
+              onClick={() => this.openDeleteSessionModal(step)}
+            />
           </button>
         </li>
       )
@@ -110,8 +142,6 @@ class SessionModal extends Component {
 
 
   render() {
-    
-
     return (
       <div className="modal">
         <Modal
@@ -136,6 +166,15 @@ class SessionModal extends Component {
             </div>
           </div>
         </Modal>
+        <DeleteSessionModal
+          theme={this.props.theme}
+          id={this.state.deleteId}
+          modalIsOpen={this.state.deleteSessionModalIsOpen}
+          openModal={this.openDeleteSessionModal}
+          closeModal={this.closeDeleteSessionModal}
+          newSession={this.props.newSession}
+          deleteSession={(i) => this.props.deleteSession(i)}
+        />
       </div>
     );
 

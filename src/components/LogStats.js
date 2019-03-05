@@ -257,6 +257,7 @@ class LogStats extends Component {
             closeModal={this.props.closeSessionModal}
             newSession={this.props.newSession}
             changeSession={(i) => this.props.changeSession(i)}
+            deleteSession={(i) => this.props.deleteSession(i)}
           />
           <div className="third" id="columnlabel">
             <p></p>

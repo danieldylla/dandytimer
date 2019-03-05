@@ -148,7 +148,7 @@ class AvModal extends Component {
       let isbest = (item.res.id === bestid);
       let isworst = (item.res.id === worstid);
       return (
-        <tr>
+        <tr key={step}>
           <td className="category-solve">
             {step + 1}
           </td>
