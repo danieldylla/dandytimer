@@ -29,7 +29,8 @@ class Log extends Component {
       this.state.avModalIsOpen !== nextState.avModalIsOpen ||
       this.state.ao12ModalIsOpen !== nextState.ao12ModalIsOpen ||
       this.state.deleteModalIsOpen !== nextState.deleteModalIsOpen ||
-      this.state.sessionModalIsOpen !== nextState.sessionModalIsOpen
+      this.state.sessionModalIsOpen !== nextState.sessionModalIsOpen ||
+      this.props.session !== nextProps.session
     );
   }
 
@@ -131,6 +132,7 @@ class Log extends Component {
     this.setState({
       sessionModalIsOpen: true,
     });
+    this.props.saveSession();
   }
 
   closeSessionModal() {

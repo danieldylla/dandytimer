@@ -1400,6 +1400,7 @@ class Timer extends Component {
               uploadFile = {(file) => this.uploadFile(file, this.readFileToState)}
               newSession = {this.newSession}
               changeSession = {(i) => this.changeSession(i)}
+              saveSession = {this.saveSession}
             />
           : null}
         </div>

@@ -133,7 +133,7 @@ class SessionModal extends Component {
       },
       shadows: Array(25).fill('none')
     });
-
+    
     return (
       <div className="modal">
         <Modal
