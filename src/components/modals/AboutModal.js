@@ -73,7 +73,26 @@ class AboutModal extends Component {
             <div className="averageinfo">
               <h3 id="titleav">About</h3>
               <br />
-              <div className="modalinfo">
+              <div className="about">
+                <p>
+                  <b>dandytimer</b> is made with love, and I hope you enjoy.
+                </p>
+                <p>
+                  I am (at the time of writing) a junior at the University of
+                  Minnesota majoring in Computer Science. I've loved cubing for the past
+                  7 or so years, and made this cube timer to practice using the same
+                  frameworks that I'm expected to use at my internship. Not only has it
+                  been a great learning experience, it's been something that I've genuinely
+                  enjoyed working on.
+                </p>
+                <p>
+                  The source code for this project can be found&nbsp;
+                  <a href="https://github.com/danieldylla/dandytimer" target="_blank">here</a>.
+                  If you find any bugs or problems with dandytimer, let me know by
+                  raising an issue on the github linked.
+                  If you have any suggestions for this project, feel free to email
+                  me at my personal email, <em>daniel.dylla@gmail.com</em>.
+                </p>
               </div>
               <div className="avbuttons">
                 <MuiThemeProvider theme={theme}>
