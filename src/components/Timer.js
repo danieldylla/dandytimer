@@ -100,7 +100,6 @@ class Timer extends Component {
       themes: [],
     };
 
-    let party_mode_timer;
 
     this.display = this.display.bind(this);
     this.resetTime = this.resetTime.bind(this);

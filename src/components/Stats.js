@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactChartkick, { LineChart } from 'react-chartkick';
 import Chart from 'chart.js';
 
@@ -204,6 +203,7 @@ class Stats extends Component {
       }
       av5s[step] = this.convertToTime(item.res.ao5);
       av12s[step] = this.convertToTime(item.res.ao12);
+      return null;
     });
     let data = [
       {"name":"single", "data": times},
@@ -243,7 +243,6 @@ class Stats extends Component {
   }
 
   render() {
-    console.log('rerendering stats...');
     return (
       <div>
         {this.props.show_stats ?

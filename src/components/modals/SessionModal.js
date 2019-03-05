@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import Button from '@material-ui/core/Button';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import InputNumber from 'react-input-number';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './SessionModal.css';
@@ -113,27 +110,8 @@ class SessionModal extends Component {
 
 
   render() {
-    const theme = createMuiTheme({
-      typography: {
-        useNextVariants: true,
-      },
-      palette: {
-        primary: {
-          main: this.props.theme.accent,
-          contrastText: this.props.theme.primary,
-          dark: this.colorLuminance(this.props.theme.accent, -.2),
-          light: this.colorLuminance(this.props.theme.accent, .2)
-        },
-        secondary: {
-          main: this.colorLuminance(this.props.theme.accent, -.3),
-          contrastText: this.props.theme.primary,
-          dark: this.colorLuminance(this.props.theme.accent, -.5),
-          light: this.colorLuminance(this.props.theme.accent, -.1)
-        }
-      },
-      shadows: Array(25).fill('none')
-    });
     
+
     return (
       <div className="modal">
         <Modal
