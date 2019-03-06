@@ -1172,14 +1172,16 @@ class Timer extends Component {
   }
 
   changeColor(theme) {
-    document.documentElement.style.setProperty('--primary', theme.primary);
-    document.documentElement.style.setProperty('--secondary', theme.secondary);
-    document.documentElement.style.setProperty('--accent', theme.accent);
-    document.documentElement.style.setProperty('--text', theme.text);
-    document.documentElement.style.setProperty('--texthighlighted', theme.texthighlighted);
-    document.documentElement.style.setProperty('--dark', this.colorLuminance(theme.accent, -.3));
-    document.documentElement.style.setProperty('--hover', this.colorLuminance(theme.accent, -.1));
-    document.documentElement.style.setProperty('--click', this.colorLuminance(theme.accent, -.2));
+    if (!this.state.party_mode) {
+      document.documentElement.style.setProperty('--primary', theme.primary);
+      document.documentElement.style.setProperty('--secondary', theme.secondary);
+      document.documentElement.style.setProperty('--accent', theme.accent);
+      document.documentElement.style.setProperty('--text', theme.text);
+      document.documentElement.style.setProperty('--texthighlighted', theme.texthighlighted);
+      document.documentElement.style.setProperty('--dark', this.colorLuminance(theme.accent, -.3));
+      document.documentElement.style.setProperty('--hover', this.colorLuminance(theme.accent, -.1));
+      document.documentElement.style.setProperty('--click', this.colorLuminance(theme.accent, -.2));
+    }
     this.setState({
       theme: theme
     });
