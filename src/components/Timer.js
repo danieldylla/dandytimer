@@ -1204,6 +1204,7 @@ class Timer extends Component {
       var r = 255;
       var g = 0;
       var b = 0;
+      let colorLuminance = this.colorLuminance;
       function changeColor() {
           if (r === 255 && b === 0 && g !== 255) {
             g++;
@@ -1218,7 +1219,16 @@ class Timer extends Component {
           } else if (r === 255 && g === 0 && b !== 0) {
             b--;
           }
+
+          var h = x => '#' + x.match(/\d+/g).map(x = z => ((+z < 16)?'0':'') + (+z).toString(16)).join('');
+
           document.documentElement.style.setProperty('--primary', "rgb(" + r + "," + g + "," + b + ")");
+          let rgbinverse = "rgb(" + (255 - r) + "," + (255 - g) + "," + (255 - b) + ")";
+          let inverse = h(rgbinverse);
+          document.documentElement.style.setProperty('--accent', inverse);
+          document.documentElement.style.setProperty('--dark', colorLuminance(inverse, -.3));
+          document.documentElement.style.setProperty('--hover', colorLuminance(inverse, -.1));
+          document.documentElement.style.setProperty('--click', colorLuminance(inverse, -.2));
       };
       this.party_mode_timer = setInterval(changeColor, 33);
     }

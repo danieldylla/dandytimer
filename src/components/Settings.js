@@ -82,7 +82,8 @@ class Settings extends Component {
     return (
       this.state.modalIsOpen !== nextState.modalIsOpen ||
       this.state.selected !== nextState.selected ||
-      this.props !== nextProps
+      this.props !== nextProps ||
+      this.state !== nextState
     );
   }
 
