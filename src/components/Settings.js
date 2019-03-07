@@ -445,64 +445,66 @@ class Settings extends Component {
                   <div className="custom">
                     Custom Theme
                     <div className="theme">
-                      <div className="colorbuttons">
-                        <div className="choosecolor">
-                          <AwesomeButton
-                            action={this.selectPrimary}
-                            type="primary"
-                            className="primary"
-                            size="large"
-                          >
-                            Background
-                          </AwesomeButton>
+                      <div className="createtheme">
+                        <div className="colorbuttons">
+                          <div className="choosecolor">
+                            <AwesomeButton
+                              action={this.selectPrimary}
+                              type="primary"
+                              className="primary"
+                              size="large"
+                            >
+                              Background
+                            </AwesomeButton>
+                          </div>
+                          <div className="choosecolor">
+                            <AwesomeButton
+                              action={this.selectSecondary}
+                              type="primary"
+                              className="secondary"
+                              size="large"
+                            >
+                              Time
+                            </AwesomeButton>
+                          </div>
+                          <div className="choosecolor">
+                            <AwesomeButton
+                              action={this.selectAccent}
+                              type="primary"
+                              className="accent"
+                              size="large"
+                            >
+                              Accent
+                            </AwesomeButton>
+                          </div>
+                          <div className="choosecolor">
+                            <AwesomeButton
+                              action={this.selectText}
+                              type="primary"
+                              className="text"
+                              size="large"
+                            >
+                              Text
+                            </AwesomeButton>
+                            <AwesomeButton
+                              action={this.selectTextHighlighted}
+                              type="primary"
+                              className="texthighlighted"
+                              size="large"
+                            >
+                              Emphasized Text
+                            </AwesomeButton>
+                          </div>
+                          <div className="choosecolor">
+                            <CustomThemeModal
+                              theme={this.props.theme}
+                              saveTheme={(name, theme) => this.props.saveTheme(name, theme)}
+                            />
+                          </div>
                         </div>
-                        <div className="choosecolor">
-                          <AwesomeButton
-                            action={this.selectSecondary}
-                            type="primary"
-                            className="secondary"
-                            size="large"
-                          >
-                            Time
-                          </AwesomeButton>
+                        <div className="colors">
+                          {this.displayColorPicker()}
                         </div>
-                        <div className="choosecolor">
-                          <AwesomeButton
-                            action={this.selectAccent}
-                            type="primary"
-                            className="accent"
-                            size="large"
-                          >
-                            Accent
-                          </AwesomeButton>
-                        </div>
-                        <div className="choosecolor">
-                          <AwesomeButton
-                            action={this.selectText}
-                            type="primary"
-                            className="text"
-                            size="large"
-                          >
-                            Text
-                          </AwesomeButton>
-                          <AwesomeButton
-                            action={this.selectTextHighlighted}
-                            type="primary"
-                            className="texthighlighted"
-                            size="large"
-                          >
-                            Emphasized Text
-                          </AwesomeButton>
-                        </div>
-                        <div className="choosecolor">
-                          <CustomThemeModal
-                            theme={this.props.theme}
-                            saveTheme={(name, theme) => this.props.saveTheme(name, theme)}
-                          />
-                        </div>
-                      </div>
-                      <div className="colors">
-                        {this.displayColorPicker()}
                       </div>
                       <div className="savedthemes">
                         {this.displaySavedThemes()}
