@@ -371,7 +371,7 @@ class Settings extends Component {
             <Tabs defaultIndex={1}>
               <div className="tabs">
                 <TabList>
-                  <Tab disabled><b>Settings</b></Tab>
+                  <Tab disabled className="settingstitle"><b>Settings</b></Tab>
                   <Tab>Colors</Tab>
                   <Tab>Timer</Tab>
                   <Tab>Display</Tab>

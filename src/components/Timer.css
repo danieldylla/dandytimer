@@ -159,4 +159,60 @@
     }
 
 
+
+    .tabs {
+      display: inline-block;
+      width: 100%;
+      height: 20%;
+      min-width: 100px;
+      margin-right: 0px;
+      margin-top: 0px;
+    }
+
+    .react-tabs__tab {
+      display: inline-block;
+      width: 33.3%;
+    }
+
+    .pages {
+      width: 76vw;
+      margin: 20px 2vw 0px 2vw;
+      height: calc(82% - 35px);
+    }
+
+    .react-tabs__tab-panel--selected {
+      margin-left: 0px;
+    }
+
+    h2 {
+      display: none;
+    }
+
+    .colorscontent {
+      text-align: center;
+    }
+
+    .presets {
+      height: 450px;
+      margin: 0px;
+    }
+
+    .custom {
+      text-align: center;
+      margin: 0px;
+      height: 700px;
+    }
+
+    .colorbuttons {
+      float: none;
+      margin: 0px;
+      margin-bottom: 30px;
+    }
+
+    .colors {
+      width: 70vw;
+    }
+
+
+
   }

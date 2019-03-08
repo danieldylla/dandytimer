@@ -20,7 +20,7 @@
   }
 
   .setmodalinfo {
-    margin-right: 20px;
+    margin-right: 0px;
     height: 100%;
   }
 
@@ -253,8 +253,9 @@
     margin-top: 0px;
     display: inline-block;
     position: relative;
-    width: 82%;
+    width: calc(82% - 30px);;
     height: 100%;
+    margin-right: 30px;
   }
 
   .gray-theme {
