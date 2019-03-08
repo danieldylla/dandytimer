@@ -305,6 +305,15 @@ class Settings extends Component {
     return (
       <div>
         <button
+          className="deletetheme"
+          onClick={() => this.props.deleteTheme(i)}
+          style={{
+            color: theme.theme.secondary,
+          }}
+        >
+          <FontAwesomeIcon icon="times" />
+        </button>
+        <button
           onClick={() => this.handleColor(theme.theme)}
           className="themebtn"
           id={theme.name}
@@ -318,12 +327,6 @@ class Settings extends Component {
         >
           {theme.name}
         </button>
-        <button
-          className="deletetheme"
-          onClick={() => this.props.deleteTheme(i)}
-        >
-          <FontAwesomeIcon icon="times" />
-        </button>
       </div>
     );
   }
@@ -332,18 +335,17 @@ class Settings extends Component {
     let themes = this.props.themes;
     let custom = themes.map((theme, step) => {
       return (
-        <li className="listitem" key={step}>
+        <div className="listitem" key={step}>
           {this.renderCustomTheme(step, theme)}
-        </li>
+        </div>
       )
     });
 
     return (
       <div className="btnlist">
-        <span> Saved Themes </span>
-        <ul className="unstyledlist">
+        <div className="unstyledlist">
           {custom}
-        </ul>
+        </div>
       </div>
     );
   }
@@ -381,132 +383,135 @@ class Settings extends Component {
                 </TabPanel>
                 <TabPanel>
                   <h2>Colors and Theming</h2>
-                  <div className="presets">
-                    Presets
-                    <div className="select">
-                      <AwesomeButton
-                        action={() => this.handleColor(dark_theme)}
-                        type="primary"
-                        className="dark-theme"
-                        size="medium"
-                      >
-                        Dark
-                      </AwesomeButton>
-                      <AwesomeButton
-                        action={() => this.handleColor(light_theme)}
-                        type="primary"
-                        className="light-theme"
-                        size="medium"
-                      >
-                        Light
-                      </AwesomeButton>
-                      <AwesomeButton
-                        action={() => this.handleColor(gray_theme)}
-                        type="primary"
-                        className="gray-theme"
-                        size="medium"
-                      >
-                        Gray
-                      </AwesomeButton>
-                      <AwesomeButton
-                        action={() => this.handleColor(blue_theme)}
-                        type="primary"
-                        className="blue-theme"
-                        size="medium"
-                      >
-                        Blue
-                      </AwesomeButton>
-                      <AwesomeButton
-                        action={() => this.handleColor(red_theme)}
-                        type="primary"
-                        className="red-theme"
-                        size="medium"
-                      >
-                        Red
-                      </AwesomeButton>
-                      <AwesomeButton
-                        action={() => this.handleColor(dark_blue_theme)}
-                        type="primary"
-                        className="dark-blue-theme"
-                        size="medium"
-                      >
-                        Dark Blue
-                      </AwesomeButton>
-                      <AwesomeButton
-                        action={() => this.handleColor(dark_red_theme)}
-                        type="primary"
-                        className="dark-red-theme"
-                        size="medium"
-                      >
-                        Dark Red
-                      </AwesomeButton>
+                  <div className="colorscontent">
+                    <div className="presets">
+                      Presets
+                      <div className="select">
+                        <AwesomeButton
+                          action={() => this.handleColor(dark_theme)}
+                          type="primary"
+                          className="dark-theme"
+                          size="medium"
+                        >
+                          Dark
+                        </AwesomeButton>
+                        <AwesomeButton
+                          action={() => this.handleColor(light_theme)}
+                          type="primary"
+                          className="light-theme"
+                          size="medium"
+                        >
+                          Light
+                        </AwesomeButton>
+                        <AwesomeButton
+                          action={() => this.handleColor(gray_theme)}
+                          type="primary"
+                          className="gray-theme"
+                          size="medium"
+                        >
+                          Gray
+                        </AwesomeButton>
+                        <AwesomeButton
+                          action={() => this.handleColor(blue_theme)}
+                          type="primary"
+                          className="blue-theme"
+                          size="medium"
+                        >
+                          Blue
+                        </AwesomeButton>
+                        <AwesomeButton
+                          action={() => this.handleColor(red_theme)}
+                          type="primary"
+                          className="red-theme"
+                          size="medium"
+                        >
+                          Red
+                        </AwesomeButton>
+                        <AwesomeButton
+                          action={() => this.handleColor(dark_blue_theme)}
+                          type="primary"
+                          className="dark-blue-theme"
+                          size="medium"
+                        >
+                          Dark Blue
+                        </AwesomeButton>
+                        <AwesomeButton
+                          action={() => this.handleColor(dark_red_theme)}
+                          type="primary"
+                          className="dark-red-theme"
+                          size="medium"
+                        >
+                          Dark Red
+                        </AwesomeButton>
+                      </div>
                     </div>
-                  </div>
-                  <div className="custom">
-                    Custom Theme
-                    <div className="theme">
-                      <div className="createtheme">
-                        <div className="colorbuttons">
-                          <div className="choosecolor">
-                            <AwesomeButton
-                              action={this.selectPrimary}
-                              type="primary"
-                              className="primary"
-                              size="large"
-                            >
-                              Background
-                            </AwesomeButton>
+                    <div className="custom">
+                      Custom Theme
+                      <div className="theme">
+                        <div className="createtheme">
+                          <div className="colorbuttons">
+                            <div className="choosecolor">
+                              <AwesomeButton
+                                action={this.selectPrimary}
+                                type="primary"
+                                className="primary"
+                                size="large"
+                              >
+                                Background
+                              </AwesomeButton>
+                            </div>
+                            <div className="choosecolor">
+                              <AwesomeButton
+                                action={this.selectSecondary}
+                                type="primary"
+                                className="secondary"
+                                size="large"
+                              >
+                                Time
+                              </AwesomeButton>
+                            </div>
+                            <div className="choosecolor">
+                              <AwesomeButton
+                                action={this.selectAccent}
+                                type="primary"
+                                className="accent"
+                                size="large"
+                              >
+                                Accent
+                              </AwesomeButton>
+                            </div>
+                            <div className="choosecolor">
+                              <AwesomeButton
+                                action={this.selectText}
+                                type="primary"
+                                className="text"
+                                size="large"
+                              >
+                                Text
+                              </AwesomeButton>
+                              <AwesomeButton
+                                action={this.selectTextHighlighted}
+                                type="primary"
+                                className="texthighlighted"
+                                size="large"
+                              >
+                                Emphasized Text
+                              </AwesomeButton>
+                            </div>
+                            <div className="choosecolor">
+                              <CustomThemeModal
+                                theme={this.props.theme}
+                                saveTheme={(name, theme) => this.props.saveTheme(name, theme)}
+                              />
+                            </div>
                           </div>
-                          <div className="choosecolor">
-                            <AwesomeButton
-                              action={this.selectSecondary}
-                              type="primary"
-                              className="secondary"
-                              size="large"
-                            >
-                              Time
-                            </AwesomeButton>
+                          <div className="colors">
+                            {this.displayColorPicker()}
                           </div>
-                          <div className="choosecolor">
-                            <AwesomeButton
-                              action={this.selectAccent}
-                              type="primary"
-                              className="accent"
-                              size="large"
-                            >
-                              Accent
-                            </AwesomeButton>
-                          </div>
-                          <div className="choosecolor">
-                            <AwesomeButton
-                              action={this.selectText}
-                              type="primary"
-                              className="text"
-                              size="large"
-                            >
-                              Text
-                            </AwesomeButton>
-                            <AwesomeButton
-                              action={this.selectTextHighlighted}
-                              type="primary"
-                              className="texthighlighted"
-                              size="large"
-                            >
-                              Emphasized Text
-                            </AwesomeButton>
-                          </div>
-                          <div className="choosecolor">
-                            <CustomThemeModal
-                              theme={this.props.theme}
-                              saveTheme={(name, theme) => this.props.saveTheme(name, theme)}
-                            />
-                          </div>
-                        </div>
-                        <div className="colors">
-                          {this.displayColorPicker()}
                         </div>
                       </div>
-                      <div className="savedthemes">
+                      <div className="saved">
+                        Saved
                         {this.displaySavedThemes()}
                       </div>
                     </div>
