@@ -1,9 +1,9 @@
 :root {
-  --primary: #282c34;
-  --secondary: #fff;
-  --accent: #3fa8ff;
+  --primary: #1a1c21;
+  --secondary: #efefef;
+  --accent: #9621ff;
   --text: rgba(255, 255, 255, .6);
-  --texthighlighted: #fff;
+  --texthighlighted: #efefef;
   --dark: #0d0f11;
   --hover: #1f2228;
   --click: #1d2026;
