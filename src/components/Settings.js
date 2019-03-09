@@ -66,13 +66,12 @@ const dark_theme = {
   texthighlighted: '#efefef'
 }
 
-const pickerStyles = {
+let pickerStyles = {
   default: {
     picker: { // See the individual picker source for which keys to use
       boxShadow: 'none',
-      width: '410px',
+      width: window.innerWidth > 1080 ? '410px' : '290px',
       fontFamily: 'inherit',
-
     },
   },
 }
@@ -352,6 +351,15 @@ class Settings extends Component {
 
 
   render() {
+    pickerStyles = {
+      default: {
+        picker: { // See the individual picker source for which keys to use
+          boxShadow: 'none',
+          width: window.innerWidth > 1080 ? '410px' : '290px',
+          fontFamily: 'inherit',
+        },
+      },
+    }
     return (
       <div>
         <button id="icon" onClick ={this.openModal}>
