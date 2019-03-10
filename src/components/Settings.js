@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import Switch from "react-switch";
+import InputNumber from 'react-input-number';
 import { AwesomeButton } from 'react-awesome-button';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { ChromePicker } from 'react-color';
@@ -667,6 +668,75 @@ class Settings extends Component {
                     </div>
                     <div className="desc">
                       scramble is generated for each solve and displayed on screen
+                    </div>
+                  </div>
+                  <div className="setting" id="setting">
+                    Timer Size
+                    <div className="switches">
+                      <FontAwesomeIcon icon="caret-left" id="changen"
+                        onClick={() => this.props.handleTimerSize(this.props.timer_size - 1)}
+                      />
+                      <InputNumber
+                        className="setinput"
+                        onFocus={this.handleFocus}
+                        min={8}
+                        max={300}
+                        step={1}
+                        value={this.props.timer_size}
+                        onChange={value => this.props.handleTimerSize(value)}
+                      />
+                      <FontAwesomeIcon icon="caret-right" id="changen"
+                        onClick={() => this.props.handleScrambleSize(this.props.timer_size + 1)}
+                      />
+                    </div>
+                    <div className="desc">
+                      change the size of the timer
+                    </div>
+                  </div>
+                  <div className="setting" id="setting">
+                    Scramble Size
+                    <div className="switches">
+                      <FontAwesomeIcon icon="caret-left" id="changen"
+                        onClick={() => this.props.handleScrambleSize(this.props.scramble_size - 1)}
+                      />
+                      <InputNumber
+                        className="setinput"
+                        onFocus={this.handleFocus}
+                        min={8}
+                        max={64}
+                        step={1}
+                        value={this.props.scramble_size}
+                        onChange={value => this.props.handleScrambleSize(value)}
+                      />
+                      <FontAwesomeIcon icon="caret-right" id="changen"
+                        onClick={() => this.props.handleScrambleSize(this.props.scramble_size + 1)}
+                      />
+                    </div>
+                    <div className="desc">
+                      change the size of the scramble
+                    </div>
+                  </div>
+                  <div className="setting" id="setting">
+                    Average Size
+                    <div className="switches">
+                      <FontAwesomeIcon icon="caret-left" id="changen"
+                        onClick={() => this.props.handleAvSize(this.props.av_size - 1)}
+                      />
+                      <InputNumber
+                        className="setinput"
+                        onFocus={this.handleFocus}
+                        min={8}
+                        max={40}
+                        step={1}
+                        value={this.props.av_size}
+                        onChange={value => this.props.handleAvSize(value)}
+                      />
+                      <FontAwesomeIcon icon="caret-right" id="changen"
+                        onClick={() => this.props.handleAvSize(this.props.av_size + 1)}
+                      />
+                    </div>
+                    <div className="desc">
+                      change the size of the scramble
                     </div>
                   </div>
                 </TabPanel>

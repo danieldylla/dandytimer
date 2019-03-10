@@ -98,6 +98,9 @@ class Timer extends Component {
         texthighlighted: '#fff',
       },
       themes: [],
+      scramble_size: 28,
+      timer_size: 144,
+      av_size: 24,
     };
 
 
@@ -136,6 +139,9 @@ class Timer extends Component {
     this.handleShowScramble = this.handleShowScramble.bind(this);
     this.handleShowLog = this.handleShowLog.bind(this);
     this.handleShowStats = this.handleShowStats.bind(this);
+    this.handleScrambleSize = this.handleScrambleSize.bind(this);
+    this.handleTimerSize = this.handleTimerSize.bind(this);
+    this.handleAvSize = this.handleAvSize.bind(this);
     this.handlePlus2 = this.handlePlus2.bind(this);
     this.handleDNF = this.handleDNF.bind(this);
     this.saveTheme = this.saveTheme.bind(this);
@@ -1308,6 +1314,27 @@ class Timer extends Component {
     });
   }
 
+  handleScrambleSize(i) {
+    this.setState({
+      scramble_size: i
+    });
+    document.getElementById("scramble").style.fontSize = i + "px";
+  }
+
+  handleTimerSize(i) {
+    this.setState({
+      timer_size: i
+    });
+    document.getElementById("time").style.fontSize = i + "px";
+  }
+
+  handleAvSize(i) {
+    this.setState({
+      av_size: i
+    });
+    document.getElementById("average").style.fontSize = i + "px";
+  }
+
   handlePlus2(index) {
     let logcopy = this.state.log.slice();
     logcopy[index].res.plus2 = !logcopy[index].res.plus2;
@@ -1471,6 +1498,9 @@ class Timer extends Component {
             show_av={this.state.show_av}
             show_scramble={this.state.show_scramble}
             show_log={this.state.show_log}
+            scramble_size={this.state.scramble_size}
+            timer_size={this.state.timer_size}
+            av_size={this.state.av_size}
             themes={this.state.themes}
             handleModal={() => this.handleModal()}
             handleInspection={this.handleInspection}
@@ -1478,6 +1508,9 @@ class Timer extends Component {
             handleShowAv={this.handleShowAv}
             handleShowScramble={this.handleShowScramble}
             handleShowLog={this.handleShowLog}
+            handleScrambleSize={(i) => this.handleScrambleSize(i)}
+            handleTimerSize={(i) => this.handleTimerSize(i)}
+            handleAvSize={(i) => this.handleAvSize(i)}
             saveTheme={(name, theme) => this.saveTheme(name, theme)}
             deleteTheme={(i) => this.deleteTheme(i)}
             changeColor={(theme) => this.changeColor(theme)}

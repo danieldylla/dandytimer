@@ -34,6 +34,28 @@
     padding-top: 15px;
   }
 
+  .setinput {
+    background-color: rgb(0, 0, 0, .3);
+    color: var(--texthighlighted);
+    border-style: none;
+    padding: 5px;
+    width: 24px;
+  }
+
+  #changen {
+    font-size: 28px;
+    margin: -10px 5px -5px;
+    color: var(--accent);
+  }
+
+  #changen:hover {
+    color: var(--hover);
+  }
+
+  #changen:active {
+    color: var(--click);
+  }
+
   #icon {
     font-size: 2rem;
   }

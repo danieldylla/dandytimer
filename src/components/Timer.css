@@ -27,7 +27,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-size: calc(15vmin);
+  font-size: 144px;
   overflow: hidden;
 }
 
@@ -42,7 +42,7 @@
   align-items: center;
   color: var(--text);
   transition: 0s;
-  font-size: calc(2.5vmin);
+  font-size: 24px;
   min-width: 200px;
 }
 
@@ -61,7 +61,7 @@
   align-items: center;
   color: var(--text);
   transition: 0s;
-  font-size: calc(3vmin);
+  font-size: 28px;
   min-width: 200px;
 }
 

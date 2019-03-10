@@ -87,7 +87,7 @@ class AboutModal extends Component {
                 </p>
                 <p>
                   The source code for this project can be found&nbsp;
-                  <a href="https://github.com/danieldylla/dandytimer" target="_blank">here</a>.
+                  <a href="https://github.com/danieldylla/dandytimer" target="_blank" rel="noopener noreferrer">here</a>.
                   If you find any bugs or problems with dandytimer, let me know by
                   raising an issue on the github linked.
                   If you have any suggestions for this project, feel free to email
