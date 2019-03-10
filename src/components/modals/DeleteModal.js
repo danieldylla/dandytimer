@@ -34,6 +34,9 @@ class DeleteModal extends Component {
 
   handleDelete(id) {
     this.props.deleteEntry(id, this.state.x);
+    this.setState({
+      x: 1
+    });
     this.props.closeModal();
   }
 
