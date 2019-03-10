@@ -168,6 +168,10 @@ class Timer extends Component {
       lasttheme = JSON.parse(lasttheme);
       this.changeColor(lasttheme);
     }
+
+    this.handleScrambleSize(this.state.scramble_size);
+    this.handleTimerSize(this.state.timer_size);
+    this.handleAvSize(this.state.av_size);
   }
 
   componentWillUnmount() {
