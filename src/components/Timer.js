@@ -89,6 +89,7 @@ class Timer extends Component {
       show_stats: false,
       inspection_time: false,
       hold_to_start: false,
+      highlight_text: true,
       party_mode: false,
       theme: {
         primary: '#282c34',
@@ -142,6 +143,7 @@ class Timer extends Component {
     this.handleScrambleSize = this.handleScrambleSize.bind(this);
     this.handleTimerSize = this.handleTimerSize.bind(this);
     this.handleAvSize = this.handleAvSize.bind(this);
+    this.handleHighlightText = this.handleHighlightText.bind(this);
     this.handlePlus2 = this.handlePlus2.bind(this);
     this.handleDNF = this.handleDNF.bind(this);
     this.saveTheme = this.saveTheme.bind(this);
@@ -1339,6 +1341,17 @@ class Timer extends Component {
     document.getElementById("average").style.fontSize = i + "px";
   }
 
+  handleHighlightText() {
+    if (this.state.highlight_text) {
+      document.documentElement.style.setProperty('--highlighted', 'var(--text)');
+    } else {
+      document.documentElement.style.setProperty('--highlighted', 'var(--texthighlighted)');
+    }
+    this.setState({
+      highlight_text: !this.state.highlight_text,
+    });
+  }
+
   handlePlus2(index) {
     let logcopy = this.state.log.slice();
     logcopy[index].res.plus2 = !logcopy[index].res.plus2;
@@ -1505,6 +1518,7 @@ class Timer extends Component {
             scramble_size={this.state.scramble_size}
             timer_size={this.state.timer_size}
             av_size={this.state.av_size}
+            highlight_text={this.state.highlight_text}
             themes={this.state.themes}
             handleModal={() => this.handleModal()}
             handleInspection={this.handleInspection}
@@ -1515,6 +1529,7 @@ class Timer extends Component {
             handleScrambleSize={(i) => this.handleScrambleSize(i)}
             handleTimerSize={(i) => this.handleTimerSize(i)}
             handleAvSize={(i) => this.handleAvSize(i)}
+            handleHighlightText={this.handleHighlightText}
             saveTheme={(name, theme) => this.saveTheme(name, theme)}
             deleteTheme={(i) => this.deleteTheme(i)}
             changeColor={(theme) => this.changeColor(theme)}

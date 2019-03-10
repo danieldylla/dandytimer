@@ -15,7 +15,7 @@
 }
 
 #log:hover {
-  color: var(--texthighlighted);
+  color: var(--highlighted);
 }
 
 .logstats {

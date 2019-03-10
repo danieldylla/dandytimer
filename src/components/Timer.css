@@ -11,6 +11,8 @@
   --tabselect: rgba(0, 0, 0, .3);
   --buttonhover: rgba(0, 0, 0, .2);
   --tab: var(--primary);
+
+  --highlight: var(--texthighlighted);
 }
 
 .timer {
@@ -47,7 +49,7 @@
 }
 
 #average:hover {
-  color: var(--texthighlighted);
+  color: var(--highlighted);
 }
 
 #scramble {
@@ -66,7 +68,7 @@
 }
 
 #scramble:hover {
-  color: var(--texthighlighted);
+  color: var(--highlighted);
 }
 
 #settings {

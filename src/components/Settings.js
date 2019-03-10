@@ -670,6 +670,29 @@ class Settings extends Component {
                       scramble is generated for each solve and displayed on screen
                     </div>
                   </div>
+                  <div className="setting">
+                    Highlight on Hover
+                    <div className="switches">
+                      <Switch
+                        checked={this.props.highlight_text}
+                        onChange={this.props.handleHighlightText}
+                        onColor={this.colorLuminance(this.state.accent, -.4)}
+                        onHandleColor={this.state.accent}
+                        handleDiameter={30}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                        height={20}
+                        width={48}
+                        className="react-switch"
+                        id="material-switch"
+                      />
+                    </div>
+                    <div className="desc">
+                      elements brighten when hovered over
+                    </div>
+                  </div>
                   <div className="setting" id="setting">
                     Timer Size
                     <div className="switches">
