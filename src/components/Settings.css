@@ -202,6 +202,10 @@
     color: var(--texthighlighted);
   }
 
+  .setlist {
+    overflow: scroll;
+    height: calc(80vh - 72px);
+  }
 
 
 
@@ -278,6 +282,7 @@
     width: calc(82% - 30px);;
     height: 100%;
     margin-right: 30px;
+    overflow: auto;
   }
 
   .gray-theme {

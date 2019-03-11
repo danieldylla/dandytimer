@@ -528,238 +528,242 @@ class Settings extends Component {
                 </TabPanel>
                 <TabPanel>
                   <h2>Timer Options</h2>
-                  <div className="setting" id="setting">
-                    Inspection Time
-                    <div className="switches">
-                      <Switch
-                        checked={this.props.inspection_time}
-                        onChange={this.props.handleInspection}
-                        onColor={this.colorLuminance(this.state.accent, -.4)}
-                        onHandleColor={this.state.accent}
-                        handleDiameter={30}
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                        height={20}
-                        width={48}
-                        className="react-switch"
-                        id="material-switch"
-                      />
+                  <div className="setlist">
+                    <div className="setting" id="setting">
+                      Inspection Time
+                      <div className="switches">
+                        <Switch
+                          checked={this.props.inspection_time}
+                          onChange={this.props.handleInspection}
+                          onColor={this.colorLuminance(this.state.accent, -.4)}
+                          onHandleColor={this.state.accent}
+                          handleDiameter={30}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={20}
+                          width={48}
+                          className="react-switch"
+                          id="material-switch"
+                        />
+                      </div>
+                      <div className="desc">
+                        15 second inspection time after first spacebar press
+                      </div>
                     </div>
-                    <div className="desc">
-                      15 second inspection time after first spacebar press
-                    </div>
-                  </div>
-                  <div className="setting">
-                    Hold To Start
-                    <div className="switches">
-                      <Switch
-                        checked={this.props.hold_to_start}
-                        onChange={this.props.handleHoldToStart}
-                        onColor={this.colorLuminance(this.state.accent, -.4)}
-                        onHandleColor={this.state.accent}
-                        handleDiameter={30}
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        disabled={true}
-                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                        height={20}
-                        width={48}
-                        className="react-switch"
-                        id="material-switch"
-                      />
-                    </div>
-                    <div className="desc">
-                      spacebar must be held to start timer
+                    <div className="setting">
+                      Hold To Start
+                      <div className="switches">
+                        <Switch
+                          checked={this.props.hold_to_start}
+                          onChange={this.props.handleHoldToStart}
+                          onColor={this.colorLuminance(this.state.accent, -.4)}
+                          onHandleColor={this.state.accent}
+                          handleDiameter={30}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          disabled={true}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={20}
+                          width={48}
+                          className="react-switch"
+                          id="material-switch"
+                        />
+                      </div>
+                      <div className="desc">
+                        spacebar must be held to start timer
+                      </div>
                     </div>
                   </div>
                 </TabPanel>
                 <TabPanel>
                   <h2>Display Options</h2>
-                  <div className="setting">
-                    Party Mode
-                    <div className="switches">
-                      <Switch
-                        checked={this.props.party_mode}
-                        onChange={this.props.partyMode}
-                        onColor={this.colorLuminance(this.state.accent, -.4)}
-                        onHandleColor={this.state.accent}
-                        handleDiameter={30}
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                        height={20}
-                        width={48}
-                        className="react-switch"
-                        id="material-switch"
-                      />
+                  <div className="setlist">
+                    <div className="setting">
+                      Party Mode
+                      <div className="switches">
+                        <Switch
+                          checked={this.props.party_mode}
+                          onChange={this.props.partyMode}
+                          onColor={this.colorLuminance(this.state.accent, -.4)}
+                          onHandleColor={this.state.accent}
+                          handleDiameter={30}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={20}
+                          width={48}
+                          className="react-switch"
+                          id="material-switch"
+                        />
+                      </div>
+                      <div className="desc">
+                        really mess with your eyes
+                      </div>
                     </div>
-                    <div className="desc">
-                      really mess with your eyes
+                    <div className="setting">
+                      Show Time List
+                      <div className="switches">
+                        <Switch
+                          checked={this.props.show_log}
+                          onChange={this.props.handleShowLog}
+                          onColor={this.colorLuminance(this.state.accent, -.4)}
+                          onHandleColor={this.state.accent}
+                          handleDiameter={30}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={20}
+                          width={48}
+                          className="react-switch"
+                          id="material-switch"
+                        />
+                      </div>
+                      <div className="desc">
+                        list of times, as well as current and best times, is shown on left side
+                      </div>
                     </div>
-                  </div>
-                  <div className="setting">
-                    Show Time List
-                    <div className="switches">
-                      <Switch
-                        checked={this.props.show_log}
-                        onChange={this.props.handleShowLog}
-                        onColor={this.colorLuminance(this.state.accent, -.4)}
-                        onHandleColor={this.state.accent}
-                        handleDiameter={30}
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                        height={20}
-                        width={48}
-                        className="react-switch"
-                        id="material-switch"
-                      />
+                    <div className="setting">
+                      Show Averages Under Time
+                      <div className="switches">
+                        <Switch
+                          checked={this.props.show_av}
+                          onChange={this.props.handleShowAv}
+                          onColor={this.colorLuminance(this.state.accent, -.4)}
+                          onHandleColor={this.state.accent}
+                          handleDiameter={30}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={20}
+                          width={48}
+                          className="react-switch"
+                          id="material-switch"
+                        />
+                      </div>
+                      <div className="desc">
+                        ao5 and ao12 are shown below time as well as on left side
+                      </div>
                     </div>
-                    <div className="desc">
-                      list of times, as well as current and best times, is shown on left side
+                    <div className="setting">
+                      Show Scramble
+                      <div className="switches">
+                        <Switch
+                          checked={this.props.show_scramble}
+                          onChange={this.props.handleShowScramble}
+                          onColor={this.colorLuminance(this.state.accent, -.4)}
+                          onHandleColor={this.state.accent}
+                          handleDiameter={30}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={20}
+                          width={48}
+                          className="react-switch"
+                          id="material-switch"
+                        />
+                      </div>
+                      <div className="desc">
+                        scramble is generated for each solve and displayed on screen
+                      </div>
                     </div>
-                  </div>
-                  <div className="setting">
-                    Show Averages Under Time
-                    <div className="switches">
-                      <Switch
-                        checked={this.props.show_av}
-                        onChange={this.props.handleShowAv}
-                        onColor={this.colorLuminance(this.state.accent, -.4)}
-                        onHandleColor={this.state.accent}
-                        handleDiameter={30}
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                        height={20}
-                        width={48}
-                        className="react-switch"
-                        id="material-switch"
-                      />
+                    <div className="setting">
+                      Highlight on Hover
+                      <div className="switches">
+                        <Switch
+                          checked={this.props.highlight_text}
+                          onChange={this.props.handleHighlightText}
+                          onColor={this.colorLuminance(this.state.accent, -.4)}
+                          onHandleColor={this.state.accent}
+                          handleDiameter={30}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={20}
+                          width={48}
+                          className="react-switch"
+                          id="material-switch"
+                        />
+                      </div>
+                      <div className="desc">
+                        elements brighten when hovered over
+                      </div>
                     </div>
-                    <div className="desc">
-                      ao5 and ao12 are shown below time as well as on left side
+                    <div className="setting" id="setting">
+                      Timer Size
+                      <div className="switches">
+                        <FontAwesomeIcon icon="caret-left" id="changen"
+                          onClick={() => this.props.handleTimerSize(this.props.timer_size - 1)}
+                        />
+                        <InputNumber
+                          className="setinput"
+                          onFocus={this.handleFocus}
+                          min={8}
+                          max={300}
+                          step={1}
+                          value={this.props.timer_size}
+                          onChange={value => this.props.handleTimerSize(value)}
+                        />
+                        <FontAwesomeIcon icon="caret-right" id="changen"
+                          onClick={() => this.props.handleTimerSize(this.props.timer_size + 1)}
+                        />
+                      </div>
+                      <div className="desc">
+                        change the size of the timer
+                      </div>
                     </div>
-                  </div>
-                  <div className="setting">
-                    Show Scramble
-                    <div className="switches">
-                      <Switch
-                        checked={this.props.show_scramble}
-                        onChange={this.props.handleShowScramble}
-                        onColor={this.colorLuminance(this.state.accent, -.4)}
-                        onHandleColor={this.state.accent}
-                        handleDiameter={30}
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                        height={20}
-                        width={48}
-                        className="react-switch"
-                        id="material-switch"
-                      />
+                    <div className="setting" id="setting">
+                      Scramble Size
+                      <div className="switches">
+                        <FontAwesomeIcon icon="caret-left" id="changen"
+                          onClick={() => this.props.handleScrambleSize(this.props.scramble_size - 1)}
+                        />
+                        <InputNumber
+                          className="setinput"
+                          onFocus={this.handleFocus}
+                          min={8}
+                          max={64}
+                          step={1}
+                          value={this.props.scramble_size}
+                          onChange={value => this.props.handleScrambleSize(value)}
+                        />
+                        <FontAwesomeIcon icon="caret-right" id="changen"
+                          onClick={() => this.props.handleScrambleSize(this.props.scramble_size + 1)}
+                        />
+                      </div>
+                      <div className="desc">
+                        change the size of the scramble
+                      </div>
                     </div>
-                    <div className="desc">
-                      scramble is generated for each solve and displayed on screen
-                    </div>
-                  </div>
-                  <div className="setting">
-                    Highlight on Hover
-                    <div className="switches">
-                      <Switch
-                        checked={this.props.highlight_text}
-                        onChange={this.props.handleHighlightText}
-                        onColor={this.colorLuminance(this.state.accent, -.4)}
-                        onHandleColor={this.state.accent}
-                        handleDiameter={30}
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                        height={20}
-                        width={48}
-                        className="react-switch"
-                        id="material-switch"
-                      />
-                    </div>
-                    <div className="desc">
-                      elements brighten when hovered over
-                    </div>
-                  </div>
-                  <div className="setting" id="setting">
-                    Timer Size
-                    <div className="switches">
-                      <FontAwesomeIcon icon="caret-left" id="changen"
-                        onClick={() => this.props.handleTimerSize(this.props.timer_size - 1)}
-                      />
-                      <InputNumber
-                        className="setinput"
-                        onFocus={this.handleFocus}
-                        min={8}
-                        max={300}
-                        step={1}
-                        value={this.props.timer_size}
-                        onChange={value => this.props.handleTimerSize(value)}
-                      />
-                      <FontAwesomeIcon icon="caret-right" id="changen"
-                        onClick={() => this.props.handleScrambleSize(this.props.timer_size + 1)}
-                      />
-                    </div>
-                    <div className="desc">
-                      change the size of the timer
-                    </div>
-                  </div>
-                  <div className="setting" id="setting">
-                    Scramble Size
-                    <div className="switches">
-                      <FontAwesomeIcon icon="caret-left" id="changen"
-                        onClick={() => this.props.handleScrambleSize(this.props.scramble_size - 1)}
-                      />
-                      <InputNumber
-                        className="setinput"
-                        onFocus={this.handleFocus}
-                        min={8}
-                        max={64}
-                        step={1}
-                        value={this.props.scramble_size}
-                        onChange={value => this.props.handleScrambleSize(value)}
-                      />
-                      <FontAwesomeIcon icon="caret-right" id="changen"
-                        onClick={() => this.props.handleScrambleSize(this.props.scramble_size + 1)}
-                      />
-                    </div>
-                    <div className="desc">
-                      change the size of the scramble
-                    </div>
-                  </div>
-                  <div className="setting" id="setting">
-                    Average Size
-                    <div className="switches">
-                      <FontAwesomeIcon icon="caret-left" id="changen"
-                        onClick={() => this.props.handleAvSize(this.props.av_size - 1)}
-                      />
-                      <InputNumber
-                        className="setinput"
-                        onFocus={this.handleFocus}
-                        min={8}
-                        max={40}
-                        step={1}
-                        value={this.props.av_size}
-                        onChange={value => this.props.handleAvSize(value)}
-                      />
-                      <FontAwesomeIcon icon="caret-right" id="changen"
-                        onClick={() => this.props.handleAvSize(this.props.av_size + 1)}
-                      />
-                    </div>
-                    <div className="desc">
-                      change the size of the scramble
+                    <div className="setting" id="setting">
+                      Average Size
+                      <div className="switches">
+                        <FontAwesomeIcon icon="caret-left" id="changen"
+                          onClick={() => this.props.handleAvSize(this.props.av_size - 1)}
+                        />
+                        <InputNumber
+                          className="setinput"
+                          onFocus={this.handleFocus}
+                          min={8}
+                          max={40}
+                          step={1}
+                          value={this.props.av_size}
+                          onChange={value => this.props.handleAvSize(value)}
+                        />
+                        <FontAwesomeIcon icon="caret-right" id="changen"
+                          onClick={() => this.props.handleAvSize(this.props.av_size + 1)}
+                        />
+                      </div>
+                      <div className="desc">
+                        change the size of the scramble
+                      </div>
                     </div>
                   </div>
                 </TabPanel>
