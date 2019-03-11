@@ -891,8 +891,10 @@ class Timer extends Component {
   forceUpdateBest(result) {
     var newbest;
     let j = 0;
-    while (result[j].res.dnf && j < result.length) {
-      j++;
+    if (result.length > 1) {
+      while (result[j].res.dnf && j < result.length) {
+        j++;
+      }
     }
     newbest = result[j].res.time;
     var index = j;
