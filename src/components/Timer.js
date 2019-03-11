@@ -42,6 +42,8 @@ class Timer extends Component {
       running: false,
       renderlog: true,
       fifteen: false,
+      holddone: false,
+      holdstart: 0,
       modal: false,
       hours: 0,
       minutes: 0,
@@ -1418,6 +1420,16 @@ class Timer extends Component {
   render() {
     document.body.onkeydown = function(e) {
       if (e.repeat) {
+        if (this.state.hold_to_start) {
+          let d = new Date();
+          const time = d.getTime();
+          if (time - this.state.holdstart >= 1000) {
+            this.setState({
+              holddone: true,
+            });
+            document.getElementById("time").style.color = "#2dff57";
+          }
+        }
         return;
       } else if (e.keyCode === 32 && !this.state.running && this.state.stopped && !this.state.modal) {
         document.getElementById("time").style.color = "#2dff57";
@@ -1426,6 +1438,12 @@ class Timer extends Component {
         document.getElementById("scramble").style.display = "none";
         document.getElementById("average").style.display = "none";
         document.getElementById("statistics").style.display = "none";
+        if (this.state.hold_to_start && !(this.state.inspection_time && this.state.fifteen)) {
+          document.getElementById("time").style.color = "#ffff2d";
+          let d = new Date();
+          const time = d.getTime();
+          this.setState({ holdstart: time });
+        }
         if (!this.state.fifteen) {
           this.resetTime();
         }
