@@ -578,6 +578,29 @@ class Settings extends Component {
                         spacebar must be held to start timer
                       </div>
                     </div>
+                    <div className="setting" id="setting">
+                      Hold To Start Length
+                      <div className="switches">
+                        <FontAwesomeIcon icon="caret-left" id="changen"
+                          onClick={() => this.props.handleHoldLen(this.props.hold_len - .1)}
+                        />
+                        <InputNumber
+                          className="setinput"
+                          onFocus={this.handleFocus}
+                          min={.5}
+                          max={3}
+                          step={1}
+                          value={this.props.hold_len}
+                          onChange={value => this.props.handleHoldLen(value)}
+                        />
+                        <FontAwesomeIcon icon="caret-right" id="changen"
+                          onClick={() => this.props.handleHoldLen(this.props.hold_len + .1)}
+                        />
+                      </div>
+                      <div className="desc">
+                        if enabled, this is how many seconds you must hold to start the timer
+                      </div>
+                    </div>
                   </div>
                 </TabPanel>
                 <TabPanel>
@@ -764,7 +787,7 @@ class Settings extends Component {
                         />
                       </div>
                       <div className="desc">
-                        change the size of the scramble
+                        change the size of the averages below the timer
                       </div>
                     </div>
                   </div>

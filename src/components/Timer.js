@@ -43,7 +43,7 @@ class Timer extends Component {
       running: false,
       renderlog: true,
       fifteen: false,
-      holddone: false,
+      hold_done: false,
       holdstart: 0,
       modal: false,
       hours: 0,
@@ -105,6 +105,7 @@ class Timer extends Component {
       scramble_size: 28,
       timer_size: 144,
       av_size: 24,
+      hold_len: .5,
     };
 
 
@@ -148,6 +149,7 @@ class Timer extends Component {
     this.handleScrambleSize = this.handleScrambleSize.bind(this);
     this.handleTimerSize = this.handleTimerSize.bind(this);
     this.handleAvSize = this.handleAvSize.bind(this);
+    this.handleHoldLen = this.handleHoldLen.bind(this);
     this.handleHighlightText = this.handleHighlightText.bind(this);
     this.handlePlus2 = this.handlePlus2.bind(this);
     this.handleDNF = this.handleDNF.bind(this);
@@ -1368,6 +1370,12 @@ class Timer extends Component {
     document.getElementById("average").style.fontSize = i + "px";
   }
 
+  handleHoldLen(i) {
+    this.setState({
+      hold_len: i,
+    });
+  }
+
   handleHighlightText() {
     if (this.state.highlight_text) {
       document.documentElement.style.setProperty('--highlighted', 'var(--text)');
@@ -1443,11 +1451,11 @@ class Timer extends Component {
   render() {
     document.body.onkeydown = function(e) {
       if (e.repeat) {
-        if (this.state.hold_to_start && !this.state.holddone) {
+        if (this.state.hold_to_start && !this.state.hold_done) {
           let d = new Date();
           const time = d.getTime();
-          if (time - this.state.holdstart >= 1000) {
-            this.setState({ holddone : true });
+          if (time - this.state.holdstart >= this.state.hold_len * 1000) {
+            this.setState({ hold_done : true });
             document.getElementById("time").style.color = "#2dff57";
             this.hideStuff();
             if (!this.state.fifteen) {
@@ -1485,11 +1493,11 @@ class Timer extends Component {
             document.getElementById("time").style.color = "#f73b3b";
             this.startInspection();
             if (this.state.hold_to_start) {
-              this.setState({ holddone: false });
+              this.setState({ hold_done: false });
             }
           } else {
             if (this.state.hold_to_start) {
-              if (this.state.holddone) {
+              if (this.state.hold_done) {
                 this.endInspection();
               } else {
                 document.getElementById("time").style.color = "#f73b3b";
@@ -1501,7 +1509,7 @@ class Timer extends Component {
         }
         if (!this.state.fifteen) {
           if (this.state.hold_to_start) {
-            if (this.state.holddone) {
+            if (this.state.hold_done) {
               this.handleStopped();
               this.startTime();
               document.getElementById("time").style.color = "inherit";
@@ -1518,7 +1526,7 @@ class Timer extends Component {
       } else if (e.keyCode !== 18 && e.keyCode !== 9 && !this.state.fifteen && !this.state.stopped) {
         document.getElementById("time").style.color = "inherit";
         this.unhideStuff();
-        this.setState({ holddone: false });
+        this.setState({ hold_done: false });
         this.saveTime();
         this.updateBests();
         this.generateScramble();
@@ -1579,6 +1587,7 @@ class Timer extends Component {
             scramble_size={this.state.scramble_size}
             timer_size={this.state.timer_size}
             av_size={this.state.av_size}
+            hold_len={this.state.hold_len}
             highlight_text={this.state.highlight_text}
             themes={this.state.themes}
             handleModal={() => this.handleModal()}
@@ -1590,6 +1599,7 @@ class Timer extends Component {
             handleScrambleSize={(i) => this.handleScrambleSize(i)}
             handleTimerSize={(i) => this.handleTimerSize(i)}
             handleAvSize={(i) => this.handleAvSize(i)}
+            handleHoldLen={(i) => this.handleHoldLen(i)}
             handleHighlightText={this.handleHighlightText}
             saveTheme={(name, theme) => this.saveTheme(name, theme)}
             deleteTheme={(i) => this.deleteTheme(i)}
