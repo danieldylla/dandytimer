@@ -1487,7 +1487,7 @@ class Timer extends Component {
               if (this.state.holddone) {
                 this.endInspection();
               } else {
-                document.getElementById("time").style.color = "inherit";
+                document.getElementById("time").style.color = "#f73b3b";
               }
             } else {
               this.endInspection();
