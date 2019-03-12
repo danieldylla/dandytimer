@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ReactGA from 'react-ga';
 import Log from './Log';
 import Settings from './Settings';
 import Stats from './Stats'
@@ -1265,6 +1266,10 @@ class Timer extends Component {
           document.documentElement.style.setProperty('--click', colorLuminance(inverse, -.2));
       };
       this.party_mode_timer = setInterval(changeColor, 33);
+      ReactGA.event({
+        category: 'User',
+        action: 'Turned Party Mode On'
+      });
     }
   }
 

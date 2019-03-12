@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ReactGA from 'react-ga';
 import LogStats from './LogStats';
 import DeleteModal from './modals/DeleteModal';
 import TimeModal from './modals/TimeModal';
@@ -89,11 +90,13 @@ class Log extends Component {
       deleteModalIsOpen: true
     });
     this.props.handleModal();
+    ReactGA.pageview('/delete');
   }
 
   closeDeleteModal() {
     this.setState({deleteModalIsOpen: false});
     this.props.handleModal();
+    ReactGA.pageview('/');
   }
 
   openTimeModal(i, res) {
@@ -103,11 +106,13 @@ class Log extends Component {
       timeModalIsOpen: true
     });
     this.props.handleModal();
+    ReactGA.pageview('/time');
   }
 
   closeTimeModal() {
     this.setState({timeModalIsOpen: false});
     this.props.handleModal();
+    ReactGA.pageview('/');
   }
 
   openAvModal(i, res, av, howmany) {
@@ -120,12 +125,14 @@ class Log extends Component {
         avModalIsOpen: true
       });
       this.props.handleModal();
+      ReactGA.pageview('/av');
     }
   }
 
   closeAvModal() {
     this.setState({avModalIsOpen: false});
     this.props.handleModal();
+    ReactGA.pageview('/');
   }
 
   openSessionModal() {
@@ -134,6 +141,7 @@ class Log extends Component {
     });
     this.props.saveSession();
     this.props.handleModal();
+    ReactGA.pageview('/session');
   }
 
   closeSessionModal() {
@@ -141,6 +149,7 @@ class Log extends Component {
       sessionModalIsOpen: false,
     });
     this.props.handleModal();
+    ReactGA.pageview('/');
   }
 
   handlePlus2(i, s) {

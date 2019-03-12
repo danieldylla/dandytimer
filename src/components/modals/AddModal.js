@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
+import ReactGA from 'react-ga';
 import Button from '@material-ui/core/Button';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import InputNumber from 'react-input-number';
@@ -25,6 +26,7 @@ class AddModal extends Component {
   openModal() {
     this.setState({modalIsOpen: true});
     this.props.handleModal();
+    ReactGA.pageview('/add');
   }
 
   afterOpenModal() {
@@ -34,6 +36,7 @@ class AddModal extends Component {
   closeModal() {
     this.setState({modalIsOpen: false});
     this.props.handleModal();
+    ReactGA.pageview('/');
   }
 
   handleChange(value) {

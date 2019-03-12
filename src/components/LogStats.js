@@ -1,4 +1,5 @@
 import React, { Component, } from 'react';
+import ReactGA from 'react-ga';
 import ClearModal from './modals/ClearModal';
 import AddModal from './modals/AddModal';
 import DownUpModal from './modals/DownUpModal';
@@ -22,11 +23,13 @@ class LogStats extends Component {
       aboutModalIsOpen: true
     });
     this.props.handleModal();
+    ReactGA.pageview('/about');
   }
 
   closeAboutModal() {
     this.setState({aboutModalIsOpen: false});
     this.props.handleModal();
+    ReactGA.pageview('/');
   }
 
   displayHour(h) {

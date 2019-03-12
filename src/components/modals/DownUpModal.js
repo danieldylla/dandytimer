@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
+import ReactGA from 'react-ga';
 import { AwesomeButton } from 'react-awesome-button';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -37,6 +38,7 @@ class DownUpModal extends Component {
     this.generateName();
     document.documentElement.style.setProperty('--tabselect', 'var(--primary)');
     document.documentElement.style.setProperty('--tab', 'rgba(0, 0, 0, .3)');
+    ReactGA.pageview('/downup');
   }
 
   afterOpenModal() {
@@ -48,6 +50,7 @@ class DownUpModal extends Component {
     this.props.handleModal();
     document.documentElement.style.setProperty('--tab', 'var(--primary)');
     document.documentElement.style.setProperty('--tabselect', 'rgba(0, 0, 0, .3)');
+    ReactGA.pageview('/');
   }
 
   handleFocus(event) {

@@ -7,6 +7,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { ChromePicker } from 'react-color';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CustomThemeModal from './modals/CustomThemeModal'
+import ReactGA from 'react-ga';
 
 import 'react-awesome-button/dist/styles.css';
 import './Settings.css';
@@ -145,6 +146,7 @@ class Settings extends Component {
       modalIsOpen: true
     });
     this.props.handleModal();
+    ReactGA.pageview('/settings');
   }
 
   afterOpenModal() {
@@ -154,6 +156,7 @@ class Settings extends Component {
   closeModal() {
     this.setState({modalIsOpen: false});
     this.props.handleModal();
+    ReactGA.pageview('/');
   }
 
   handleColor(theme) {
