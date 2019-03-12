@@ -113,6 +113,8 @@ class Timer extends Component {
     this.updateInspectionTime = this.updateInspectionTime.bind(this);
     this.display = this.display.bind(this);
     this.displayInspection = this.displayInspection.bind(this);
+    this.hideStuff = this.hideStuff.bind(this);
+    this.unhideStuff = this.unhideStuff.bind(this);
     this.updateBests = this.updateBests.bind(this);
     this.startTime = this.startTime.bind(this);
     this.endTime = this.endTime.bind(this);
@@ -1170,6 +1172,22 @@ class Timer extends Component {
     });
   }
 
+  hideStuff() {
+    document.getElementById("log").style.display = "none";
+    document.getElementById("settings").style.display = "none";
+    document.getElementById("scramble").style.display = "none";
+    document.getElementById("average").style.display = "none";
+    document.getElementById("statistics").style.display = "none";
+  }
+
+  unhideStuff() {
+    document.getElementById("log").style.display = "block";
+    document.getElementById("settings").style.display = "block";
+    document.getElementById("scramble").style.display = "block";
+    document.getElementById("average").style.display = "block";
+    document.getElementById("statistics").style.display = "block";
+  }
+
   colorLuminance(hex, lum) {
   	// validate hex string
   	hex = String(hex).replace(/[^0-9a-f]/gi, '');
@@ -1420,32 +1438,31 @@ class Timer extends Component {
   render() {
     document.body.onkeydown = function(e) {
       if (e.repeat) {
-        if (this.state.hold_to_start) {
+        if (this.state.hold_to_start && !this.state.holddone) {
           let d = new Date();
           const time = d.getTime();
           if (time - this.state.holdstart >= 1000) {
-            this.setState({
-              holddone: true,
-            });
+            this.setState({ holddone : true });
             document.getElementById("time").style.color = "#2dff57";
+            this.hideStuff();
+            if (!this.state.fifteen) {
+              this.resetTime();
+            }
           }
         }
         return;
       } else if (e.keyCode === 32 && !this.state.running && this.state.stopped && !this.state.modal) {
-        document.getElementById("time").style.color = "#2dff57";
-        document.getElementById("log").style.display = "none";
-        document.getElementById("settings").style.display = "none";
-        document.getElementById("scramble").style.display = "none";
-        document.getElementById("average").style.display = "none";
-        document.getElementById("statistics").style.display = "none";
-        if (this.state.hold_to_start && !(this.state.inspection_time && this.state.fifteen)) {
+        if (this.state.hold_to_start && (!this.state.inspection_time || this.state.fifteen)) {
           document.getElementById("time").style.color = "#ffff2d";
           let d = new Date();
           const time = d.getTime();
           this.setState({ holdstart: time });
-        }
-        if (!this.state.fifteen) {
-          this.resetTime();
+        } else {
+          document.getElementById("time").style.color = "#2dff57";
+          this.hideStuff();
+          if (!this.state.fifteen) {
+            this.resetTime();
+          }
         }
       } else if (e.keyCode === 27 && !this.state.modal && !this.state.fifteen) {
         this.resetTime();
@@ -1462,22 +1479,41 @@ class Timer extends Component {
           if (!this.state.fifteen) {
             document.getElementById("time").style.color = "#f73b3b";
             this.startInspection();
+            if (this.state.hold_to_start) {
+              this.setState({ holddone: false });
+            }
           } else {
-            this.endInspection();
+            if (this.state.hold_to_start) {
+              if (this.state.holddone) {
+                this.endInspection();
+              } else {
+                document.getElementById("time").style.color = "inherit";
+              }
+            } else {
+              this.endInspection();
+            }
           }
         }
         if (!this.state.fifteen) {
-          this.handleStopped();
-          this.startTime();
-          document.getElementById("time").style.color = "inherit";
+          if (this.state.hold_to_start) {
+            if (this.state.holddone) {
+              this.handleStopped();
+              this.startTime();
+              document.getElementById("time").style.color = "inherit";
+            } else {
+              document.getElementById("time").style.color = "inherit";
+              this.unhideStuff();
+            }
+          } else {
+            this.handleStopped();
+            this.startTime();
+            document.getElementById("time").style.color = "inherit";
+          }
         }
-      } else if (e.keyCode !== 18 && e.keyCode !== 9 && !this.state.fifteen &&!this.state.stopped) {
+      } else if (e.keyCode !== 18 && e.keyCode !== 9 && !this.state.fifteen && !this.state.stopped) {
         document.getElementById("time").style.color = "inherit";
-        document.getElementById("log").style.display = "block";
-        document.getElementById("settings").style.display = "block";
-        document.getElementById("scramble").style.display = "block";
-        document.getElementById("average").style.display = "block";
-        document.getElementById("statistics").style.display = "block";
+        this.unhideStuff();
+        this.setState({ holddone: false });
         this.saveTime();
         this.updateBests();
         this.generateScramble();
