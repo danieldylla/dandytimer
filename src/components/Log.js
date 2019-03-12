@@ -272,11 +272,6 @@ class Log extends Component {
     );
   }
 
-  handleDelete(id) {
-    this.props.deleteEntry(id, this.state.x);
-    this.closeModal();
-  }
-
   convertToTime(s) {
     if (s === 'dnf') {
       return ('DNF');

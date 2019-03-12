@@ -95,11 +95,11 @@ class Timer extends Component {
       highlight_text: true,
       party_mode: false,
       theme: {
-        primary: '#282c34',
-        secondary: '#fff',
-        accent: '#3fa8ff',
+        primary: '#1a1c21',
+        secondary: '#efefef',
+        accent: '#9621ff',
         text: 'rgba(255, 255, 255, .6)',
-        texthighlighted: '#fff',
+        texthighlighted: '#efefef'
       },
       themes: [],
       scramble_size: 28,
@@ -157,7 +157,7 @@ class Timer extends Component {
     this.partyMode = this.partyMode.bind(this);
   }
 
-   componentDidMount() {
+  componentDidMount() {
     this.hydrateStateWithLocalStorage();
     // add event listener to save state to localStorage
     // when user leaves/refreshes the page
@@ -880,14 +880,14 @@ class Timer extends Component {
     if (howmany === 50) {
       for (i = id; i > id - 49; i--) {
         if (i >= 0) {
-          result[i].res.ao12 = this.forceCalculateAv(50, result, i);
+          result[i].res.ao50 = this.forceCalculateAv(50, result, i);
         }
       }
     }
     if (howmany === 100) {
       for (i = id; i > id - 99; i--) {
         if (i >= 0) {
-          result[i].res.ao12 = this.forceCalculateAv(100, result, i);
+          result[i].res.ao100 = this.forceCalculateAv(100, result, i);
         }
       }
     }
