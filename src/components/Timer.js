@@ -47,10 +47,7 @@ class Timer extends Component {
       hold_done: false,
       holdstart: 0,
       modal: false,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-      mil: 0,
+      time: 0,
       inspecttime: 15,
       start: null,
       end: null,
@@ -114,7 +111,6 @@ class Timer extends Component {
     this.resetTime = this.resetTime.bind(this);
     this.updateTime = this.updateTime.bind(this);
     this.updateInspectionTime = this.updateInspectionTime.bind(this);
-    this.display = this.display.bind(this);
     this.displayInspection = this.displayInspection.bind(this);
     this.hideStuff = this.hideStuff.bind(this);
     this.unhideStuff = this.unhideStuff.bind(this);
@@ -355,10 +351,7 @@ class Timer extends Component {
 
   resetTime() {
     this.setState({
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-      mil: 0,
+      time: 0,
       start: null,
       end: null,
       res: {
@@ -376,29 +369,10 @@ class Timer extends Component {
   }
 
   updateTime() {
-    if (this.state.mil < 99) {
-      this.setState({
-        mil: this.state.mil + 1
-      });
-    } else if (this.state.mil === 99 && this.state.seconds < 59) {
-      this.setState({
-        seconds: this.state.seconds + 1,
-        mil: 0
-      });
-    } else if (this.state.seconds === 59 && this.state.minutes < 59) {
-      this.setState({
-        minutes: this.state.minutes + 1,
-        seconds: 0,
-        mil: 0,
-      });
-    } else {
-      this.setState({
-        hours: this.state.hours + 1,
-        minutes: 0,
-        seconds: 0,
-        mil: 0
-      });
-    }
+    let d = new Date();
+    const time = d.getTime();
+    let difference = time - this.state.start;
+    this.setState({ time: difference });
   }
 
   updateInspectionTime() {
@@ -444,7 +418,7 @@ class Timer extends Component {
       start: time,
       running: true
     });
-    this.timer = setInterval(this.updateTime, 10);
+    this.timer = setInterval(this.updateTime, 16);
   }
 
   endTime() {
@@ -465,18 +439,6 @@ class Timer extends Component {
 
   calculateTime() {
     let t = this.state.end - this.state.start;
-    let s = t;
-    var ms = s % 1000;
-    s = (s - ms) / 1000;
-    var sec = s % 60;
-    s = (s - sec) / 60;
-    var min = s % 60;
-    s = (s - min) / 60;
-    if (this.state.res.plus2) {
-      t = t + 2000;
-      sec = sec + 2;
-    }
-
     this.setState({
       res: {
         scramble: this.state.res.scramble,
@@ -490,10 +452,7 @@ class Timer extends Component {
         plus2: this.state.res.plus2,
       },
       average: this.calculateAverage(t, this.state.validreps),
-      hours: s,
-      minutes: min,
-      seconds: sec,
-      mil: Math.floor(ms/10),
+      time: t,
     });
   }
 
@@ -1116,21 +1075,14 @@ class Timer extends Component {
     } else if (this.state.stopped && this.state.res.dnf) {
       return(<p>DNF</p>);
     } else {
-      let l, s, m, h;
-      h = this.state.hours;
-      m = this.state.minutes;
-      s = this.state.seconds;
-      l = this.state.mil;
-      if (l === null) {
+      if (this.state.time === null || this.state.time === 0) {
         return(<p>0.00</p>);
       }
 
       return (
-        <p>
-          {this.displayHour(h)}
-          {this.displayMinute(h, m)}
-          {this.displaySecond(m, s)}.{this.displayMillisecond(l)}
-        </p>
+        <div>
+          {this.convertToTime(this.state.time)}
+        </div>
       );
     }
   }
