@@ -158,6 +158,7 @@ class Timer extends Component {
     this.deleteTheme = this.deleteTheme.bind(this);
     this.changeColor = this.changeColor.bind(this);
     this.partyMode = this.partyMode.bind(this);
+    this.timeTouch = this.timeTouch.bind(this);
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onTouchEnd = this.onTouchEnd.bind(this);
     this.onTouchCancel = this.onTouchCancel.bind(this);
@@ -190,6 +191,7 @@ class Timer extends Component {
     document.getElementById("time").addEventListener('touchend', this.onTouchEnd, false);
     document.getElementById("time").addEventListener('touchcancel', this.onTouchCancel, false);
     document.getElementById("time").addEventListener('touchmove', this.onTouchMove, false);
+    window.addEventListener("contextmenu", function(e) { e.preventDefault(); })
   }
 
   componentWillUnmount() {
@@ -1284,14 +1286,21 @@ class Timer extends Component {
     }
   }
 
+  timeTouch() {
+    this.setState({ hold_done: true });
+    document.getElementById("time").style.color = "#2dff57";
+    this.hideStuff();
+    if (!this.state.fifteen) {
+      this.resetTime();
+    }
+  }
+
   onTouchStart(e) {
     this.setState({ canceled: false });
     if (!this.state.running && this.state.stopped && !this.state.modal) {
       if (this.state.hold_to_start && (!this.state.inspection_time || this.state.fifteen)) {
         document.getElementById("time").style.color = "#ffff2d";
-        let d = new Date();
-        const time = d.getTime();
-        this.setState({ holdstart: time });
+        this.hold_touch_timer = setTimeout(this.timeTouch, this.state.hold_len * 1000);
       } else {
         document.getElementById("time").style.color = "#2dff57";
         this.hideStuff();
@@ -1321,6 +1330,8 @@ class Timer extends Component {
               this.endInspection();
             } else {
               document.getElementById("time").style.color = "#f73b3b";
+              clearTimeout(this.hold_touch_timer);
+              console.log('here');
             }
           } else {
             this.endInspection();
@@ -1335,6 +1346,7 @@ class Timer extends Component {
             document.getElementById("time").style.color = "inherit";
           } else {
             document.getElementById("time").style.color = "inherit";
+            clearTimeout(this.hold_touch_timer);
             this.unhideStuff();
           }
         } else {
@@ -1361,8 +1373,10 @@ class Timer extends Component {
       running: false,
       stopped: true,
     });
-    this.resetTime();
     this.unhideStuff();
+    if (this.state.hold_to_start) {
+      clearTimeout(this.hold_touch_timer);
+    }
     document.getElementById("time").style.color = "inherit";
   }
 
