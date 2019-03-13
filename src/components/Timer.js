@@ -1449,6 +1449,7 @@ class Timer extends Component {
 
 
   render() {
+    let keyheld = false;
     document.body.onkeydown = function(e) {
       if (e.repeat) {
         if (this.state.hold_to_start && !this.state.hold_done) {
@@ -1479,7 +1480,8 @@ class Timer extends Component {
         }
       } else if (e.keyCode === 27 && !this.state.modal && !this.state.fifteen) {
         this.resetTime();
-      } else if (this.state.running && e.keyCode !== 18 && e.keyCode !== 9) {
+      } else if (this.state.running && e.keyCode !== 18 && e.keyCode !== 9 && !keyheld) {
+        keyheld = true;
         this.endTime();
         this.calculateTime();
         document.getElementById("time").style.color = "#f73b3b";
@@ -1487,6 +1489,7 @@ class Timer extends Component {
     }.bind(this);
 
     document.body.onkeyup = function(e) {
+      keyheld = false;
       if (e.keyCode === 32 && !this.state.running && this.state.stopped && !this.state.modal) {
         if (this.state.inspection_time) {
           if (!this.state.fifteen) {
