@@ -191,7 +191,7 @@ class Timer extends Component {
     document.getElementById("time").addEventListener('touchend', this.onTouchEnd, false);
     document.getElementById("time").addEventListener('touchcancel', this.onTouchCancel, false);
     document.getElementById("time").addEventListener('touchmove', this.onTouchMove, false);
-    window.addEventListener("contextmenu", function(e) { e.preventDefault(); })
+    document.getElementById("time").addEventListener("contextmenu", function(e) { e.preventDefault(); })
   }
 
   componentWillUnmount() {
