@@ -41,6 +41,7 @@ class Timer extends Component {
     this.state = {
       stopped: true,
       running: false,
+      canceled: false,
       renderlog: true,
       fifteen: false,
       hold_done: false,
@@ -157,6 +158,10 @@ class Timer extends Component {
     this.deleteTheme = this.deleteTheme.bind(this);
     this.changeColor = this.changeColor.bind(this);
     this.partyMode = this.partyMode.bind(this);
+    this.onTouchStart = this.onTouchStart.bind(this);
+    this.onTouchEnd = this.onTouchEnd.bind(this);
+    this.onTouchCancel = this.onTouchCancel.bind(this);
+    this.onTouchMove = this.onTouchMove.bind(this);
   }
 
   componentDidMount() {
@@ -181,6 +186,10 @@ class Timer extends Component {
     this.handleScrambleSize(this.state.scramble_size);
     this.handleTimerSize(this.state.timer_size);
     this.handleAvSize(this.state.av_size);
+    document.getElementById("time").addEventListener('touchstart', this.onTouchStart, false);
+    document.getElementById("time").addEventListener('touchend', this.onTouchEnd, false);
+    document.getElementById("time").addEventListener('touchcancel', this.onTouchCancel, false);
+    document.getElementById("time").addEventListener('touchmove', this.onTouchMove, false);
   }
 
   componentWillUnmount() {
@@ -1273,6 +1282,92 @@ class Timer extends Component {
         action: 'Turned Party Mode On'
       });
     }
+  }
+
+  onTouchStart(e) {
+    this.setState({ canceled: false });
+    if (!this.state.running && this.state.stopped && !this.state.modal) {
+      if (this.state.hold_to_start && (!this.state.inspection_time || this.state.fifteen)) {
+        document.getElementById("time").style.color = "#ffff2d";
+        let d = new Date();
+        const time = d.getTime();
+        this.setState({ holdstart: time });
+      } else {
+        document.getElementById("time").style.color = "#2dff57";
+        this.hideStuff();
+        if (!this.state.fifteen) {
+          this.resetTime();
+        }
+      }
+    } else if (this.state.running) {
+      this.endTime();
+      this.calculateTime();
+      document.getElementById("time").style.color = "#f73b3b";
+    }
+  }
+
+  onTouchEnd(e) {
+    if (!this.state.running && this.state.stopped && !this.state.modal && !this.state.canceled) {
+      if (this.state.inspection_time) {
+        if (!this.state.fifteen) {
+          document.getElementById("time").style.color = "#f73b3b";
+          this.startInspection();
+          if (this.state.hold_to_start) {
+            this.setState({ hold_done: false });
+          }
+        } else {
+          if (this.state.hold_to_start) {
+            if (this.state.hold_done) {
+              this.endInspection();
+            } else {
+              document.getElementById("time").style.color = "#f73b3b";
+            }
+          } else {
+            this.endInspection();
+          }
+        }
+      }
+      if (!this.state.fifteen) {
+        if (this.state.hold_to_start) {
+          if (this.state.hold_done) {
+            this.handleStopped();
+            this.startTime();
+            document.getElementById("time").style.color = "inherit";
+          } else {
+            document.getElementById("time").style.color = "inherit";
+            this.unhideStuff();
+          }
+        } else {
+          this.handleStopped();
+          this.startTime();
+          document.getElementById("time").style.color = "inherit";
+        }
+      }
+    } else if (!this.state.fifteen && !this.state.stopped) {
+      document.getElementById("time").style.color = "inherit";
+      this.unhideStuff();
+      this.setState({ hold_done: false });
+      this.saveTime();
+      this.updateBests();
+      this.generateScramble();
+      this.handleRenderLog();
+      this.handleStopped();
+    }
+  }
+
+  onTouchCancel(e) {
+    this.setState({
+      canceled: true,
+      running: false,
+      stopped: true,
+    });
+    this.resetTime();
+    this.unhideStuff();
+    document.getElementById("time").style.color = "inherit";
+  }
+
+  onTouchMove(e) {
+    this.onTouchCancel(e);
   }
 
   // HANDLERS
