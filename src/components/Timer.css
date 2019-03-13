@@ -80,7 +80,7 @@
 
 #settings {
   top: 3em;
-  right: 1.5vw;
+  right: 1vw;
   background-color: inherit;
   display: block;
   position: absolute;
@@ -92,9 +92,23 @@
   color: var(--texthighlighted)
 }
 
+#account {
+  bottom: 1em;
+  right: 1vw;
+  background-color: inherit;
+  display: block;
+  position: absolute;
+  color: var(--text);
+  transition: 0s;
+}
+
+#account:hover {
+  color: var(--texthighlighted)
+}
+
 #stats {
   top: 6em;
-  right: 1.5vw;
+  right: 1vw;
   background-color: inherit;
   display: block;
   position: absolute;
@@ -135,6 +149,17 @@
 }
 
 @media screen and (max-width: 1080px) {
+
+    #average {
+      bottom: 0vh;
+      left: 0vw;
+      right: 0vw;
+      height: 10vh;
+      transition: 0s;
+      font-size: 24px;
+      width: 100vw;
+    }
+
     .log {
       top: 100vh;
       width: 100vw !important;
@@ -191,6 +216,7 @@
 
     .react-tabs__tab-panel--selected {
       margin-left: 0px;
+      overflow: auto;
     }
 
     h2 {
@@ -242,7 +268,8 @@
     }
 
     .setting {
-      height: 100px;
+      height: auto;
+      width: 76vw;
     }
 
   }

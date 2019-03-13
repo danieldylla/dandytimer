@@ -1,0 +1,52 @@
+.TimeModal {
+    position: absolute;
+    top: 2vh;
+    left: 20vw;
+    right: 20vw;
+    background-color: var(--primary);
+    color: var(--text);
+    overflow: scroll;
+    height: 500px;
+    min-width: 250px;
+    outline: none;
+  }
+
+.TimeOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+  }
+
+  #accountbtn {
+    font-size: 2rem;
+  }
+
+  #accountbtn:hover {
+    background-color: inherit;
+    border-radius: 10px;
+  }
+
+  .accountinfo {
+    position: relative;
+    margin: 10px;
+    padding-left: 1vw;
+    padding-top: 1vh;
+    padding-right: 1vw;
+    padding-bottom: 1vh;
+  }
+
+  .signininfo {
+    position: relative;
+    font-size: 24px;
+    text-align: center;
+    margin: 0px 20px;
+  }
+
+  .signin {
+    width: 20vw;
+    text-align: center;
+    justify-content: center;
+  }

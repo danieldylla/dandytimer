@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactGA from 'react-ga';
 import Log from './Log';
 import Settings from './Settings';
+import Account from './modals/AccountModal'
 import Stats from './Stats'
 import './Timer.css';
 
@@ -20,6 +21,7 @@ import {faCaretUp} from '@fortawesome/free-solid-svg-icons';
 import {faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import {faCaretRight} from '@fortawesome/free-solid-svg-icons';
 import {faCaretLeft} from '@fortawesome/free-solid-svg-icons';
+import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCog);
 library.add(faTimes);
@@ -34,11 +36,13 @@ library.add(faCaretUp);
 library.add(faCaretDown);
 library.add(faCaretRight);
 library.add(faCaretLeft);
+library.add(faUserCircle);
 
 class Timer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: null,
       stopped: true,
       running: false,
       canceled: false,
@@ -106,7 +110,7 @@ class Timer extends Component {
       hold_len: .5,
     };
 
-
+    this.signIn = this.signIn.bind(this);
     this.display = this.display.bind(this);
     this.resetTime = this.resetTime.bind(this);
     this.updateTime = this.updateTime.bind(this);
@@ -255,6 +259,10 @@ class Timer extends Component {
       };
       reader.readAsText(file);
     }
+  }
+
+  signIn(googleUser) {
+    this.setState({ user: googleUser.getBasicProfile() })
   }
 
   newSession() {
@@ -1080,9 +1088,9 @@ class Timer extends Component {
       }
 
       return (
-        <div>
+        <p>
           {this.convertToTime(this.state.time)}
-        </div>
+        </p>
       );
     }
   }
@@ -1144,6 +1152,7 @@ class Timer extends Component {
     document.getElementById("scramble").style.display = "none";
     document.getElementById("average").style.display = "none";
     document.getElementById("statistics").style.display = "none";
+    document.getElementById("account").style.display = "none";
   }
 
   unhideStuff() {
@@ -1152,6 +1161,7 @@ class Timer extends Component {
     document.getElementById("scramble").style.display = "block";
     document.getElementById("average").style.display = "block";
     document.getElementById("statistics").style.display = "block";
+    document.getElementById("account").style.display = "block";
   }
 
   colorLuminance(hex, lum) {
@@ -1694,6 +1704,14 @@ class Timer extends Component {
             theme={this.state.theme}
             show_stats={this.state.show_stats}
             handleShowStats={this.handleShowStats}
+          />
+        </div>
+        <div className="account" id="account">
+          <Account
+            user={this.state.user}
+            theme={this.state.theme}
+            signIn={(g) => this.signIn(g)}
+            handleModal={this.handleModal}
           />
         </div>
         <div id="time">

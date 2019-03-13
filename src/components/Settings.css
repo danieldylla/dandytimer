@@ -87,7 +87,7 @@
     border-bottom: solid;
     border-bottom-color: var(--text);
     border-bottom-width: 2px;
-    overflow: auto;
+    overflow: hidden;
   }
 
   .desc {
