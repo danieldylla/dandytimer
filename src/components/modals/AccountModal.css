@@ -29,6 +29,22 @@
     border-radius: 10px;
   }
 
+  .signinbtn {
+    width: 10vw;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    min-width: 200px;
+  }
+
+  .logout {
+    width: 10vw;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    min-width: 200px;
+  }
+
   .accountinfo {
     position: relative;
     margin: 10px;

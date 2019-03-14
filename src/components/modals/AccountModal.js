@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import Button from '@material-ui/core/Button';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactGA from 'react-ga';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
 
 import './AccountModal.css';
 
@@ -17,6 +16,9 @@ class AccountModal extends Component {
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.onSignIn = this.onSignIn.bind(this);
+    this.onFail = this.onFail.bind(this);
+    this.onLogout = this.onLogout.bind(this);
   };
 
   openModal() {
@@ -38,6 +40,17 @@ class AccountModal extends Component {
     event.target.select();
   }
 
+  onSignIn = (response) => {
+    this.props.signIn(response);
+  }
+
+  onFail() {
+  }
+
+  onLogout() {
+    this.props.logOut();
+  }
+
   colorLuminance(hex, lum) {
   	// validate hex string
   	hex = String(hex).replace(/[^0-9a-f]/gi, '');
@@ -57,26 +70,7 @@ class AccountModal extends Component {
 
 
   render() {
-    const theme = createMuiTheme({
-      typography: {
-        useNextVariants: true,
-      },
-      palette: {
-        primary: {
-          main: this.props.theme.accent,
-          contrastText: this.props.theme.primary,
-          dark: this.colorLuminance(this.props.theme.accent, -.2),
-          light: this.colorLuminance(this.props.theme.accent, .2)
-        },
-        secondary: {
-          main: this.colorLuminance(this.props.theme.accent, -.3),
-          contrastText: this.props.theme.primary,
-          dark: this.colorLuminance(this.props.theme.accent, -.5),
-          light: this.colorLuminance(this.props.theme.accent, -.1)
-        }
-      },
-      shadows: Array(25).fill('none')
-    });
+
 
     return (
       <div className="modal">
@@ -93,36 +87,17 @@ class AccountModal extends Component {
             className="TimeModal"
             overlayClassName="TimeOverlay"
           >
-            {this.props.user ?
+            {this.props.googleuser ?
               <div className="averageinfo">
                 <h1 id="title">Account</h1>
                 <br />
-                <div className="avbuttons">
-                  <MuiThemeProvider theme={theme}>
-                    <div className="copy">
-                      <Button
-                        onClick={this.closeModal}
-                        variant="outlined"
-                        color="primary"
-                        className="confirm"
-                        tabIndex="1"
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                    <div className="confirm">
-                      <Button
-                        onClick={this.closeModal}
-                        id="confirm"
-                        variant="contained"
-                        color="primary"
-                        className="confirm"
-                        tabIndex="2"
-                      >
-                        Confirm
-                      </Button>
-                    </div>
-                  </MuiThemeProvider>
+                <div className="userinfo">
+
+                </div>
+                <div className="logout">
+                  <button onClick={this.onLogout}>
+                    LOG out
+                  </button>
                 </div>
               </div>
             :
@@ -134,7 +109,15 @@ class AccountModal extends Component {
                     Sign in with Google to save your results online and
                     access them from any device.
                   </p>
-                  <div className="signinbtn">
+                  <br /><br /><br />
+                  <div>
+                    <GoogleLogin
+                      clientId="761979688892-21thqlhcbremkbdu8ivsirucs3pceoqo.apps.googleusercontent.com"
+                      buttonText="SIGN IN"
+                      onSuccess={this.onSignIn}
+                      onFailure={this.onFail}
+                      className="signinbtn"
+                    />
                   </div>
                 </div>
               </div>

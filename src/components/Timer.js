@@ -42,7 +42,13 @@ class Timer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
+      googleuser: null,
+      user: {
+        name: null,
+        photo: null,
+        id: null,
+        email: null,
+      },
       stopped: true,
       running: false,
       canceled: false,
@@ -111,6 +117,7 @@ class Timer extends Component {
     };
 
     this.signIn = this.signIn.bind(this);
+    this.logOut = this.logOut.bind(this);
     this.display = this.display.bind(this);
     this.resetTime = this.resetTime.bind(this);
     this.updateTime = this.updateTime.bind(this);
@@ -262,7 +269,28 @@ class Timer extends Component {
   }
 
   signIn(googleUser) {
-    this.setState({ user: googleUser.getBasicProfile() })
+    let user = googleUser.getBasicProfile();
+    this.setState({
+      googleuser: user,
+      user: {
+        name: user.getName(),
+        email: user.getEmail(),
+        photo: user.getImageUrl(),
+        id: user.getId(),
+      }
+    });
+  }
+
+  logOut() {
+    this.setState({
+      googleuser: null,
+      user: {
+        name: null,
+        email: null,
+        photo: null,
+        id: null
+      }
+    });
   }
 
   newSession() {
@@ -987,7 +1015,7 @@ class Timer extends Component {
     if (s === 'dnf') {
       return ('DNF');
     }
-    if (s === 0 || s === null || this.state.reps === 0) {
+    if (s === 0 || s === null) {
       return ('-');
     }
     s = Math.floor(s);
@@ -1709,8 +1737,10 @@ class Timer extends Component {
         <div className="account" id="account">
           <Account
             user={this.state.user}
+            googleuser={this.state.googleuser}
             theme={this.state.theme}
             signIn={(g) => this.signIn(g)}
+            logOut={this.logOut}
             handleModal={this.handleModal}
           />
         </div>
