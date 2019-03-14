@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactGA from 'react-ga';
 import Log from './Log';
 import Settings from './Settings';
+import Account from './modals/AccountModal'
 import Stats from './Stats'
 import './Timer.css';
 
@@ -20,6 +21,7 @@ import {faCaretUp} from '@fortawesome/free-solid-svg-icons';
 import {faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import {faCaretRight} from '@fortawesome/free-solid-svg-icons';
 import {faCaretLeft} from '@fortawesome/free-solid-svg-icons';
+import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCog);
 library.add(faTimes);
@@ -34,11 +36,13 @@ library.add(faCaretUp);
 library.add(faCaretDown);
 library.add(faCaretRight);
 library.add(faCaretLeft);
+library.add(faUserCircle);
 
 class Timer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: null,
       stopped: true,
       running: false,
       canceled: false,
@@ -47,10 +51,7 @@ class Timer extends Component {
       hold_done: false,
       holdstart: 0,
       modal: false,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-      mil: 0,
+      time: 0,
       inspecttime: 15,
       start: null,
       end: null,
@@ -109,12 +110,11 @@ class Timer extends Component {
       hold_len: .5,
     };
 
-
+    this.signIn = this.signIn.bind(this);
     this.display = this.display.bind(this);
     this.resetTime = this.resetTime.bind(this);
     this.updateTime = this.updateTime.bind(this);
     this.updateInspectionTime = this.updateInspectionTime.bind(this);
-    this.display = this.display.bind(this);
     this.displayInspection = this.displayInspection.bind(this);
     this.hideStuff = this.hideStuff.bind(this);
     this.unhideStuff = this.unhideStuff.bind(this);
@@ -261,6 +261,10 @@ class Timer extends Component {
     }
   }
 
+  signIn(googleUser) {
+    this.setState({ user: googleUser.getBasicProfile() })
+  }
+
   newSession() {
     this.saveSession();
     this.setState({
@@ -355,10 +359,7 @@ class Timer extends Component {
 
   resetTime() {
     this.setState({
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-      mil: 0,
+      time: 0,
       start: null,
       end: null,
       res: {
@@ -376,29 +377,10 @@ class Timer extends Component {
   }
 
   updateTime() {
-    if (this.state.mil < 99) {
-      this.setState({
-        mil: this.state.mil + 1
-      });
-    } else if (this.state.mil === 99 && this.state.seconds < 59) {
-      this.setState({
-        seconds: this.state.seconds + 1,
-        mil: 0
-      });
-    } else if (this.state.seconds === 59 && this.state.minutes < 59) {
-      this.setState({
-        minutes: this.state.minutes + 1,
-        seconds: 0,
-        mil: 0,
-      });
-    } else {
-      this.setState({
-        hours: this.state.hours + 1,
-        minutes: 0,
-        seconds: 0,
-        mil: 0
-      });
-    }
+    let d = new Date();
+    const time = d.getTime();
+    let difference = time - this.state.start;
+    this.setState({ time: difference });
   }
 
   updateInspectionTime() {
@@ -444,7 +426,7 @@ class Timer extends Component {
       start: time,
       running: true
     });
-    this.timer = setInterval(this.updateTime, 10);
+    this.timer = setInterval(this.updateTime, 16);
   }
 
   endTime() {
@@ -465,18 +447,6 @@ class Timer extends Component {
 
   calculateTime() {
     let t = this.state.end - this.state.start;
-    let s = t;
-    var ms = s % 1000;
-    s = (s - ms) / 1000;
-    var sec = s % 60;
-    s = (s - sec) / 60;
-    var min = s % 60;
-    s = (s - min) / 60;
-    if (this.state.res.plus2) {
-      t = t + 2000;
-      sec = sec + 2;
-    }
-
     this.setState({
       res: {
         scramble: this.state.res.scramble,
@@ -490,10 +460,7 @@ class Timer extends Component {
         plus2: this.state.res.plus2,
       },
       average: this.calculateAverage(t, this.state.validreps),
-      hours: s,
-      minutes: min,
-      seconds: sec,
-      mil: Math.floor(ms/10),
+      time: t,
     });
   }
 
@@ -1116,20 +1083,13 @@ class Timer extends Component {
     } else if (this.state.stopped && this.state.res.dnf) {
       return(<p>DNF</p>);
     } else {
-      let l, s, m, h;
-      h = this.state.hours;
-      m = this.state.minutes;
-      s = this.state.seconds;
-      l = this.state.mil;
-      if (l === null) {
+      if (this.state.time === null || this.state.time === 0) {
         return(<p>0.00</p>);
       }
 
       return (
         <p>
-          {this.displayHour(h)}
-          {this.displayMinute(h, m)}
-          {this.displaySecond(m, s)}.{this.displayMillisecond(l)}
+          {this.convertToTime(this.state.time)}
         </p>
       );
     }
@@ -1192,6 +1152,7 @@ class Timer extends Component {
     document.getElementById("scramble").style.display = "none";
     document.getElementById("average").style.display = "none";
     document.getElementById("statistics").style.display = "none";
+    document.getElementById("account").style.display = "none";
   }
 
   unhideStuff() {
@@ -1200,6 +1161,7 @@ class Timer extends Component {
     document.getElementById("scramble").style.display = "block";
     document.getElementById("average").style.display = "block";
     document.getElementById("statistics").style.display = "block";
+    document.getElementById("account").style.display = "block";
   }
 
   colorLuminance(hex, lum) {
@@ -1742,6 +1704,14 @@ class Timer extends Component {
             theme={this.state.theme}
             show_stats={this.state.show_stats}
             handleShowStats={this.handleShowStats}
+          />
+        </div>
+        <div className="account" id="account">
+          <Account
+            user={this.state.user}
+            theme={this.state.theme}
+            signIn={(g) => this.signIn(g)}
+            handleModal={this.handleModal}
           />
         </div>
         <div id="time">

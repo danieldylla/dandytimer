@@ -16,6 +16,7 @@
     "react-color": "^2.17.0",
     "react-dom": "^16.7.0",
     "react-ga": "^2.5.7",
+    "react-google-login": "^5.0.2",
     "react-input-number": "^4.0.5",
     "react-input-slider": "^4.0.1",
     "react-modal": "^3.8.1",
