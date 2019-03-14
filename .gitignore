@@ -10,6 +10,7 @@
 
 # production
 /build
+/danieldylla.github.io
 
 # misc
 .DS_Store
