@@ -582,23 +582,90 @@ class Settings extends Component {
                       Hold To Start Length
                       <div className="switches">
                         <FontAwesomeIcon icon="caret-left" id="changen"
-                          onClick={() => this.props.handleHoldLen(this.props.hold_len - .1)}
+                          onClick={() => this.props.handleHoldLen(this.props.hold_len / 1000 - .1)}
                         />
                         <InputNumber
                           className="setinput"
                           onFocus={this.handleFocus}
-                          min={.5}
-                          max={3}
-                          step={1}
-                          value={this.props.hold_len}
+                          step={.1}
+                          value={this.props.hold_len / 1000}
                           onChange={value => this.props.handleHoldLen(value)}
                         />
                         <FontAwesomeIcon icon="caret-right" id="changen"
-                          onClick={() => this.props.handleHoldLen(this.props.hold_len + .1)}
+                          onClick={() => this.props.handleHoldLen(this.props.hold_len / 1000 + .1)}
                         />
                       </div>
                       <div className="desc">
                         if enabled, this is how many seconds you must hold to start the timer
+                      </div>
+                    </div>
+                    <div className="setting">
+                      Stop With Space Only
+                      <div className="switches">
+                        <Switch
+                          checked={this.props.space_to_stop}
+                          onChange={this.props.handleSpaceToStop}
+                          onColor={this.colorLuminance(this.state.accent, -.4)}
+                          onHandleColor={this.state.accent}
+                          handleDiameter={30}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={20}
+                          width={48}
+                          className="react-switch"
+                          id="material-switch"
+                        />
+                      </div>
+                      <div className="desc">
+                        timer will only stop if the spacebar is hit, disable to stop with any key
+                      </div>
+                    </div>
+                    <div className="setting">
+                      Show Milliseconds
+                      <div className="switches">
+                        <Switch
+                          checked={this.props.display_milliseconds}
+                          onChange={this.props.handleDisplayMilliseconds}
+                          onColor={this.colorLuminance(this.state.accent, -.4)}
+                          onHandleColor={this.state.accent}
+                          handleDiameter={30}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={20}
+                          width={48}
+                          className="react-switch"
+                          id="material-switch"
+                        />
+                      </div>
+                      <div className="desc">
+                        show accuracy to milliseconds, or 3 digits after the decimal
+                      </div>
+                    </div>
+                    <div className="setting">
+                      Hide Time While Solving
+                      <div className="switches">
+                        <Switch
+                          checked={this.props.hide_time}
+                          onChange={this.props.handleHideTime}
+                          onColor={this.colorLuminance(this.state.accent, -.4)}
+                          onHandleColor={this.state.accent}
+                          handleDiameter={30}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={20}
+                          width={48}
+                          className="react-switch"
+                          id="material-switch"
+                        />
+                      </div>
+                      <div className="desc">
+                        hide the running timer while solving
                       </div>
                     </div>
                   </div>

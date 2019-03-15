@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactGA from 'react-ga';
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import { GoogleLogin } from 'react-google-login';
 import GoogleButton from 'react-google-button'
 
 import './AccountModal.css';
@@ -93,9 +93,13 @@ class AccountModal extends Component {
                 <h1 id="title">Account</h1>
                 <br />
                 <div className="userinfo">
-                  <img src={this.props.user.photo} className="profilepic"/>
+                  <img src={this.props.user.photo} alt="profile" className="profilepic"/>
                   <div className="welcome">
                     Welcome, <b>{this.props.user.name}</b>
+                  </div>
+                  <div className="accountdesc">
+                    Accounts let you back up your data and access it anywhere,
+                    from any device. [NOT YET IMPLEMENTED]
                   </div>
                 </div>
                 <button onClick={this.onLogout} className="logout">

@@ -55,7 +55,6 @@ class Timer extends Component {
       renderlog: true,
       fifteen: false,
       hold_done: false,
-      holdstart: 0,
       modal: false,
       time: 0,
       inspecttime: 15,
@@ -101,6 +100,9 @@ class Timer extends Component {
       inspection_time: false,
       hold_to_start: false,
       highlight_text: true,
+      space_to_stop: true,
+      display_milliseconds: false,
+      hide_time: false,
       party_mode: false,
       theme: {
         primary: '#1a1c21',
@@ -113,7 +115,7 @@ class Timer extends Component {
       scramble_size: 28,
       timer_size: 144,
       av_size: 24,
-      hold_len: .5,
+      hold_len: 300,
     };
 
     this.signIn = this.signIn.bind(this);
@@ -158,18 +160,22 @@ class Timer extends Component {
     this.handleTimerSize = this.handleTimerSize.bind(this);
     this.handleAvSize = this.handleAvSize.bind(this);
     this.handleHoldLen = this.handleHoldLen.bind(this);
+    this.handleSpaceToStop = this.handleSpaceToStop.bind(this);
     this.handleHighlightText = this.handleHighlightText.bind(this);
+    this.handleDisplayMilliseconds = this.handleDisplayMilliseconds.bind(this);
+    this.handleHideTime = this.handleHideTime.bind(this);
     this.handlePlus2 = this.handlePlus2.bind(this);
     this.handleDNF = this.handleDNF.bind(this);
     this.saveTheme = this.saveTheme.bind(this);
     this.deleteTheme = this.deleteTheme.bind(this);
     this.changeColor = this.changeColor.bind(this);
     this.partyMode = this.partyMode.bind(this);
-    this.timeTouch = this.timeTouch.bind(this);
+    this.timeHold = this.timeHold.bind(this);
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onTouchEnd = this.onTouchEnd.bind(this);
     this.onTouchCancel = this.onTouchCancel.bind(this);
     this.onTouchMove = this.onTouchMove.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   componentDidMount() {
@@ -181,6 +187,7 @@ class Timer extends Component {
       this.saveStateToLocalStorage.bind(this),
       this.saveSession.bind(this),
     );
+    this.reset();
     this.generateScramble();
     this.handleModalFalse();
     this.handlePartyModeOff();
@@ -402,6 +409,16 @@ class Timer extends Component {
         plus2: false,
       },
     });
+  }
+
+  reset() {
+    clearInterval(this.timer);
+    this.setState({
+      running: false,
+      stopped: true,
+      fifteen: false,
+    });
+    this.resetTime();
   }
 
   updateTime() {
@@ -1026,7 +1043,9 @@ class Timer extends Component {
     var min = s % 60;
     s = (s - min) / 60;
 
-    ms = Math.floor(ms/10);
+    if(!this.state.display_milliseconds) {
+      ms = Math.floor(ms/10);
+    }
 
     return (
       this.displayHour(s) + this.displayMinute(s, min) +
@@ -1059,6 +1078,13 @@ class Timer extends Component {
   }
 
   displayMillisecond(l) {
+    if (this.state.display_milliseconds) {
+      if (l < 10) {
+        return('00' + l);
+      } else if (l < 100) {
+        return ('0' + l);
+      }
+    }
     if (l < 10) {
       return('0' + l);
     }
@@ -1112,6 +1138,9 @@ class Timer extends Component {
       return(<p>DNF</p>);
     } else {
       if (this.state.time === null || this.state.time === 0) {
+        if (this.state.display_milliseconds) {
+          return(<p>0.000</p>);
+        }
         return(<p>0.00</p>);
       }
 
@@ -1276,7 +1305,7 @@ class Timer extends Component {
     }
   }
 
-  timeTouch() {
+  timeHold() {
     this.setState({ hold_done: true });
     document.getElementById("time").style.color = "#2dff57";
     this.hideStuff();
@@ -1290,7 +1319,7 @@ class Timer extends Component {
     if (!this.state.running && this.state.stopped && !this.state.modal) {
       if (this.state.hold_to_start && (!this.state.inspection_time || this.state.fifteen)) {
         document.getElementById("time").style.color = "#ffff2d";
-        this.hold_touch_timer = setTimeout(this.timeTouch, this.state.hold_len * 1000);
+        this.hold_touch_timer = setTimeout(this.timeHold, this.state.hold_len);
       } else {
         document.getElementById("time").style.color = "#2dff57";
         this.hideStuff();
@@ -1469,9 +1498,30 @@ class Timer extends Component {
     document.getElementById("average").style.fontSize = i + "px";
   }
 
-  handleHoldLen(i) {
+  handleSpaceToStop() {
     this.setState({
-      hold_len: i,
+      space_to_stop: !this.state.space_to_stop
+    });
+  }
+
+  handleDisplayMilliseconds() {
+    this.setState({
+      display_milliseconds: !this.state.display_milliseconds,
+    });
+  }
+
+  handleHideTime() {
+    this.setState({
+      hide_time: !this.state.hide_time,
+    });
+  }
+
+  handleHoldLen(i) {
+    if (i < .1 || i > 3) {
+      return;
+    }
+    this.setState({
+      hold_len: i*1000
     });
   }
 
@@ -1551,18 +1601,6 @@ class Timer extends Component {
     let keyheld = false;
     document.body.onkeydown = function(e) {
       if (e.repeat) {
-        if (this.state.hold_to_start && !this.state.hold_done) {
-          let d = new Date();
-          const time = d.getTime();
-          if (time - this.state.holdstart >= this.state.hold_len * 1000) {
-            this.setState({ hold_done : true });
-            document.getElementById("time").style.color = "#2dff57";
-            this.hideStuff();
-            if (!this.state.fifteen) {
-              this.resetTime();
-            }
-          }
-        }
         return;
       } else if (e.keyCode === 76) {
         this.setState({
@@ -1577,9 +1615,7 @@ class Timer extends Component {
       } else if (e.keyCode === 32 && !this.state.running && this.state.stopped && !this.state.modal) {
         if (this.state.hold_to_start && (!this.state.inspection_time || this.state.fifteen)) {
           document.getElementById("time").style.color = "#ffff2d";
-          let d = new Date();
-          const time = d.getTime();
-          this.setState({ holdstart: time });
+          this.hold_timer = setTimeout(this.timeHold, this.state.hold_len);
         } else {
           document.getElementById("time").style.color = "#2dff57";
           this.hideStuff();
@@ -1590,6 +1626,9 @@ class Timer extends Component {
       } else if (e.keyCode === 27 && !this.state.modal && !this.state.fifteen) {
         this.resetTime();
       } else if (this.state.running && e.keyCode !== 18 && e.keyCode !== 9 && !keyheld) {
+        if (this.state.space_to_stop && e.keyCode !== 32) {
+          return;
+        }
         keyheld = true;
         this.endTime();
         this.calculateTime();
@@ -1628,6 +1667,7 @@ class Timer extends Component {
             } else {
               document.getElementById("time").style.color = "inherit";
               this.unhideStuff();
+              clearTimeout(this.hold_timer);
             }
           } else {
             this.handleStopped();
@@ -1636,6 +1676,9 @@ class Timer extends Component {
           }
         }
       } else if (e.keyCode !== 18 && e.keyCode !== 9 && !this.state.fifteen && !this.state.stopped) {
+        if (this.state.space_to_stop && e.keyCode !== 32) {
+          return;
+        }
         document.getElementById("time").style.color = "inherit";
         this.unhideStuff();
         this.setState({ hold_done: false });
@@ -1701,6 +1744,9 @@ class Timer extends Component {
             av_size={this.state.av_size}
             hold_len={this.state.hold_len}
             highlight_text={this.state.highlight_text}
+            space_to_stop={this.state.space_to_stop}
+            display_milliseconds={this.state.display_milliseconds}
+            hide_time={this.state.hide_time}
             themes={this.state.themes}
             handleModal={() => this.handleModal()}
             handleInspection={this.handleInspection}
@@ -1713,6 +1759,9 @@ class Timer extends Component {
             handleAvSize={(i) => this.handleAvSize(i)}
             handleHoldLen={(i) => this.handleHoldLen(i)}
             handleHighlightText={this.handleHighlightText}
+            handleSpaceToStop={this.handleSpaceToStop}
+            handleDisplayMilliseconds={this.handleDisplayMilliseconds}
+            handleHideTime={this.handleHideTime}
             saveTheme={(name, theme) => this.saveTheme(name, theme)}
             deleteTheme={(i) => this.deleteTheme(i)}
             changeColor={(theme) => this.changeColor(theme)}
@@ -1755,7 +1804,11 @@ class Timer extends Component {
           />
         </div>
         <div id="time">
-          {this.display()}
+          {!this.state.hide_time || this.state.stopped ?
+            <div>{this.display()}</div>
+            :
+            null
+          }
         </div>
       </div>
     );
