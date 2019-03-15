@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactGA from 'react-ga';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import GoogleButton from 'react-google-button'
 
 import './AccountModal.css';
 
@@ -83,22 +84,23 @@ class AccountModal extends Component {
             onAfterOpen={this.afterOpenModal}
             onRequestClose={this.closeModal}
             ariaHideApp={false}
-            contentLabel="Example Modal"
-            className="TimeModal"
-            overlayClassName="TimeOverlay"
+            contentLabel="Account Modal"
+            className="AccountModal"
+            overlayClassName="AccountOverlay"
           >
             {this.props.googleuser ?
-              <div className="averageinfo">
+              <div className="accountinfo">
                 <h1 id="title">Account</h1>
                 <br />
                 <div className="userinfo">
-
+                  <img src={this.props.user.photo} className="profilepic"/>
+                  <div className="welcome">
+                    Welcome, <b>{this.props.user.name}</b>
+                  </div>
                 </div>
-                <div className="logout">
-                  <button onClick={this.onLogout}>
-                    LOG out
-                  </button>
-                </div>
+                <button onClick={this.onLogout} className="logout">
+                  Log Out
+                </button>
               </div>
             :
               <div className="accountinfo">
@@ -109,16 +111,17 @@ class AccountModal extends Component {
                     Sign in with Google to save your results online and
                     access them from any device.
                   </p>
-                  <br /><br /><br />
-                  <div>
-                    <GoogleLogin
-                      clientId="761979688892-21thqlhcbremkbdu8ivsirucs3pceoqo.apps.googleusercontent.com"
-                      buttonText="SIGN IN"
-                      onSuccess={this.onSignIn}
-                      onFailure={this.onFail}
-                      className="signinbtn"
-                    />
-                  </div>
+                  <GoogleLogin
+                    clientId="761979688892-21thqlhcbremkbdu8ivsirucs3pceoqo.apps.googleusercontent.com"
+                    buttonText="SIGN IN"
+                    render={renderProps => (
+                      <div className="signinbtn">
+                        <GoogleButton onClick={renderProps.onClick} />
+                      </div>
+                    )}
+                    onSuccess={this.onSignIn}
+                    onFailure={this.onFail}
+                  />
                 </div>
               </div>
             }

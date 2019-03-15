@@ -1,8 +1,8 @@
-.TimeModal {
+.AccountModal {
     position: absolute;
     top: 2vh;
-    left: 20vw;
-    right: 20vw;
+    left: 10vw;
+    right: 10vw;
     background-color: var(--primary);
     color: var(--text);
     overflow: scroll;
@@ -11,7 +11,7 @@
     outline: none;
   }
 
-.TimeOverlay {
+.AccountOverlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -30,24 +30,39 @@
   }
 
   .signinbtn {
-    width: 10vw;
     text-align: center;
-    justify-content: center;
-    align-items: center;
-    min-width: 200px;
+    height: 50px;
+    width: 240px;
+    margin-top: 100px;
+    margin-left: calc(50% - 120px);
   }
 
   .logout {
-    width: 10vw;
     text-align: center;
-    justify-content: center;
-    align-items: center;
-    min-width: 200px;
+    bottom: 50vh;
+    right: calc(10vw + 30px);
+    position: fixed;
+    width: 240px;
+    height: 50px;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 2px;
+    background-color: var(--accent);
+    color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 4px 0px;
+    transition: .5s;
+  }
+
+  .logout:hover {
+    background-color: var(--accent);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px 0px;
+    cursor: pointer;
   }
 
   .accountinfo {
     position: relative;
     margin: 10px;
+    height: 450px;
     padding-left: 1vw;
     padding-top: 1vh;
     padding-right: 1vw;
@@ -59,10 +74,27 @@
     font-size: 24px;
     text-align: center;
     margin: 0px 20px;
+    height: 390px;
   }
 
   .signin {
     width: 20vw;
     text-align: center;
     justify-content: center;
+  }
+
+  .userinfo {
+    margin: 30px;
+  }
+
+  .welcome {
+    margin-top: 30px;
+    display: inline-block;
+    font-size: 30px;
+  }
+
+  .profilepic {
+    width: 100px;
+    margin-bottom: -30px;
+    margin-right: 30px;
   }
