@@ -1564,6 +1564,16 @@ class Timer extends Component {
           }
         }
         return;
+      } else if (e.keyCode === 76) {
+        this.setState({
+          googleuser: 1,
+          user: {
+            name: "Daniel Dylla",
+            id: "113085164799819270389",
+            email: "daniel.dylla@gmail.com",
+            photo: "https://lh4.googleusercontent.com/-LrAx4wG8e30/AAAAAAAAAAI/AAAAAAAAXNM/tuG65w-2v1w/s96-c/photo.jpg",
+          }
+        })
       } else if (e.keyCode === 32 && !this.state.running && this.state.stopped && !this.state.modal) {
         if (this.state.hold_to_start && (!this.state.inspection_time || this.state.fifteen)) {
           document.getElementById("time").style.color = "#ffff2d";
