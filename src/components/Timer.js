@@ -103,6 +103,7 @@ class Timer extends Component {
       space_to_stop: true,
       display_milliseconds: false,
       hide_time: false,
+      hide_surroundings: true,
       party_mode: false,
       theme: {
         primary: '#1a1c21',
@@ -164,6 +165,7 @@ class Timer extends Component {
     this.handleHighlightText = this.handleHighlightText.bind(this);
     this.handleDisplayMilliseconds = this.handleDisplayMilliseconds.bind(this);
     this.handleHideTime = this.handleHideTime.bind(this);
+    this.handleHideSurroundings = this.handleHideSurroundings.bind(this);
     this.handlePlus2 = this.handlePlus2.bind(this);
     this.handleDNF = this.handleDNF.bind(this);
     this.saveTheme = this.saveTheme.bind(this);
@@ -1204,21 +1206,25 @@ class Timer extends Component {
   }
 
   hideStuff() {
-    document.getElementById("log").style.display = "none";
-    document.getElementById("settings").style.display = "none";
-    document.getElementById("scramble").style.display = "none";
-    document.getElementById("average").style.display = "none";
-    document.getElementById("statistics").style.display = "none";
-    document.getElementById("account").style.display = "none";
+    if (this.state.hide_surroundings) {
+      document.getElementById("log").style.display = "none";
+      document.getElementById("settings").style.display = "none";
+      document.getElementById("scramble").style.display = "none";
+      document.getElementById("average").style.display = "none";
+      document.getElementById("statistics").style.display = "none";
+      document.getElementById("account").style.display = "none";
+    }
   }
 
   unhideStuff() {
-    document.getElementById("log").style.display = "block";
-    document.getElementById("settings").style.display = "block";
-    document.getElementById("scramble").style.display = "block";
-    document.getElementById("average").style.display = "block";
-    document.getElementById("statistics").style.display = "block";
-    document.getElementById("account").style.display = "block";
+    if (this.state.hide_surroundings) {
+      document.getElementById("log").style.display = "block";
+      document.getElementById("settings").style.display = "block";
+      document.getElementById("scramble").style.display = "block";
+      document.getElementById("average").style.display = "block";
+      document.getElementById("statistics").style.display = "block";
+      document.getElementById("account").style.display = "block";
+    }
   }
 
   colorLuminance(hex, lum) {
@@ -1516,6 +1522,12 @@ class Timer extends Component {
     });
   }
 
+  handleHideSurroundings() {
+    this.setState({
+      hide_surroundings: !this.state.hide_surroundings,
+    });
+  }
+
   handleHoldLen(i) {
     if (i < .1 || i > 3) {
       return;
@@ -1747,6 +1759,7 @@ class Timer extends Component {
             space_to_stop={this.state.space_to_stop}
             display_milliseconds={this.state.display_milliseconds}
             hide_time={this.state.hide_time}
+            hide_surroundings={this.state.hide_surroundings}
             themes={this.state.themes}
             handleModal={() => this.handleModal()}
             handleInspection={this.handleInspection}
@@ -1762,6 +1775,7 @@ class Timer extends Component {
             handleSpaceToStop={this.handleSpaceToStop}
             handleDisplayMilliseconds={this.handleDisplayMilliseconds}
             handleHideTime={this.handleHideTime}
+            handleHideSurroundings={this.handleHideSurroundings}
             saveTheme={(name, theme) => this.saveTheme(name, theme)}
             deleteTheme={(i) => this.deleteTheme(i)}
             changeColor={(theme) => this.changeColor(theme)}

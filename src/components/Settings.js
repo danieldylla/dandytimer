@@ -111,6 +111,7 @@ class Settings extends Component {
     this.handleChangeAccent = this.handleChangeAccent.bind(this);
     this.handleChangeText = this.handleChangeText.bind(this);
     this.handleChangeTextHighlighted = this.handleChangeTextHighlighted.bind(this);
+    this.handlePartyMode = this.handlePartyMode.bind(this);
     this.selectPrimary = this.selectPrimary.bind(this);
     this.selectSecondary = this.selectSecondary.bind(this);
     this.selectAccent = this.selectAccent.bind(this);
@@ -145,6 +146,11 @@ class Settings extends Component {
       texthighlighted: this.props.theme.texthighlighted,
       modalIsOpen: true
     });
+    if (this.props.party_mode) {
+      this.setState({
+        accent: "#4c4c4c"
+      });
+    }
     this.props.handleModal();
     ReactGA.pageview('/settings');
   }
@@ -253,6 +259,19 @@ class Settings extends Component {
     this.setState({
       selected: 'texthighlighted'
     });
+  }
+
+  handlePartyMode() {
+    if (!this.props.party_mode) {
+      this.setState({
+        accent: "#4c4c4c"
+      });
+    } else {
+      this.setState({
+        accent: this.props.theme.accent,
+      });
+    }
+    this.props.partyMode();
   }
 
   displayColorPicker() {
@@ -646,6 +665,29 @@ class Settings extends Component {
                       </div>
                     </div>
                     <div className="setting">
+                      Hide Surroundings While Timing
+                      <div className="switches">
+                        <Switch
+                          checked={this.props.hide_surroundings}
+                          onChange={this.props.handleHideSurroundings}
+                          onColor={this.colorLuminance(this.state.accent, -.4)}
+                          onHandleColor={this.state.accent}
+                          handleDiameter={30}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={20}
+                          width={48}
+                          className="react-switch"
+                          id="material-switch"
+                        />
+                      </div>
+                      <div className="desc">
+                        hide surrounding elements on the page while solving
+                      </div>
+                    </div>
+                    <div className="setting">
                       Hide Time While Solving
                       <div className="switches">
                         <Switch
@@ -678,7 +720,7 @@ class Settings extends Component {
                       <div className="switches">
                         <Switch
                           checked={this.props.party_mode}
-                          onChange={this.props.partyMode}
+                          onChange={this.handlePartyMode}
                           onColor={this.colorLuminance(this.state.accent, -.4)}
                           onHandleColor={this.state.accent}
                           handleDiameter={30}

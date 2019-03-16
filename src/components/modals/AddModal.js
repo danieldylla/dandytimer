@@ -73,22 +73,24 @@ class AddModal extends Component {
 
 
   render() {
+    const style = window.getComputedStyle(document.documentElement);
+    let accent = style.getPropertyValue('--accent');
     const theme = createMuiTheme({
       typography: {
         useNextVariants: true,
       },
       palette: {
         primary: {
-          main: this.props.theme.accent,
+          main: accent,
           contrastText: this.props.theme.primary,
-          dark: this.colorLuminance(this.props.theme.accent, -.2),
-          light: this.colorLuminance(this.props.theme.accent, .2)
+          dark: this.colorLuminance(accent, -.2),
+          light: this.colorLuminance(accent, .2)
         },
         secondary: {
-          main: this.colorLuminance(this.props.theme.accent, -.3),
+          main: this.colorLuminance(accent, -.3),
           contrastText: this.props.theme.primary,
-          dark: this.colorLuminance(this.props.theme.accent, -.5),
-          light: this.colorLuminance(this.props.theme.accent, -.1)
+          dark: this.colorLuminance(accent, -.5),
+          light: this.colorLuminance(accent, -.1)
         }
       },
       shadows: Array(25).fill('none')

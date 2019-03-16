@@ -6,7 +6,7 @@
     background-color: var(--primary);
     color: var(--text);
     overflow: scroll;
-    height: 500px;
+    bottom: 52vh;
     min-width: 250px;
     outline: none;
   }
@@ -39,7 +39,7 @@
 
   .logout {
     text-align: center;
-    bottom: 50vh;
+    bottom: calc(52vh + 30px);
     right: calc(10vw + 30px);
     position: fixed;
     width: 240px;
@@ -50,7 +50,7 @@
     background-color: var(--accent);
     color: #fff;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 4px 0px;
-    transition: .5s;
+    transition: box-shadow .2s ease;
   }
 
   .logout:hover {
