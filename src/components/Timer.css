@@ -85,7 +85,7 @@
   display: block;
   position: absolute;
   color: var(--text);
-  transition: 0s;
+  transition: .3s;
 }
 
 #settings:hover {
@@ -99,7 +99,7 @@
   display: block;
   position: absolute;
   color: var(--text);
-  transition: 0s;
+  transition: .3s;
 }
 
 #account:hover {
