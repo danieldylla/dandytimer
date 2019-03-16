@@ -22,6 +22,7 @@ import {faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import {faCaretRight} from '@fortawesome/free-solid-svg-icons';
 import {faCaretLeft} from '@fortawesome/free-solid-svg-icons';
 import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
+import {faChartArea} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCog);
 library.add(faTimes);
@@ -37,6 +38,7 @@ library.add(faCaretDown);
 library.add(faCaretRight);
 library.add(faCaretLeft);
 library.add(faUserCircle);
+library.add(faChartArea);
 
 class Timer extends Component {
   constructor(props) {

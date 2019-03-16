@@ -52,7 +52,6 @@
     font-size: 24px;
   }
 
-
   .tableview {
     display: block;
     background-color: var(--buttonhover);
@@ -62,11 +61,32 @@
     font-size: 16px;
   }
 
+  .graphview {
+    display: block;
+    height: 300px;
+    width: 60vw;
+    overflow: scroll;
+    font-size: 16px;
+  }
+
+  .graphav {
+    width: 100%;
+  }
+
   .avbuttons {
     position: absolute;
     top: 440px;
     display: inline-block;
     right: 1vw;
+  }
+
+  .avstats {
+    position: fixed;
+    font-size: 24px;
+    width: 10px;
+    height: 10px;
+    top: calc(2vh + 80px);
+    right: calc(20vw + 34px);
   }
 
   .copy {
@@ -90,4 +110,12 @@
 
   #clear {
     font-size: 1vw;
+  }
+
+  .on {
+    color: var(--texthighlighted);
+  }
+
+  .off {
+    color: var(--text);
   }
