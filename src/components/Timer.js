@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Firebase from '../firebase.js';
+import firebase from 'firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactGA from 'react-ga';
 import Log from './Log';
@@ -23,6 +25,8 @@ import {faCaretRight} from '@fortawesome/free-solid-svg-icons';
 import {faCaretLeft} from '@fortawesome/free-solid-svg-icons';
 import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
 import {faChartArea} from '@fortawesome/free-solid-svg-icons';
+import {faCloudUploadAlt} from '@fortawesome/free-solid-svg-icons';
+import {faCloudDownloadAlt} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCog);
 library.add(faTimes);
@@ -39,18 +43,16 @@ library.add(faCaretRight);
 library.add(faCaretLeft);
 library.add(faUserCircle);
 library.add(faChartArea);
+library.add(faCloudDownloadAlt);
 
 class Timer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      googleuser: null,
-      user: {
-        name: null,
-        photo: null,
-        id: null,
-        email: null,
-      },
+      isSignedIn: false,
+      userProfile: null,
+      token: null,
+      email: null,
       stopped: true,
       running: false,
       canceled: false,
@@ -180,12 +182,17 @@ class Timer extends Component {
     this.onTouchCancel = this.onTouchCancel.bind(this);
     this.onTouchMove = this.onTouchMove.bind(this);
     this.reset = this.reset.bind(this);
+    this.saveStateToFirebase = this.saveStateToFirebase.bind(this);
+    this.loadStateFromFirebase = this.loadStateFromFirebase.bind(this);
   }
 
   componentDidMount() {
+    this.unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
+      this.setState({ isSignedIn: !!user, userProfile: user });
+    });
+
     this.hydrateStateWithLocalStorage();
-    // add event listener to save state to localStorage
-    // when user leaves/refreshes the page
+
     window.addEventListener(
       "beforeunload",
       this.saveStateToLocalStorage.bind(this),
@@ -213,6 +220,8 @@ class Timer extends Component {
   }
 
   componentWillUnmount() {
+    this.unregisterAuthObserver();
+
     window.removeEventListener(
       "beforeunload",
       this.saveStateToLocalStorage.bind(this),
@@ -220,6 +229,7 @@ class Timer extends Component {
     );
     // saves if component has a chance to unmount
     this.saveSession();
+    this.saveStateToFirebase();
     this.saveStateToLocalStorage();
   }
 
@@ -240,6 +250,36 @@ class Timer extends Component {
         }
       }
     }
+  }
+
+  saveStateToFirebase() {
+    const db = firebase.firestore();
+    const docRef = db.collection("user-results").doc(this.state.userProfile.email);
+    console.log('save');
+    docRef.set({
+      average: JSON.stringify(this.state.average),
+      best: JSON.stringify(this.state.best),
+      log: JSON.stringify(this.state.log),
+      reps: JSON.stringify(this.state.reps),
+      session: JSON.stringify(this.state.session),
+      sessions: JSON.stringify(this.state.sessions),
+      themes: JSON.stringify(this.state.themes),
+      validreps: JSON.stringify(this.state.validreps),
+    });
+  }
+
+  loadStateFromFirebase() {
+    const db = firebase.firestore();
+    const docRef = db.collection("user-results").doc(this.state.userProfile.email);
+    console.log('load');
+    docRef.get().then((doc) => {
+      const data = doc.data();
+      for (let key in data) {
+        this.setState({
+          [key]: JSON.parse(data[key]),
+        });
+      }
+    });
   }
 
   saveStateToLocalStorage() {
@@ -279,28 +319,32 @@ class Timer extends Component {
     }
   }
 
-  signIn(googleUser) {
-    let user = googleUser.getBasicProfile();
-    this.setState({
-      googleuser: user,
-      user: {
-        name: user.getName(),
-        email: user.getEmail(),
-        photo: user.getImageUrl(),
-        id: user.getId(),
-      }
+  signIn(token, user) {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider).then((result) => {
+      var token = result.credential.accessToken;
+      var user = result.user;
+      this.setState({
+        userProfile: user,
+        token: token,
+        isSignedIn: true,
+      });
+      this.loadStateFromFirebase();
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorMessage = error.message;
+      console.log("Sign-In Failed. " + errorMessage);
     });
   }
 
   logOut() {
+    this.saveStateToFirebase();
+    firebase.auth().signOut();
     this.setState({
-      googleuser: null,
-      user: {
-        name: null,
-        email: null,
-        photo: null,
-        id: null
-      }
+      userProfile: null,
+      isSignedIn: false,
+      token: null,
+      email: null,
     });
   }
 
@@ -1616,16 +1660,6 @@ class Timer extends Component {
     document.body.onkeydown = function(e) {
       if (e.repeat) {
         return;
-      } else if (e.keyCode === 76) {
-        this.setState({
-          googleuser: 1,
-          user: {
-            name: "Daniel Dylla",
-            id: "113085164799819270389",
-            email: "daniel.dylla@gmail.com",
-            photo: "https://lh4.googleusercontent.com/-LrAx4wG8e30/AAAAAAAAAAI/AAAAAAAAXNM/tuG65w-2v1w/s96-c/photo.jpg",
-          }
-        })
       } else if (e.keyCode === 32 && !this.state.running && this.state.stopped && !this.state.modal) {
         if (this.state.hold_to_start && (!this.state.inspection_time || this.state.fifteen)) {
           document.getElementById("time").style.color = "#ffff2d";
@@ -1730,6 +1764,8 @@ class Timer extends Component {
               addTime = {(t) => this.addTime(t)}
               downloadFile = {(fileName, contentType) => this.downloadFile(fileName, contentType)}
               uploadFile = {(file) => this.uploadFile(file, this.readFileToState)}
+              saveStateToFirebase={this.saveStateToFirebase}
+              loadStateFromFirebase={this.loadStateFromFirebase}
               newSession = {this.newSession}
               changeSession = {(i) => this.changeSession(i)}
               saveSession = {this.saveSession}
@@ -1811,10 +1847,10 @@ class Timer extends Component {
         </div>
         <div className="account" id="account">
           <Account
-            user={this.state.user}
-            googleuser={this.state.googleuser}
+            userProfile={this.state.userProfile}
+            isSignedIn={this.state.isSignedIn}
             theme={this.state.theme}
-            signIn={(g) => this.signIn(g)}
+            signIn={(a, b) => this.signIn(a, b)}
             logOut={this.logOut}
             handleModal={this.handleModal}
           />

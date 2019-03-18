@@ -156,6 +156,18 @@ class DownUpModal extends Component {
                     <FontAwesomeIcon icon="download" />
                   </div>
                 </AwesomeButton>
+                <h2>Save To Your Account</h2>
+                <AwesomeButton
+                  action={this.props.saveStateToFirebase}
+                  type="primary"
+                  className="downloadbtn"
+                  id="downloadbtn"
+                  size="small"
+                >
+                  <div id="downicon">
+                    <FontAwesomeIcon icon="cloud-upload-alt" />
+                  </div>
+                </AwesomeButton>
               </TabPanel>
               <TabPanel>
                 <h2>Upload JSON File</h2>
@@ -178,6 +190,18 @@ class DownUpModal extends Component {
                 >
                   <div id="downicon">
                     <FontAwesomeIcon icon="upload" />
+                  </div>
+                </AwesomeButton>
+                <h2>Load From Your Account</h2>
+                <AwesomeButton
+                  action={this.props.loadStateFromFirebase}
+                  type="primary"
+                  className="downloadbtn"
+                  id="downloadbtn"
+                  size="small"
+                >
+                  <div id="downicon">
+                    <FontAwesomeIcon icon="cloud-download-alt" />
                   </div>
                 </AwesomeButton>
               </TabPanel>

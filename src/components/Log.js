@@ -335,6 +335,8 @@ class Log extends Component {
             addTime={(t) => this.props.addTime(t)}
             downloadFile={(fileName, contentType) => this.props.downloadFile(fileName, contentType)}
             uploadFile={(file) => this.props.uploadFile(file)}
+            saveStateToFirebase={this.props.saveStateToFirebase}
+            loadStateFromFirebase={this.props.loadStateFromFirebase}
             newSession={this.props.newSession}
             changeSession={(i) => this.props.changeSession(i)}
             deleteSession={(i) => this.props.deleteSession(i)}

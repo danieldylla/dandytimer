@@ -285,6 +285,8 @@ class LogStats extends Component {
                 theme={this.props.theme}
                 downloadFile={this.props.downloadFile}
                 uploadFile={this.props.uploadFile}
+                saveStateToFirebase={this.props.saveStateToFirebase}
+                loadStateFromFirebase={this.props.loadStateFromFirebase}
                 handleModal={() => this.props.handleModal()}
               />
             </div>
