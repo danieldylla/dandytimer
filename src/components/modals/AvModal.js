@@ -251,22 +251,22 @@ class AvModal extends Component {
     });
     return (
       <div className="tableview">
-        <table>
-          <tbody>
-            {this.state.graph ?
-              <div className="graphview">
-                {this.displayGraph(this.props.howmany)}
-              </div>
-              :
+        {this.state.graph ?
+          <div className="graphview">
+            {this.displayGraph(this.props.howmany)}
+          </div>
+          :
+          <table>
+            <tbody>
               <tr className="tablehead">
                 <th className="category-solve"></th>
                 <th className="category-time"> Time </th>
                 <th> Scramble </th>
               </tr>
-            }
-            {scrambles}
-          </tbody>
-        </table>
+              {scrambles}
+            </tbody>
+          </table>
+        }
       </div>
     );
   }
@@ -295,22 +295,20 @@ class AvModal extends Component {
       {"name":"single", "data": times},
     ];
     return (
-      <div className="graphav">
-        <LineChart
-          data={data}
-          curve={false}
-          legend="top"
-          download={true}
-          dataset={{borderWidth: 2}}
-          points={false}
-          colors={[
-            this.props.theme.accent,
-            this.shiftColor(this.props.theme.accent, 60),
-            this.shiftColor(this.props.theme.accent, 300)
-          ]}
-          min={null}
-        />
-      </div>
+      <LineChart
+        data={data}
+        curve={false}
+        legend="top"
+        download={true}
+        dataset={{borderWidth: 2}}
+        points={false}
+        colors={[
+          this.props.theme.accent,
+          this.shiftColor(this.props.theme.accent, 60),
+          this.shiftColor(this.props.theme.accent, 300)
+        ]}
+        min={null}
+      />
     );
   }
 
