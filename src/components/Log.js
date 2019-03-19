@@ -31,7 +31,8 @@ class Log extends Component {
       this.state.ao12ModalIsOpen !== nextState.ao12ModalIsOpen ||
       this.state.deleteModalIsOpen !== nextState.deleteModalIsOpen ||
       this.state.sessionModalIsOpen !== nextState.sessionModalIsOpen ||
-      this.state.sessionModalIsOpen
+      this.state.sessionModalIsOpen ||
+      this.props.isSignedIn !== nextProps.isSignedIn
     );
   }
 
@@ -325,6 +326,7 @@ class Log extends Component {
             sessions={this.props.sessions}
             session={this.props.session}
             theme={this.props.theme}
+            isSignedIn={this.props.isSignedIn}
             clearAll={() => this.props.clearAll()}
             handleModal={() => this.props.handleModal()}
             openTimeModal={(i, s) => this.openTimeModal(i, s)}

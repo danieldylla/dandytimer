@@ -6,7 +6,7 @@
     background-color: var(--primary);
     color: var(--text);
     overflow: scroll;
-    bottom: 52vh;
+    bottom: 42vh;
     min-width: 250px;
     outline: none;
   }
@@ -39,7 +39,7 @@
 
   .logout {
     text-align: center;
-    bottom: calc(52vh + 30px);
+    bottom: calc(42vh + 30px);
     right: calc(10vw + 30px);
     position: fixed;
     width: 240px;
@@ -103,4 +103,8 @@
     font-size: 20px;
     margin-left: 20px;
     margin-top: 50px
+  }
+
+  .updownbtns {
+    text-align: center;
   }

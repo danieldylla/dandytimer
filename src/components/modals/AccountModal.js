@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AwesomeButton } from 'react-awesome-button';
 import ReactGA from 'react-ga';
 import GoogleButton from 'react-google-button'
 
@@ -94,8 +95,32 @@ class AccountModal extends Component {
                   </div>
                   <div className="accountdesc">
                     Accounts let you back up your data and access it anywhere,
-                    from any device. [NOT YET IMPLEMENTED]
+                    from any device.
                   </div>
+                </div>
+                <div className="updownbtns">
+                  <AwesomeButton
+                    action={this.props.saveStateToFirebase}
+                    type="primary"
+                    className="downloadbtn"
+                    id="downloadbtn"
+                    size="small"
+                  >
+                    <div id="downicon">
+                      <FontAwesomeIcon icon="file-upload" />
+                    </div>
+                  </AwesomeButton>
+                  <AwesomeButton
+                    action={this.props.loadStateFromFirebase}
+                    type="primary"
+                    className="downloadbtn"
+                    id="downloadbtn"
+                    size="small"
+                  >
+                    <div id="downicon">
+                      <FontAwesomeIcon icon="file-download" />
+                    </div>
+                  </AwesomeButton>
                 </div>
                 <button onClick={this.onLogout} className="logout">
                   Log Out

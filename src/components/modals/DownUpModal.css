@@ -101,6 +101,11 @@
     margin-left: 1vw;
   }
 
+  .signinmsg {
+    margin-left: 20px;
+    color: var(--text);
+  }
+
   h1 {
     margin: 0px;
   }

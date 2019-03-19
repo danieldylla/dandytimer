@@ -43,3 +43,7 @@ h4 {
   justify-content: center;
   min-width: 65px;
 }
+
+#sessclick:hover {
+  cursor: pointer;
+}

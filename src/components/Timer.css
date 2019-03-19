@@ -280,4 +280,13 @@
       bottom: 21vh;
     }
 
+    .SessionModal {
+      right: 10vw;
+      left: 10vw;
+    }
+
+    .addsess {
+      width: 80vw;
+    }
+
   }

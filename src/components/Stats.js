@@ -13,7 +13,8 @@ class Stats extends Component {
       this.props.renderlog ||
       this.props.show_stats !== nextProps.show_stats ||
       this.props.reps > nextProps.reps ||
-      this.state.tab !== nextState.tab
+      this.state.tab !== nextState.tab ||
+      this.props.session !== nextProps.session
     );
   }
 
