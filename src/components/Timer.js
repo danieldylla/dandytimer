@@ -1358,7 +1358,6 @@ class Timer extends Component {
             } else {
               document.getElementById("time").style.color = "#f73b3b";
               clearTimeout(this.hold_touch_timer);
-              console.log('here');
             }
           } else {
             this.endInspection();

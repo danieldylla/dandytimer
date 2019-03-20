@@ -12,6 +12,9 @@
 /build
 /danieldylla.github.io
 
+# mobile
+/dandytimer-mobile
+
 # misc
 .DS_Store
 .env.local
