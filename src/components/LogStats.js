@@ -283,8 +283,11 @@ class LogStats extends Component {
             <div className="third" id="columnlabel">
               <DownUpModal
                 theme={this.props.theme}
+                isSignedIn={this.props.isSignedIn}
                 downloadFile={this.props.downloadFile}
                 uploadFile={this.props.uploadFile}
+                saveStateToFirebase={this.props.saveStateToFirebase}
+                loadStateFromFirebase={this.props.loadStateFromFirebase}
                 handleModal={() => this.props.handleModal()}
               />
             </div>
@@ -297,7 +300,7 @@ class LogStats extends Component {
             </div>
           </div>
           <div className = "toprow">
-            <div className="quarter" onClick={this.props.openSessionModal}>
+            <div className="quarter" id="sessclick" onClick={this.props.openSessionModal}>
               {this.props.session + 1}
             </div>
             <div className="quarter">

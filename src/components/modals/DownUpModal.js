@@ -156,6 +156,26 @@ class DownUpModal extends Component {
                     <FontAwesomeIcon icon="download" />
                   </div>
                 </AwesomeButton>
+                <h2>Save To Your Account</h2>
+                {this.props.isSignedIn ?
+                  <div className="signinmsg">
+                    <AwesomeButton
+                      action={this.props.saveStateToFirebase}
+                      type="primary"
+                      className="downloadbtn"
+                      id="downloadbtn"
+                      size="small"
+                    >
+                      <div id="downicon">
+                        <FontAwesomeIcon icon="file-upload" />
+                      </div>
+                    </AwesomeButton>
+                  </div>
+                  :
+                  <div className="signinmsg">
+                    Sign in to save to your account
+                  </div>
+                }
               </TabPanel>
               <TabPanel>
                 <h2>Upload JSON File</h2>
@@ -180,6 +200,26 @@ class DownUpModal extends Component {
                     <FontAwesomeIcon icon="upload" />
                   </div>
                 </AwesomeButton>
+                <h2>Load From Your Account</h2>
+                {this.props.isSignedIn ?
+                  <div className="signinmsg">
+                    <AwesomeButton
+                      action={this.props.loadStateFromFirebase}
+                      type="primary"
+                      className="downloadbtn"
+                      id="downloadbtn"
+                      size="small"
+                    >
+                      <div id="downicon">
+                        <FontAwesomeIcon icon="file-download" />
+                      </div>
+                    </AwesomeButton>
+                  </div>
+                  :
+                  <div className="signinmsg">
+                    Sign in to save to your account
+                  </div>
+                }
               </TabPanel>
             </div>
           </Tabs>

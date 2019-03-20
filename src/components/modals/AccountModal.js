@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AwesomeButton } from 'react-awesome-button';
 import ReactGA from 'react-ga';
-import { GoogleLogin } from 'react-google-login';
 import GoogleButton from 'react-google-button'
 
 import './AccountModal.css';
@@ -17,10 +17,10 @@ class AccountModal extends Component {
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.onSignIn = this.onSignIn.bind(this);
     this.onFail = this.onFail.bind(this);
     this.onLogout = this.onLogout.bind(this);
   };
+
 
   openModal() {
     this.setState({ modalIsOpen: true });
@@ -39,10 +39,6 @@ class AccountModal extends Component {
 
   handleFocus(event) {
     event.target.select();
-  }
-
-  onSignIn = (response) => {
-    this.props.signIn(response);
   }
 
   onFail() {
@@ -88,19 +84,43 @@ class AccountModal extends Component {
             className="AccountModal"
             overlayClassName="AccountOverlay"
           >
-            {this.props.googleuser ?
+            {this.props.isSignedIn ?
               <div className="accountinfo">
                 <h1 id="title">Account</h1>
                 <br />
                 <div className="userinfo">
-                  <img src={this.props.user.photo} alt="profile" className="profilepic"/>
+                  <img src={this.props.userProfile.photoURL} alt="profile" className="profilepic"/>
                   <div className="welcome">
-                    Welcome, <b>{this.props.user.name}</b>
+                    Welcome, <b>{this.props.userProfile.displayName}</b>
                   </div>
                   <div className="accountdesc">
                     Accounts let you back up your data and access it anywhere,
-                    from any device. [NOT YET IMPLEMENTED]
+                    from any device.
                   </div>
+                </div>
+                <div className="updownbtns">
+                  <AwesomeButton
+                    action={this.props.saveStateToFirebase}
+                    type="primary"
+                    className="downloadbtn"
+                    id="downloadbtn"
+                    size="small"
+                  >
+                    <div id="downicon">
+                      <FontAwesomeIcon icon="file-upload" />
+                    </div>
+                  </AwesomeButton>
+                  <AwesomeButton
+                    action={this.props.loadStateFromFirebase}
+                    type="primary"
+                    className="downloadbtn"
+                    id="downloadbtn"
+                    size="small"
+                  >
+                    <div id="downicon">
+                      <FontAwesomeIcon icon="file-download" />
+                    </div>
+                  </AwesomeButton>
                 </div>
                 <button onClick={this.onLogout} className="logout">
                   Log Out
@@ -115,17 +135,9 @@ class AccountModal extends Component {
                     Sign in with Google to save your results online and
                     access them from any device.
                   </p>
-                  <GoogleLogin
-                    clientId="761979688892-21thqlhcbremkbdu8ivsirucs3pceoqo.apps.googleusercontent.com"
-                    buttonText="SIGN IN"
-                    render={renderProps => (
-                      <div className="signinbtn">
-                        <GoogleButton onClick={renderProps.onClick} />
-                      </div>
-                    )}
-                    onSuccess={this.onSignIn}
-                    onFailure={this.onFail}
-                  />
+                  <div className="signinbtn">
+                    <GoogleButton onClick={this.props.signIn} />
+                  </div>
                 </div>
               </div>
             }
