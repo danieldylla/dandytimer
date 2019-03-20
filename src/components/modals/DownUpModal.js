@@ -217,7 +217,7 @@ class DownUpModal extends Component {
                   </div>
                   :
                   <div className="signinmsg">
-                    Sign in to save to your account
+                    Sign in to load from your account
                   </div>
                 }
               </TabPanel>
