@@ -122,6 +122,7 @@ class Timer extends Component {
       timer_size: 144,
       av_size: 24,
       hold_len: 300,
+      stats_tab: 1,
     };
 
     this.signIn = this.signIn.bind(this);
@@ -171,6 +172,7 @@ class Timer extends Component {
     this.handleDisplayMilliseconds = this.handleDisplayMilliseconds.bind(this);
     this.handleHideTime = this.handleHideTime.bind(this);
     this.handleHideSurroundings = this.handleHideSurroundings.bind(this);
+    this.handleStatsTab = this.handleStatsTab.bind(this);
     this.handlePlus2 = this.handlePlus2.bind(this);
     this.handleDNF = this.handleDNF.bind(this);
     this.saveTheme = this.saveTheme.bind(this);
@@ -1586,6 +1588,10 @@ class Timer extends Component {
     });
   }
 
+  handleStatsTab(i) {
+    this.setState({ stats_tab: i });
+  }
+
   handleHighlightText() {
     if (this.state.highlight_text) {
       document.documentElement.style.setProperty('--highlighted', 'var(--text)');
@@ -1839,6 +1845,7 @@ class Timer extends Component {
           <Stats
             log={this.state.log}
             best={this.state.best}
+            average={this.state.average}
             running={this.state.running}
             stopped={this.state.stopped}
             renderlog={this.state.renderlog}
@@ -1847,7 +1854,9 @@ class Timer extends Component {
             theme={this.state.theme}
             session={this.state.session}
             show_stats={this.state.show_stats}
+            stats_tab={this.state.stats_tab}
             handleShowStats={this.handleShowStats}
+            handleStatsTab={(i) => this.handleStatsTab(i)}
           />
         </div>
         <div className="account" id="account">

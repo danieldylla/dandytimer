@@ -50,3 +50,41 @@
     width: 98%;
     margin-left: 1%;
   }
+
+  .dropdown {
+    background-color: var(--primary);
+    color: var(--text);
+    border: none;
+  }
+
+  .dropdown-menu {
+    background-color: var(--primary);
+    color: var(--text);
+    border: none;
+  }
+
+  .dropdown-ctrl {
+    background-color: var(--primary);
+    color: var(--text);
+    border: none;
+  }
+
+  .dropdown-place {
+    margin-left: 40px;
+  }
+
+  .dropdown-item {
+    background-color: var(--primary);
+    color: var(--text);
+    border: none;
+  }
+
+  .dropdown-item:hover {
+    background-color: var(--primary);
+    color: var(--texthighlighted);
+  }
+
+  .dropdown-item.is-selected {
+    background-color: var(--accent);
+    color: var(--texthighlighted);
+  }

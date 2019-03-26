@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
-import ReactChartkick, { LineChart } from 'react-chartkick';
+import ReactChartkick, { LineChart, BarChart } from 'react-chartkick';
 import Chart from 'chart.js';
+import Dropdown from 'react-dropdown'
+import 'react-dropdown/style.css'
 
 import './Stats.css';
 
 ReactChartkick.addAdapter(Chart);
 
+const options = [
+  {value: 'graph', label: 'Line Graph', className: 'dropdown-item'},
+  {value: 'dist', label: 'Distribution', className: 'dropdown-item'}
+]
 
 class Stats extends Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -13,40 +19,23 @@ class Stats extends Component {
       this.props.renderlog ||
       this.props.show_stats !== nextProps.show_stats ||
       this.props.reps > nextProps.reps ||
-      this.state.tab !== nextState.tab ||
-      this.props.session !== nextProps.session
+      this.props.session !== nextProps.session ||
+      this.props.stats_tab !== nextProps.stats_tab
     );
   }
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      tab: 1,
-    };
-
-    this.handleGraph = this.handleGraph.bind(this);
-    this.handleDist = this.handleDist.bind(this);
-    this.handleStats = this.handleStats.bind(this);
-    this.displayGraph = this.displayGraph.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   };
 
-  handleGraph() {
-    this.setState({
-      tab: 1,
-    });
-  }
-
-  handleDist() {
-    this.setState({
-      tab: 2,
-    });
-  }
-
-  handleStats() {
-    this.setState({
-      tab: 3,
-    });
+  handleChange(v) {
+    if (v.value === 'graph') {
+      this.props.handleStatsTab(1);
+    } else if (v.value === 'dist') {
+      this.props.handleStatsTab(2);
+    }
   }
 
   displayHour(h) {
@@ -232,13 +221,63 @@ class Stats extends Component {
   }
 
   displayDist() {
+    let log = this.props.log.slice();
+    if (!this.props.best.res || !this.props.average) {
+      return;
+    }
+    let diff = this.props.average - this.props.best.res.time;
+    let space = Math.round(diff / 3000);
+    let xsmall = Math.round(this.props.best.res.time / 1000) * 1000;
+    let small = xsmall + space * 1000;
+    let medium = small + space * 1000;
+    let large = medium + space * 1000;
+    let xlarge = large + space * 1000;
+    let overflow = xlarge + space * 1000;
+    let xs = 0, s = 0, m = 0, l = 0, xl = 0, over = 0;
+    for (var i = 0; i < log.length; i++) {
+      if (log[i].res.dnf) {
+        over++;
+      } else {
+        let res = log[i].res.time;
+        if (res < small) {
+          xs++;
+        } else if (res < medium) {
+          s++;
+        } else if (res < large) {
+          m++;
+        } else if (res < xlarge) {
+          l++;
+        } else if (res < overflow) {
+          xl++;
+        } else {
+          over++;
+        }
+      }
+    }
+    let data=[[xsmall/1000 + " - " + small/1000, xs],
+              [small/1000 + " - " + medium/1000, s],
+              [medium/1000 + " - " + large/1000, m],
+              [large/1000 + " - " + xlarge/1000, l],
+              [xlarge/1000 + " - " + overflow/1000, xl],
+              [overflow/1000 + " +", over]];
 
+    return (
+      <div className="graphpanel">
+        <BarChart
+          data={data}
+          download={true}
+          colors={[
+            this.props.theme.accent
+          ]}
+        />
+      </div>
+    );
   }
 
   displayTab() {
-    if (this.state.tab === 1) {
+    if (this.props.stats_tab === 1) {
       return this.displayGraph();
-    } else if (this.state.tab === 2) {
+    } else if (this.props.stats_tab === 2) {
       return this.displayDist();
     }
   }
@@ -248,6 +287,15 @@ class Stats extends Component {
       <div>
         {this.props.show_stats ?
             <div className="StatsModal">
+              <Dropdown
+                className='dropdown'
+                controlClassName='dropdown-ctrl'
+                menuClassName='dropdown-menu'
+                placeholderClassName='dropdown-place'
+                options={options}
+                value={options[this.props.stats_tab - 1]}
+                onChange={(v) => this.handleChange(v)}
+              />
               {this.displayTab()}
             </div>
         : null}
