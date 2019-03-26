@@ -93,7 +93,7 @@
 }
 
 #account {
-  bottom: 1em;
+  top: 10em;
   right: 1vw;
   background-color: inherit;
   display: block;
@@ -117,7 +117,7 @@
 }
 
 #statsicon {
-  font-size: 2rem;
+  font-size: 1.9rem;
 }
 
 #statsicon:hover {
@@ -126,7 +126,7 @@
 }
 
 #statsiconon {
-  font-size: 2rem;
+  font-size: 1.9rem;
   color: var(--texthighlighted)
 }
 
