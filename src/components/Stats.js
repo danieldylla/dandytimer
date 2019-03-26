@@ -10,7 +10,8 @@ ReactChartkick.addAdapter(Chart);
 
 const options = [
   {value: 'graph', label: 'Line Graph', className: 'dropdown-item'},
-  {value: 'dist', label: 'Distribution', className: 'dropdown-item'}
+  {value: 'dist', label: 'Distribution', className: 'dropdown-item'},
+  {value: 'stats', label: 'Statistics', className: 'dropdown-item'}
 ]
 
 class Stats extends Component {
@@ -35,6 +36,8 @@ class Stats extends Component {
       this.props.handleStatsTab(1);
     } else if (v.value === 'dist') {
       this.props.handleStatsTab(2);
+    } else if (v.value === 'stats') {
+      this.props.handleStatsTab(3);
     }
   }
 
@@ -274,11 +277,89 @@ class Stats extends Component {
     );
   }
 
+  displayStats() {
+    if (!this.props.best.res || !this.props.log.length) {
+      return;
+    }
+    let log = this.props.log.slice();
+    let best = this.props.best.res.time;
+    let worst = 0;
+    let sdev = 0;
+    let sum = 0;
+    for (var i = 0; i < log.length; i++) {
+      if (log[i].res.time > worst && !log[i].res.dnf) {
+        worst = log[i].res.time;
+      }
+      if (!log[i].res.dnf) {
+        sdev += Math.pow(log[i].res.time - this.props.average, 2);
+        sum += log[i].res.time;
+      }
+    }
+    sdev = sdev / this.props.validreps;
+    sdev = Math.sqrt(sdev);
+
+    return (
+      <div className="statpanel">
+        <table className="stat-table">
+          <tbody>
+            <tr>
+              <td id="stat">solves: {this.props.reps}</td>
+              <td id="stat">average: {this.convertToTime(this.props.average)}</td>
+              <td id="stat">total: {this.convertToTime(sum)}</td>
+            </tr>
+            <tr>
+              <td id="stat">best: {this.convertToTime(best)}</td>
+              <td id="stat">worst: {this.convertToTime(worst)}</td>
+              <td id="stat">&sigma;: {this.convertToTime(sdev)}</td>
+            </tr>
+          </tbody>
+          <br />
+          <br />
+          <tbody>
+            <tr>
+              <th>  </th>
+              <th>Current</th>
+              <th>Best</th>
+            </tr>
+            <tr>
+              <th>single</th>
+              <td>{this.props.log.length ? this.convertToTime(this.props.log[0].res.time) : '-'}</td>
+              <td>{this.props.best.res ? this.convertToTime(this.props.best.res.time) : '-'}</td>
+            </tr>
+            <tr>
+              <th>ao5</th>
+              <td>{this.props.log.length ? this.convertToTime(this.props.log[0].res.ao5) : '-'}</td>
+              <td>{this.props.best.ao5 ? this.convertToTime(this.props.best.ao5) : '-'}</td>
+            </tr>
+            <tr>
+              <th>ao12</th>
+              <td>{this.props.log.length ? this.convertToTime(this.props.log[0].res.ao12) : '-'}</td>
+              <td>{this.props.best.ao12 ? this.convertToTime(this.props.best.ao12) : '-'}</td>
+            </tr>
+            <tr>
+              <th>ao50</th>
+              <td>{this.props.log.length ? this.convertToTime(this.props.log[0].res.ao50) : '-'}</td>
+              <td>{this.props.best.ao50 ? this.convertToTime(this.props.best.ao50) : '-'}</td>
+            </tr>
+            <tr>
+              <th>ao100</th>
+              <td>{this.props.log.length ? this.convertToTime(this.props.log[0].res.ao100) : '-'}</td>
+              <td>{this.props.best.ao100 ? this.convertToTime(this.props.best.ao100) : '-'}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    );
+  }
+
   displayTab() {
     if (this.props.stats_tab === 1) {
       return this.displayGraph();
     } else if (this.props.stats_tab === 2) {
       return this.displayDist();
+    } else if (this.props.stats_tab === 3) {
+      return this.displayStats();
     }
   }
 

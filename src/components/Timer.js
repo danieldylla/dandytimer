@@ -370,7 +370,8 @@ class Timer extends Component {
           },
           log: [],
           average: null,
-          reps: 0
+          reps: 0,
+          validreps: 0,
         }
       ]),
       session: this.state.sessions.length,
@@ -384,6 +385,7 @@ class Timer extends Component {
     curr[this.state.session].log = currlog;
     curr[this.state.session].best = this.state.best;
     curr[this.state.session].reps = this.state.reps;
+    curr[this.state.session].validreps = this.state.validreps;
     curr[this.state.session].average = this.state.average;
     this.setState({
       sessions: curr
@@ -395,6 +397,7 @@ class Timer extends Component {
       log: this.state.sessions[i].log,
       best: this.state.sessions[i].best,
       reps: this.state.sessions[i].reps,
+      validreps: this.state.sessions[i].validreps,
       average: this.state.sessions[i].average
     });
   }
@@ -1850,6 +1853,7 @@ class Timer extends Component {
             stopped={this.state.stopped}
             renderlog={this.state.renderlog}
             reps={this.state.reps}
+            validreps={this.state.validreps}
             fifteen={this.state.fifteen}
             theme={this.state.theme}
             session={this.state.session}

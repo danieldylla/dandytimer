@@ -51,6 +51,23 @@
     margin-left: 1%;
   }
 
+  .statpanel {
+    margin-top: 20px;
+    position: absolute;
+    width: 99%;
+    font-size: 16px;
+  }
+
+  #stat {
+    width: 33%;
+  }
+
+  .stat-table {
+    width: 100%;
+    color: var(--text);
+
+  }
+
   .dropdown {
     background-color: var(--primary);
     color: var(--text);
