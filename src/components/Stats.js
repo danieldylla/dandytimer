@@ -297,6 +297,32 @@ class Stats extends Component {
     }
     sdev = sdev / this.props.validreps;
     sdev = Math.sqrt(sdev);
+    let mo3 = null;
+    let bestmo3 = 10000000000000000000;
+    if (log.length > 2) {
+      mo3 = (log[0].res.time + log[1].res.time + log[2].res.time) / 3;
+      for (var i = 0; i < log.length - 2; i++) {
+        let temp = (log[i].res.time + log[i+1].res.time + log[i+2].res.time) / 3;
+        if (temp < bestmo3) {
+          bestmo3 = temp;
+        }
+      }
+    }
+    let ao1000 = 0;
+    let best1000 = this.props.average * 10;
+    let worst1000 = 0;
+    if (log.length >= 1000) {
+      for (var i = 0; i < 1000; i++) {
+        if (log[i].res.time < best1000) {
+          best1000 = log[i].res.time;
+        }
+        if (log[i].res.time > worst1000) {
+          worst1000 = log[i].res.time;
+        }
+        ao1000 += log[i].res.time;
+      }
+      ao1000 = (ao1000 - worst1000 - best1000) / 998;
+    }
 
     return (
       <div className="statpanel">
@@ -327,6 +353,11 @@ class Stats extends Component {
               <td>{this.props.best.res ? this.convertToTime(this.props.best.res.time) : '-'}</td>
             </tr>
             <tr>
+              <th>mo3</th>
+              <td>{this.convertToTime(mo3)}</td>
+              <td>{this.convertToTime(bestmo3)}</td>
+            </tr>
+            <tr>
               <th>ao5</th>
               <td>{this.props.log.length ? this.convertToTime(this.props.log[0].res.ao5) : '-'}</td>
               <td>{this.props.best.ao5 ? this.convertToTime(this.props.best.ao5) : '-'}</td>
@@ -345,6 +376,11 @@ class Stats extends Component {
               <th>ao100</th>
               <td>{this.props.log.length ? this.convertToTime(this.props.log[0].res.ao100) : '-'}</td>
               <td>{this.props.best.ao100 ? this.convertToTime(this.props.best.ao100) : '-'}</td>
+            </tr>
+            <tr>
+              <th>ao1000</th>
+              <td>{this.convertToTime(ao1000)}</td>
+              <td>{'-'}</td>
             </tr>
           </tbody>
         </table>
