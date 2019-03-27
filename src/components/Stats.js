@@ -323,6 +323,7 @@ class Stats extends Component {
       }
       ao1000 = (ao1000 - worst1000 - best1000) / 998;
     }
+    // this.props.handleBestAo1000();
 
     return (
       <div className="statpanel">
@@ -380,7 +381,7 @@ class Stats extends Component {
             <tr>
               <th>ao1000</th>
               <td>{this.convertToTime(ao1000)}</td>
-              <td>{'-'}</td>
+              <td>{this.convertToTime(this.props.bestAo1000)}</td>
             </tr>
           </tbody>
         </table>

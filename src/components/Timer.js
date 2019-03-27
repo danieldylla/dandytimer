@@ -97,6 +97,7 @@ class Timer extends Component {
       reps: 0,
       validreps: 0,
       average: 0,
+      bestAo1000: null,
       scramble_on_side: false,
       show_av: true,
       show_scramble: true,
@@ -173,6 +174,7 @@ class Timer extends Component {
     this.handleHideTime = this.handleHideTime.bind(this);
     this.handleHideSurroundings = this.handleHideSurroundings.bind(this);
     this.handleStatsTab = this.handleStatsTab.bind(this);
+    this.handleBestAo1000 = this.handleBestAo1000.bind(this);
     this.handlePlus2 = this.handlePlus2.bind(this);
     this.handleDNF = this.handleDNF.bind(this);
     this.saveTheme = this.saveTheme.bind(this);
@@ -889,7 +891,8 @@ class Timer extends Component {
         ao100: null,
         dnf: false,
         plus2: false,
-      }
+      },
+      bestAo1000: null,
     });
     this.resetTime();
   }
@@ -1606,6 +1609,34 @@ class Timer extends Component {
     });
   }
 
+  handleBestAo1000() {
+    if (this.state.log.length >= 1000) {
+      let log = this.state.log.slice();
+      let bestao1000 = this.state.average * 10;
+      for (var j = 0; j < log.length - 999; j++) {
+        let ao1000 = 0;
+        let best1000 = this.state.average * 10;
+        let worst1000 = 0;
+        for (var i = 0; i < 1000; i++) {
+          if (log[i].res.time < best1000) {
+            best1000 = log[i].res.time;
+          }
+          if (log[i].res.time > worst1000) {
+            worst1000 = log[i].res.time;
+          }
+          ao1000 += log[i].res.time;
+        }
+        ao1000 = (ao1000 - worst1000 - best1000) / 998;
+        if (ao1000 < bestao1000) {
+          bestao1000 = ao1000;
+        }
+      }
+      this.setState({
+        bestAo1000: bestao1000
+      });
+    }
+  }
+
   handlePlus2(index) {
     let logcopy = this.state.log.slice();
     logcopy[index].res.plus2 = !logcopy[index].res.plus2;
@@ -1857,8 +1888,10 @@ class Timer extends Component {
             fifteen={this.state.fifteen}
             theme={this.state.theme}
             session={this.state.session}
+            bestAo1000={this.state.bestAo1000}
             show_stats={this.state.show_stats}
             stats_tab={this.state.stats_tab}
+            handleBestAo1000={this.handleBestAo1000}
             handleShowStats={this.handleShowStats}
             handleStatsTab={(i) => this.handleStatsTab(i)}
           />
