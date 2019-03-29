@@ -87,7 +87,7 @@
 
   .dropdown-ctrl {
     background-color: var(--primary);
-    color: var(--texthighlighted);
+    color: var(--text);
     border: none;
     transition: color .3s ease, background-color 0s ease;
   }
