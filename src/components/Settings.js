@@ -710,6 +710,29 @@ class Settings extends Component {
                         hide the running timer while solving
                       </div>
                     </div>
+                    <div className="setting" id="setting">
+                      Track Ao1000
+                      <div className="switches">
+                        <Switch
+                          checked={this.props.track_best_ao1000}
+                          onChange={this.props.handleTrackBestAo1000}
+                          onColor={this.colorLuminance(this.state.accent, -.4)}
+                          onHandleColor={this.state.accent}
+                          handleDiameter={30}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={20}
+                          width={48}
+                          className="react-switch"
+                          id="material-switch"
+                        />
+                      </div>
+                      <div className="desc">
+                        keep track of your best ao1000 in the statistics tool. performance may suffer slightly
+                      </div>
+                    </div>
                   </div>
                 </TabPanel>
                 <TabPanel>

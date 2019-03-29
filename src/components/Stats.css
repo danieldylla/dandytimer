@@ -1,13 +1,14 @@
 .StatsModal {
     position: absolute;
-    width: 40vw;
-    height: 40vh;
+    width: 35vw;
+    height: 35vh;
     bottom: 0;
     right: 0vw;
     background-color: var(--primary);
     color: var(--texthighlighted);
     outline: none;
-    transition: .2s;
+    transition: color .2s ease, background-color 0s ease;
+    overflow: auto;
   }
 
   .stattab {
@@ -45,10 +46,10 @@
   }
 
   .graphpanel {
-    bottom: 0rem;
+    bottom: 0;
     position: absolute;
     width: 98%;
-    margin-left: 1%;
+    margin-left: 0%;
   }
 
   .statpanel {
@@ -72,6 +73,10 @@
     background-color: var(--primary);
     color: var(--text);
     border: none;
+    width: 35vw;
+    bottom: 36.5vh;
+    right: 0;
+    position: fixed;
   }
 
   .dropdown-menu {
@@ -82,8 +87,9 @@
 
   .dropdown-ctrl {
     background-color: var(--primary);
-    color: var(--text);
+    color: var(--texthighlighted);
     border: none;
+    transition: color .3s ease, background-color 0s ease;
   }
 
   .dropdown-place {
@@ -94,6 +100,7 @@
     background-color: var(--primary);
     color: var(--text);
     border: none;
+    transition: color .2s ease, background-color 0s ease;
   }
 
   .dropdown-item:hover {

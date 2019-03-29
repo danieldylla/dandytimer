@@ -17,11 +17,13 @@ const options = [
 class Stats extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return (
-      this.props.renderlog ||
+      (this.props.renderlog && this.props.show_stats) ||
       this.props.show_stats !== nextProps.show_stats ||
-      this.props.reps > nextProps.reps ||
+      (this.props.reps > nextProps.reps && this.props.show_stats) ||
+      (nextProps.reps - this.props.reps > 1 && this.props.show_stats) ||
       this.props.session !== nextProps.session ||
-      this.props.stats_tab !== nextProps.stats_tab
+      this.props.stats_tab !== nextProps.stats_tab ||
+      this.props.track_best_ao1000 !== nextProps.track_best_ao1000
     );
   }
 
@@ -212,6 +214,8 @@ class Stats extends Component {
           download={true}
           dataset={{borderWidth: 2}}
           points={false}
+          width="35vw"
+          height="35vh"
           colors={[
             this.props.theme.accent,
             this.shiftColor(this.props.theme.accent, 60),
@@ -269,6 +273,8 @@ class Stats extends Component {
         <BarChart
           data={data}
           download={true}
+          width="35vw"
+          height="35vh"
           colors={[
             this.props.theme.accent
           ]}
@@ -309,21 +315,22 @@ class Stats extends Component {
       }
     }
     let ao1000 = 0;
-    let best1000 = this.props.average * 10;
-    let worst1000 = 0;
-    if (log.length >= 1000) {
-      for (var i = 0; i < 1000; i++) {
-        if (log[i].res.time < best1000) {
-          best1000 = log[i].res.time;
+    if (this.props.track_best_ao1000) {
+      let best1000 = this.props.average * 10;
+      let worst1000 = 0;
+      if (log.length >= 1000) {
+        for (var i = 0; i < 1000; i++) {
+          if (log[i].res.time < best1000) {
+            best1000 = log[i].res.time;
+          }
+          if (log[i].res.time > worst1000) {
+            worst1000 = log[i].res.time;
+          }
+          ao1000 += log[i].res.time;
         }
-        if (log[i].res.time > worst1000) {
-          worst1000 = log[i].res.time;
-        }
-        ao1000 += log[i].res.time;
+        ao1000 = (ao1000 - worst1000 - best1000) / 998;
       }
-      ao1000 = (ao1000 - worst1000 - best1000) / 998;
     }
-    // this.props.handleBestAo1000();
 
     return (
       <div className="statpanel">
@@ -340,7 +347,6 @@ class Stats extends Component {
               <td id="stat">&sigma;: {this.convertToTime(sdev)}</td>
             </tr>
           </tbody>
-          <br />
           <br />
           <tbody>
             <tr>
@@ -379,9 +385,9 @@ class Stats extends Component {
               <td>{this.props.best.ao100 ? this.convertToTime(this.props.best.ao100) : '-'}</td>
             </tr>
             <tr>
-              <th>ao1000</th>
-              <td>{this.convertToTime(ao1000)}</td>
-              <td>{this.convertToTime(this.props.bestAo1000)}</td>
+              <th>{this.props.track_best_ao1000 ? "ao1000" : null}</th>
+              <td>{this.props.track_best_ao1000 ? this.convertToTime(ao1000) : null}</td>
+              <td>{this.props.track_best_ao1000 ? this.convertToTime(this.props.bestAo1000) : null}</td>
             </tr>
           </tbody>
         </table>
@@ -401,21 +407,22 @@ class Stats extends Component {
   }
 
   render() {
+    console.log('rerendering stats');
     return (
       <div>
         {this.props.show_stats ?
-            <div className="StatsModal">
-              <Dropdown
-                className='dropdown'
-                controlClassName='dropdown-ctrl'
-                menuClassName='dropdown-menu'
-                placeholderClassName='dropdown-place'
-                options={options}
-                value={options[this.props.stats_tab - 1]}
-                onChange={(v) => this.handleChange(v)}
-              />
-              {this.displayTab()}
-            </div>
+          <div className="StatsModal">
+            {this.displayTab()}
+            <Dropdown
+              className='dropdown'
+              controlClassName='dropdown-ctrl'
+              menuClassName='dropdown-menu'
+              placeholderClassName='dropdown-place'
+              options={options}
+              value={options[this.props.stats_tab - 1]}
+              onChange={(v) => this.handleChange(v)}
+            />
+          </div>
         : null}
       </div>
     );

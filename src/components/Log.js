@@ -79,9 +79,7 @@ class Log extends Component {
   }
 
   handleResize() {
-    if (window.innerWidth < 1080) {
-      this.forceUpdate();
-    }
+    this.forceUpdate();
   }
 
   openDeleteModal(i, res) {
@@ -379,7 +377,7 @@ class Log extends Component {
         <div className="scroll">
           <List
             width={window.innerWidth}
-            height={window.innerHeight}
+            height={window.innerHeight - 335}
             rowHeight={this.state.rowheight}
             rowRenderer={this.renderRow}
             rowCount={this.props.log.length}

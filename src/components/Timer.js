@@ -68,6 +68,7 @@ class Timer extends Component {
       res: {
         id: 0,
         time: null,
+        mo3: null,
         ao5: null,
         ao12: null,
         ao50: null,
@@ -78,6 +79,7 @@ class Timer extends Component {
       },
       best: {
         res: null,
+        mo3: null,
         ao5: null,
         ao12: null,
         ao50: null,
@@ -110,6 +112,7 @@ class Timer extends Component {
       display_milliseconds: false,
       hide_time: false,
       hide_surroundings: true,
+      track_best_ao1000: true,
       party_mode: false,
       theme: {
         primary: '#1a1c21',
@@ -136,6 +139,7 @@ class Timer extends Component {
     this.hideStuff = this.hideStuff.bind(this);
     this.unhideStuff = this.unhideStuff.bind(this);
     this.updateBests = this.updateBests.bind(this);
+    this.updateBestAo1000 = this.updateBestAo1000.bind(this);
     this.startTime = this.startTime.bind(this);
     this.endTime = this.endTime.bind(this);
     this.calculateTime = this.calculateTime.bind(this);
@@ -174,6 +178,7 @@ class Timer extends Component {
     this.handleHideTime = this.handleHideTime.bind(this);
     this.handleHideSurroundings = this.handleHideSurroundings.bind(this);
     this.handleStatsTab = this.handleStatsTab.bind(this);
+    this.handleTrackBestAo1000 = this.handleTrackBestAo1000.bind(this);
     this.handleBestAo1000 = this.handleBestAo1000.bind(this);
     this.handlePlus2 = this.handlePlus2.bind(this);
     this.handleDNF = this.handleDNF.bind(this);
@@ -365,6 +370,7 @@ class Timer extends Component {
           name: null,
           best: {
             res: null,
+            mo3: null,
             ao5: null,
             ao12: null,
             ao50: null,
@@ -459,6 +465,7 @@ class Timer extends Component {
       res: {
         id: this.state.res.id,
         time: this.state.res.time,
+        mo3: this.state.res.mo3,
         ao5: this.state.res.ao5,
         ao12: this.state.res.ao12,
         ao50: this.state.res.ao50,
@@ -496,6 +503,7 @@ class Timer extends Component {
           res: {
             id: this.state.res.id,
             time: this.state.res.time,
+            mo3: this.state.res.mo3,
             ao5: this.state.res.ao5,
             ao12: this.state.res.ao12,
             ao50: this.state.res.ao50,
@@ -510,6 +518,7 @@ class Timer extends Component {
           res: {
             id: this.state.res.id,
             time: this.state.res.time,
+            mo3: this.state.res.mo3,
             ao5: this.state.res.ao5,
             ao12: this.state.res.ao12,
             ao50: this.state.res.ao50,
@@ -589,6 +598,18 @@ class Timer extends Component {
       }
     }
     return (sum / j);
+  }
+
+  calculateMean(howmany, t, reps, dnf) {
+    if (dnf) {
+      return "dnf";
+    }
+    if (reps >= 3) {
+      let mean = t;
+      for (var i = 0; i < howmany - 1; i++) {
+
+      }
+    }
   }
 
   calculateAv(howmany, t, reps, dnf) {
@@ -746,6 +767,29 @@ class Timer extends Component {
                 ao100: this.state.res.ao100,
               }
             });
+      }
+      this.updateBestAo1000();
+    }
+  }
+
+  updateBestAo1000() {
+    if (this.state.log.length > 999) {
+      let log = this.state.log.slice();
+      let ao1000 = 0;
+      let best1000 = this.state.average * 10;
+      let worst1000 = 0;
+      for (var i = 0; i < 1000; i++) {
+        if (log[i].res.time < best1000) {
+          best1000 = log[i].res.time;
+        }
+        if (log[i].res.time > worst1000) {
+          worst1000 = log[i].res.time;
+        }
+        ao1000 += log[i].res.time;
+      }
+      ao1000 = (ao1000 - worst1000 - best1000) / 998;
+      if (ao1000 < this.state.bestAo1000 || !this.state.bestAo1000) {
+        this.setState({ bestAo1000: ao1000 });
       }
     }
   }
@@ -940,8 +984,11 @@ class Timer extends Component {
           ao12: this.forceUpdateBestAo12(result),
           ao50: this.forceUpdateBestAo50(result),
           ao100: this.forceUpdateBestAo100(result),
-        }
+        },
       });
+      if (this.state.track_best_ao1000) {
+        this.handleBestAo1000();
+      }
     }
   }
 
@@ -1609,6 +1656,13 @@ class Timer extends Component {
     });
   }
 
+  handleTrackBestAo1000() {
+    if (!this.state.track_best_ao1000) {
+      this.handleBestAo1000();
+    }
+    this.setState({ track_best_ao1000: !this.state.track_best_ao1000 });
+  }
+
   handleBestAo1000() {
     if (this.state.log.length >= 1000) {
       let log = this.state.log.slice();
@@ -1633,6 +1687,10 @@ class Timer extends Component {
       }
       this.setState({
         bestAo1000: bestao1000
+      });
+    } else {
+      this.setState({
+        bestAo1000: null
       });
     }
   }
@@ -1842,6 +1900,7 @@ class Timer extends Component {
             display_milliseconds={this.state.display_milliseconds}
             hide_time={this.state.hide_time}
             hide_surroundings={this.state.hide_surroundings}
+            track_best_ao1000={this.state.track_best_ao1000}
             themes={this.state.themes}
             handleModal={() => this.handleModal()}
             handleInspection={this.handleInspection}
@@ -1858,6 +1917,7 @@ class Timer extends Component {
             handleDisplayMilliseconds={this.handleDisplayMilliseconds}
             handleHideTime={this.handleHideTime}
             handleHideSurroundings={this.handleHideSurroundings}
+            handleTrackBestAo1000={this.handleTrackBestAo1000}
             saveTheme={(name, theme) => this.saveTheme(name, theme)}
             deleteTheme={(i) => this.deleteTheme(i)}
             changeColor={(theme) => this.changeColor(theme)}
@@ -1890,8 +1950,8 @@ class Timer extends Component {
             session={this.state.session}
             bestAo1000={this.state.bestAo1000}
             show_stats={this.state.show_stats}
+            track_best_ao1000={this.state.track_best_ao1000}
             stats_tab={this.state.stats_tab}
-            handleBestAo1000={this.handleBestAo1000}
             handleShowStats={this.handleShowStats}
             handleStatsTab={(i) => this.handleStatsTab(i)}
           />

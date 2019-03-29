@@ -26,7 +26,6 @@ class DeleteModal extends Component {
     this.setState({
       x: value
     });
-    document.getElementById('clearconfirm').focus();
   }
 
   handleFocus(event) {

@@ -44,11 +44,13 @@
   bottom: 0vh;
   left: 30vw;
   right: 30vw;
-  height: 10vh;
+  height: flex;
   background-color: inherit;
   display: block;
+  padding-bottom: 20px;
   position: absolute;
   align-items: center;
+  vertical-align: bottom;
   color: var(--text);
   transition: color .5s, background-color 0s;
   font-size: 24px;
@@ -85,7 +87,7 @@
   display: block;
   position: absolute;
   color: var(--text);
-  transition: .3s;
+  transition: color .3s ease, background-color 0s ease;
 }
 
 #settings:hover {
@@ -99,7 +101,7 @@
   display: block;
   position: absolute;
   color: var(--text);
-  transition: .3s;
+  transition: color .3s ease, background-color 0s ease;
 }
 
 #account:hover {
