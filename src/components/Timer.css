@@ -137,6 +137,16 @@
   border-radius: 10px;
 }
 
+#undoload {
+  bottom: 0vh;
+  width: 118px;
+  height: 80px;
+  display: block;
+  position: absolute;
+  right: calc(50vw - 59px);
+  background-color: var(--primary);
+}
+
 .ReactModal__Overlay {
     opacity: 0;
     transition: opacity 200ms ease-in-out;

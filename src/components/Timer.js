@@ -5,8 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactGA from 'react-ga';
 import Log from './Log';
 import Settings from './Settings';
-import Account from './modals/AccountModal'
-import Stats from './Stats'
+import Account from './modals/AccountModal';
+import Stats from './Stats';
+import Undo from './Undo';
 import './Timer.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -194,6 +195,7 @@ class Timer extends Component {
     this.reset = this.reset.bind(this);
     this.saveStateToFirebase = this.saveStateToFirebase.bind(this);
     this.loadStateFromFirebase = this.loadStateFromFirebase.bind(this);
+    this.restoreFirebaseBackup = this.restoreFirebaseBackup.bind(this);
   }
 
   componentDidMount() {
@@ -239,7 +241,6 @@ class Timer extends Component {
     );
     // saves if component has a chance to unmount
     this.saveSession();
-    this.saveStateToFirebase();
     this.saveStateToLocalStorage();
   }
 
@@ -266,25 +267,54 @@ class Timer extends Component {
     if (this.state.isSignedIn) {
       const db = firebase.firestore();
       const docRef = db.collection("user-results").doc(this.state.userProfile.email);
-      console.log('save');
-      docRef.set({
-        average: JSON.stringify(this.state.average),
-        best: JSON.stringify(this.state.best),
-        log: JSON.stringify(this.state.log),
-        session: JSON.stringify(this.state.session),
-        reps: JSON.stringify(this.state.reps),
-        sessions: JSON.stringify(this.state.sessions),
-        themes: JSON.stringify(this.state.themes),
-        validreps: JSON.stringify(this.state.validreps),
+      const backup = db.collection("user-backups").doc(this.state.userProfile.email);
+      this.saveSession();
+      docRef.get().then((doc) => {
+        const data = JSON.parse(JSON.stringify(doc.data()));
+        backup.set({
+          average: data.average,
+          best: data.best,
+          log: data.log,
+          session: data.session,
+          reps: data.reps,
+          sessions: data.sessions,
+          themes: data.themes,
+          validreps: data.validreps,
+        });
+        docRef.set({
+          average: JSON.stringify(this.state.average),
+          best: JSON.stringify(this.state.best),
+          log: JSON.stringify(this.state.log),
+          session: JSON.stringify(this.state.session),
+          reps: JSON.stringify(this.state.reps),
+          sessions: JSON.stringify(this.state.sessions),
+          themes: JSON.stringify(this.state.themes),
+          validreps: JSON.stringify(this.state.validreps),
+        });
       });
     }
   }
 
   loadStateFromFirebase() {
     if (this.state.isSignedIn) {
+      this.saveStateToLocalStorage();
       const db = firebase.firestore();
       const docRef = db.collection("user-results").doc(this.state.userProfile.email);
-      console.log('load');
+      docRef.get().then((doc) => {
+        const data = doc.data();
+        for (let key in data) {
+          this.setState({
+            [key]: JSON.parse(data[key]),
+          });
+        }
+      });
+    }
+  }
+
+  restoreFirebaseBackup() {
+    if (this.state.isSignedIn) {
+      const db = firebase.firestore();
+      const docRef = db.collection("user-backups").doc(this.state.userProfile.email);
       docRef.get().then((doc) => {
         const data = doc.data();
         for (let key in data) {
@@ -1966,6 +1996,11 @@ class Timer extends Component {
             handleModal={this.handleModal}
             loadStateFromFirebase={this.loadStateFromFirebase}
             saveStateToFirebase={this.saveStateToFirebase}
+          />
+        </div>
+        <div className="undoload" id="undoload">
+          <Undo
+            theme={this.state.theme}
           />
         </div>
         <div id="time">
