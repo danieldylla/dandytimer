@@ -146,7 +146,7 @@ class AccountModal extends Component {
                     </AwesomeButton>
                     <div className="actsave">
                       <ClipLoader
-                        css={{display: "inline", verticalAlign: "bottom", marginBottom: "7px"}}
+                        css={{display: "inline-block", verticalAlign: "bottom", marginBottom: "7px"}}
                         sizeUnit={"px"}
                         size={35}
                         color={this.props.theme.accent}
@@ -177,7 +177,7 @@ class AccountModal extends Component {
                         <FontAwesomeIcon icon="file-download" />
                       </div>
                     </AwesomeButton>
-                    <div classname="actload">
+                    <div className="actload">
                       <ClipLoader
                         css={{display: "inline-block", verticalAlign: "bottom", marginBottom: "7px"}}
                         sizeUnit={"px"}
