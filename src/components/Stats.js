@@ -307,7 +307,7 @@ class Stats extends Component {
     let bestmo3 = 10000000000000000000;
     if (log.length > 2) {
       mo3 = (log[0].res.time + log[1].res.time + log[2].res.time) / 3;
-      for (var i = 0; i < log.length - 2; i++) {
+      for (i = 0; i < log.length - 2; i++) {
         let temp = (log[i].res.time + log[i+1].res.time + log[i+2].res.time) / 3;
         if (temp < bestmo3) {
           bestmo3 = temp;
@@ -319,7 +319,7 @@ class Stats extends Component {
       let best1000 = this.props.average * 10;
       let worst1000 = 0;
       if (log.length >= 1000) {
-        for (var i = 0; i < 1000; i++) {
+        for (i = 0; i < 1000; i++) {
           if (log[i].res.time < best1000) {
             best1000 = log[i].res.time;
           }

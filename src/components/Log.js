@@ -32,7 +32,9 @@ class Log extends Component {
       this.state.deleteModalIsOpen !== nextState.deleteModalIsOpen ||
       this.state.sessionModalIsOpen !== nextState.sessionModalIsOpen ||
       this.state.sessionModalIsOpen ||
-      this.props.isSignedIn !== nextProps.isSignedIn
+      this.props.isSignedIn !== nextProps.isSignedIn ||
+      this.props.saving !== nextProps.saving ||
+      this.props.loading !== nextProps.loading
     );
   }
 
@@ -325,6 +327,8 @@ class Log extends Component {
             session={this.props.session}
             theme={this.props.theme}
             isSignedIn={this.props.isSignedIn}
+            loading={this.props.loading}
+            saving={this.props.saving}
             clearAll={() => this.props.clearAll()}
             handleModal={() => this.props.handleModal()}
             openTimeModal={(i, s) => this.openTimeModal(i, s)}
@@ -340,6 +344,9 @@ class Log extends Component {
             newSession={this.props.newSession}
             changeSession={(i) => this.props.changeSession(i)}
             deleteSession={(i) => this.props.deleteSession(i)}
+            restoreFirebaseBackup={this.props.restoreFirebaseBackup}
+            undoSaveToFirebase={this.props.undoSaveToFirebase}
+            undoLoadFromFirebase={this.props.undoLoadFromFirebase}
           />
         </div>
         <div className="singlemodal">

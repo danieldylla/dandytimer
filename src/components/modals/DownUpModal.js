@@ -4,6 +4,8 @@ import ReactGA from 'react-ga';
 import { AwesomeButton } from 'react-awesome-button';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ClipLoader } from 'react-spinners'
+import Undo from '../Undo';
 
 import 'react-awesome-button/dist/styles.css';
 import './DownUpModal.css';
@@ -18,6 +20,8 @@ class DownUpModal extends Component {
       filename: "dandytimer_results",
       selectedfile: null,
       upfilename: "no file chosen",
+      saved: false,
+      loaded: false,
     }
 
     this.openModal = this.openModal.bind(this);
@@ -28,6 +32,10 @@ class DownUpModal extends Component {
     this.colorLuminance = this.colorLuminance.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.generageName = this.generateName.bind(this);
+    this.handleSaveFirebase = this.handleSaveFirebase.bind(this);
+    this.handleLoadFirebase = this.handleLoadFirebase.bind(this);
+    this.handleUndoSave = this.handleUndoSave.bind(this);
+    this.handleUndoLoad = this.handleUndoLoad.bind(this);
 
     this.inputRef = React.createRef();
   };
@@ -46,7 +54,11 @@ class DownUpModal extends Component {
   }
 
   closeModal() {
-    this.setState({modalIsOpen: false});
+    this.setState({
+      modalIsOpen: false,
+      saved: false,
+      loaded: false,
+    });
     this.props.handleModal();
     document.documentElement.style.setProperty('--tab', 'var(--primary)');
     document.documentElement.style.setProperty('--tabselect', 'rgba(0, 0, 0, .3)');
@@ -87,6 +99,26 @@ class DownUpModal extends Component {
     if(this.inputRef && this.inputRef.current) {
       this.inputRef.current.click();
     }
+  }
+
+  handleSaveFirebase() {
+    this.props.saveStateToFirebase();
+    this.setState({ saved: true });
+  }
+
+  handleLoadFirebase() {
+    this.props.loadStateFromFirebase();
+    this.setState({ loaded: true });
+  }
+
+  handleUndoSave() {
+    this.props.undoSaveToFirebase();
+    this.setState({ saved: false });
+  }
+
+  handleUndoLoad() {
+    this.props.undoLoadFromFirebase();
+    this.setState({ loaded: false });
   }
 
   colorLuminance(hex, lum) {
@@ -160,16 +192,33 @@ class DownUpModal extends Component {
                 {this.props.isSignedIn ?
                   <div className="signinmsg">
                     <AwesomeButton
-                      action={this.props.saveStateToFirebase}
+                      action={this.handleSaveFirebase}
                       type="primary"
-                      className="downloadbtn"
-                      id="downloadbtn"
+                      className="firebasebtn"
+                      id="firebasebtn"
                       size="small"
                     >
                       <div id="downicon">
                         <FontAwesomeIcon icon="file-upload" />
                       </div>
                     </AwesomeButton>
+                    <ClipLoader
+                      css={{display: "inline-block", verticalAlign: "bottom", marginBottom: "7px"}}
+                      sizeUnit={"px"}
+                      size={35}
+                      color={this.props.theme.accent}
+                      loading={this.props.saving}
+                    />
+                    {this.state.saved && !this.props.saving ?
+                      <div className="undodu">
+                        <Undo
+                          theme={this.props.theme}
+                          undo={this.handleUndoSave}
+                        />
+                      </div>
+                      :
+                      null
+                    }
                   </div>
                   :
                   <div className="signinmsg">
@@ -204,16 +253,33 @@ class DownUpModal extends Component {
                 {this.props.isSignedIn ?
                   <div className="signinmsg">
                     <AwesomeButton
-                      action={this.props.loadStateFromFirebase}
+                      action={this.handleLoadFirebase}
                       type="primary"
-                      className="downloadbtn"
-                      id="downloadbtn"
+                      className="firebasebtn"
+                      id="firebasebtn"
                       size="small"
                     >
                       <div id="downicon">
                         <FontAwesomeIcon icon="file-download" />
                       </div>
                     </AwesomeButton>
+                    <ClipLoader
+                      css={{display: "inline-block", verticalAlign: "bottom", marginBottom: "7px"}}
+                      sizeUnit={"px"}
+                      size={35}
+                      color={this.props.theme.accent}
+                      loading={this.props.loading}
+                    />
+                    {this.state.loaded && !this.props.loading ?
+                      <div className="undodu">
+                        <Undo
+                          theme={this.props.theme}
+                          undo={this.handleUndoLoad}
+                        />
+                      </div>
+                      :
+                      null
+                    }
                   </div>
                   :
                   <div className="signinmsg">

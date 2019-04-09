@@ -13,7 +13,7 @@ class Undo extends Component {
   }
 
   handleClick() {
-
+    this.props.undo();
   }
 
   colorLuminance(hex, lum) {
@@ -42,7 +42,7 @@ class Undo extends Component {
         primary: {
           main: this.colorLuminance(this.props.theme.primary, .3),
           contrastText: this.props.theme.accent,
-          dark: this.props.theme.primary,
+          dark: this.colorLuminance(this.props.theme.primary, .1),
           light: this.colorLuminance(this.props.theme.primary, .4)
         }
       },
@@ -55,7 +55,6 @@ class Undo extends Component {
             <Fab
               onClick={this.handleClick}
               variant="extended"
-              size="large"
               color="primary"
               className="undofab"
             >

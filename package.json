@@ -27,6 +27,7 @@
     "react-scripts": "^2.1.8",
     "react-select": "^2.2.0",
     "react-simple-dropdown": "^3.2.3",
+    "react-spinners": "^0.5.4",
     "react-switch": "^3.0.4",
     "react-tabs": "^3.0.0",
     "react-virtualized": "^9.21.0",

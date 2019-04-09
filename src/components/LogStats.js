@@ -284,11 +284,16 @@ class LogStats extends Component {
               <DownUpModal
                 theme={this.props.theme}
                 isSignedIn={this.props.isSignedIn}
+                loading={this.props.loading}
+                saving={this.props.saving}
                 downloadFile={this.props.downloadFile}
                 uploadFile={this.props.uploadFile}
                 saveStateToFirebase={this.props.saveStateToFirebase}
                 loadStateFromFirebase={this.props.loadStateFromFirebase}
                 handleModal={() => this.props.handleModal()}
+                restoreFirebaseBackup={this.props.restoreFirebaseBackup}
+                undoSaveToFirebase={this.props.undoSaveToFirebase}
+                undoLoadFromFirebase={this.props.undoLoadFromFirebase}
               />
             </div>
             <div className="third" id="columnlabel">

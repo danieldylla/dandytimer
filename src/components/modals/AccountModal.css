@@ -106,5 +106,36 @@
   }
 
   .updownbtns {
+    margin-left: 100px;
+    margin-right: 100px;
+  }
+
+  .accountle {
+    margin-top: 0px;
+    margin-left: -20px;
+  }
+
+  .upbtnaccount {
+    width: 50%;
     text-align: center;
+    display: inline-block;
+  }
+
+  .downbtnaccount {
+    width: 50%;
+    text-align: center;
+    display: inline-block;
+  }
+
+  .actload {
+    text-align: left;
+    display: inline-block;
+    position: fixed;
+    width: 200px;
+  }
+
+  .actsave {
+    text-align: left;
+    display: inline-block;
+    position: fixed;
   }

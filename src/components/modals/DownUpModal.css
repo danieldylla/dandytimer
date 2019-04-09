@@ -118,9 +118,32 @@
     padding-top: 1px;
   }
 
+  .undodu {
+    display: inline-block;
+  }
+
   .downloadbtn {
     margin-right: 20px;
     margin-bottom: 5px;
+    --button-default-height: 51px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 2px;
+    --button-horizontal-padding: 20px;
+    --button-raise-level: 4px;
+    --button-hover-pressure: 1;
+    --transform-speed: 0.15s;
+    --button-primary-color: var(--accent);
+    --button-primary-color-dark: var(--dark);
+    --button-primary-color-light: var(--texthighlighted);
+    --button-primary-color-hover: var(--hover);
+    --button-primary-color-active: var(--click);
+    --button-primary-border: 0px solid #FFFFFF;
+  }
+
+  .firebasebtn {
+    margin-right: 20px;
+    margin-bottom: 5px;
+    vertical-align: top;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 2px;

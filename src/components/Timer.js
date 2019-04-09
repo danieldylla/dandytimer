@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Firebase from '../firebase.js';
+import '../firebase.js';
 import firebase from 'firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactGA from 'react-ga';
@@ -101,6 +101,10 @@ class Timer extends Component {
       validreps: 0,
       average: 0,
       bestAo1000: null,
+      undoload: false,
+      undosave: false,
+      loading: false,
+      saving: false,
       scramble_on_side: false,
       show_av: true,
       show_scramble: true,
@@ -196,6 +200,8 @@ class Timer extends Component {
     this.saveStateToFirebase = this.saveStateToFirebase.bind(this);
     this.loadStateFromFirebase = this.loadStateFromFirebase.bind(this);
     this.restoreFirebaseBackup = this.restoreFirebaseBackup.bind(this);
+    this.undoSaveToFirebase = this.undoSaveToFirebase.bind(this);
+    this.undoLoadFromFirebase = this.undoLoadFromFirebase.bind(this);
   }
 
   componentDidMount() {
@@ -261,10 +267,12 @@ class Timer extends Component {
         }
       }
     }
+    console.log('here');
   }
 
   saveStateToFirebase() {
     if (this.state.isSignedIn) {
+      this.setState({ saving: true });
       const db = firebase.firestore();
       const docRef = db.collection("user-results").doc(this.state.userProfile.email);
       const backup = db.collection("user-backups").doc(this.state.userProfile.email);
@@ -291,12 +299,14 @@ class Timer extends Component {
           themes: JSON.stringify(this.state.themes),
           validreps: JSON.stringify(this.state.validreps),
         });
+        this.setState({ saving: false });
       });
     }
   }
 
   loadStateFromFirebase() {
     if (this.state.isSignedIn) {
+      this.setState({ loading: true });
       this.saveStateToLocalStorage();
       const db = firebase.firestore();
       const docRef = db.collection("user-results").doc(this.state.userProfile.email);
@@ -307,6 +317,7 @@ class Timer extends Component {
             [key]: JSON.parse(data[key]),
           });
         }
+        this.setState({ loading: false });
       });
     }
   }
@@ -324,6 +335,35 @@ class Timer extends Component {
         }
       });
     }
+  }
+
+  undoSaveToFirebase() {
+    if (this.state.isSignedIn) {
+      this.setState({ saving: true });
+      const db = firebase.firestore();
+      const docRef = db.collection("user-results").doc(this.state.userProfile.email);
+      const backup = db.collection("user-backups").doc(this.state.userProfile.email);
+      this.saveSession();
+      backup.get().then((doc) => {
+        const data = JSON.parse(JSON.stringify(doc.data()));
+        docRef.set({
+          average: data.average,
+          best: data.best,
+          log: data.log,
+          session: data.session,
+          reps: data.reps,
+          sessions: data.sessions,
+          themes: data.themes,
+          validreps: data.validreps,
+        });
+        this.setState({ saving: false });
+      });
+    }
+  }
+
+  undoLoadFromFirebase() {
+    this.clearAll();
+    this.hydrateStateWithLocalStorage();
   }
 
   saveStateToLocalStorage() {
@@ -381,7 +421,6 @@ class Timer extends Component {
   }
 
   logOut() {
-    this.saveStateToFirebase();
     firebase.auth().signOut();
     this.setState({
       userProfile: null,
@@ -637,7 +676,7 @@ class Timer extends Component {
     if (reps >= 3) {
       let mean = t;
       for (var i = 0; i < howmany - 1; i++) {
-
+        // FINISH???
       }
     }
   }
@@ -1888,6 +1927,8 @@ class Timer extends Component {
               session={this.state.session}
               theme={this.state.theme}
               isSignedIn={this.state.isSignedIn}
+              loading={this.state.loading}
+              saving={this.state.saving}
               handleModal={() => this.handleModal()}
               handlePlus2={(index) => this.handlePlus2(index)}
               handleDNF={(index) => this.handleDNF(index)}
@@ -1902,6 +1943,9 @@ class Timer extends Component {
               changeSession = {(i) => this.changeSession(i)}
               saveSession = {this.saveSession}
               deleteSession = {(i) => this.deleteSession(i)}
+              restoreFirebaseBackup = {this.restoreFirebaseBackup}
+              undoSaveToFirebase = {this.undoSaveToFirebase}
+              undoLoadFromFirebase = {this.undoLoadFromFirebase}
             />
           : null}
         </div>
@@ -1991,16 +2035,15 @@ class Timer extends Component {
             userProfile={this.state.userProfile}
             isSignedIn={this.state.isSignedIn}
             theme={this.state.theme}
+            loading={this.state.loading}
+            saving={this.state.saving}
             signIn={(a, b) => this.signIn(a, b)}
             logOut={this.logOut}
             handleModal={this.handleModal}
             loadStateFromFirebase={this.loadStateFromFirebase}
             saveStateToFirebase={this.saveStateToFirebase}
-          />
-        </div>
-        <div className="undoload" id="undoload">
-          <Undo
-            theme={this.state.theme}
+            undoSaveToFirebase={this.undoSaveToFirebase}
+            undoLoadFromFirebase={this.undoLoadFromFirebase}
           />
         </div>
         <div id="time">

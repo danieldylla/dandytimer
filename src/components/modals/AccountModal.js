@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AwesomeButton } from 'react-awesome-button';
 import ReactGA from 'react-ga';
 import GoogleButton from 'react-google-button'
+import { ClipLoader } from 'react-spinners'
+import Undo from '../Undo';
 
 import './AccountModal.css';
 
@@ -13,12 +15,18 @@ class AccountModal extends Component {
 
     this.state = {
       modalIsOpen: false,
+      saved: false,
+      loaded: false,
     }
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.onFail = this.onFail.bind(this);
     this.onLogout = this.onLogout.bind(this);
+    this.handleSaveFirebase = this.handleSaveFirebase.bind(this);
+    this.handleLoadFirebase = this.handleLoadFirebase.bind(this);
+    this.handleUndoSave = this.handleUndoSave.bind(this);
+    this.handleUndoLoad = this.handleUndoLoad.bind(this);
   };
 
 
@@ -32,7 +40,11 @@ class AccountModal extends Component {
   }
 
   closeModal() {
-    this.setState({ modalIsOpen: false });
+    this.setState({
+      modalIsOpen: false,
+      saved: false,
+      loaded: false,
+    });
     this.props.handleModal();
     ReactGA.pageview('/');
   }
@@ -46,6 +58,26 @@ class AccountModal extends Component {
 
   onLogout() {
     this.props.logOut();
+  }
+
+  handleSaveFirebase() {
+    this.props.saveStateToFirebase();
+    this.setState({ saved: true });
+  }
+
+  handleLoadFirebase() {
+    this.props.loadStateFromFirebase();
+    this.setState({ loaded: true });
+  }
+
+  handleUndoSave() {
+    this.props.undoSaveToFirebase();
+    this.setState({ saved: false });
+  }
+
+  handleUndoLoad() {
+    this.props.undoLoadFromFirebase();
+    this.setState({ loaded: false });
   }
 
   colorLuminance(hex, lum) {
@@ -99,28 +131,72 @@ class AccountModal extends Component {
                   </div>
                 </div>
                 <div className="updownbtns">
-                  <AwesomeButton
-                    action={this.props.saveStateToFirebase}
-                    type="primary"
-                    className="downloadbtn"
-                    id="downloadbtn"
-                    size="small"
-                  >
-                    <div id="downicon">
-                      <FontAwesomeIcon icon="file-upload" />
+                  <div className="upbtnaccount">
+                    <h3 className="accountle">Save</h3>
+                    <AwesomeButton
+                      action={this.handleSaveFirebase}
+                      type="primary"
+                      className="downloadbtn"
+                      id="accountbtn"
+                      size="small"
+                    >
+                      <div id="downicon">
+                        <FontAwesomeIcon icon="file-upload" />
+                      </div>
+                    </AwesomeButton>
+                    <div className="actsave">
+                      <ClipLoader
+                        css={{display: "inline", verticalAlign: "bottom", marginBottom: "7px"}}
+                        sizeUnit={"px"}
+                        size={35}
+                        color={this.props.theme.accent}
+                        loading={this.props.saving}
+                      />
+                      {this.state.saved && !this.props.saving ?
+                        <div className="undodu">
+                          <Undo
+                            theme={this.props.theme}
+                            undo={this.handleUndoSave}
+                          />
+                        </div>
+                        :
+                        null
+                      }
                     </div>
-                  </AwesomeButton>
-                  <AwesomeButton
-                    action={this.props.loadStateFromFirebase}
-                    type="primary"
-                    className="downloadbtn"
-                    id="downloadbtn"
-                    size="small"
-                  >
-                    <div id="downicon">
-                      <FontAwesomeIcon icon="file-download" />
+                  </div>
+                  <div className="downbtnaccount">
+                    <h3 className="accountle">Load</h3>
+                    <AwesomeButton
+                      action={this.handleLoadFirebase}
+                      type="primary"
+                      className="downloadbtn"
+                      id="accountbtn"
+                      size="small"
+                    >
+                      <div id="downicon">
+                        <FontAwesomeIcon icon="file-download" />
+                      </div>
+                    </AwesomeButton>
+                    <div classname="actload">
+                      <ClipLoader
+                        css={{display: "inline-block", verticalAlign: "bottom", marginBottom: "7px"}}
+                        sizeUnit={"px"}
+                        size={35}
+                        color={this.props.theme.accent}
+                        loading={this.props.loading}
+                      />
+                      {this.state.loaded && !this.props.loading ?
+                        <div className="undodu">
+                          <Undo
+                            theme={this.props.theme}
+                            undo={this.handleUndoLoad}
+                          />
+                        </div>
+                        :
+                        null
+                      }
                     </div>
-                  </AwesomeButton>
+                  </div>
                 </div>
                 <button onClick={this.onLogout} className="logout">
                   Log Out

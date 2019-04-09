@@ -144,7 +144,7 @@
   display: block;
   position: absolute;
   right: calc(50vw - 59px);
-  background-color: var(--primary);
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .ReactModal__Overlay {
