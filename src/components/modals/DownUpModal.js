@@ -191,6 +191,9 @@ class DownUpModal extends Component {
                 <h2>Save To Your Account</h2>
                 {this.props.isSignedIn ?
                   <div className="signinmsg">
+                    <div className="timestamp">
+                      last saved on {this.props.lastsave}
+                    </div>
                     <AwesomeButton
                       action={this.handleSaveFirebase}
                       type="primary"
@@ -252,6 +255,9 @@ class DownUpModal extends Component {
                 <h2>Load From Your Account</h2>
                 {this.props.isSignedIn ?
                   <div className="signinmsg">
+                    <div className="timestamp">
+                      last saved on {this.props.lastsave}
+                    </div>
                     <AwesomeButton
                       action={this.handleLoadFirebase}
                       type="primary"

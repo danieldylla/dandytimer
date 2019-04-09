@@ -122,6 +122,13 @@
     display: inline-block;
   }
 
+  .timestamp {
+    font-size: 14px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-right: 30px;
+  }
+
   .downloadbtn {
     margin-right: 20px;
     margin-bottom: 5px;
@@ -143,7 +150,6 @@
   .firebasebtn {
     margin-right: 20px;
     margin-bottom: 5px;
-    vertical-align: top;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 2px;

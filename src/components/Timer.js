@@ -3,6 +3,7 @@ import '../firebase.js';
 import firebase from 'firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactGA from 'react-ga';
+import moment from 'moment';
 import Log from './Log';
 import Settings from './Settings';
 import Account from './modals/AccountModal';
@@ -101,6 +102,8 @@ class Timer extends Component {
       validreps: 0,
       average: 0,
       bestAo1000: null,
+      lastsave: null,
+      backupsave: null,
       undoload: false,
       undosave: false,
       loading: false,
@@ -273,6 +276,8 @@ class Timer extends Component {
   saveStateToFirebase() {
     if (this.state.isSignedIn) {
       this.setState({ saving: true });
+      var date = moment(new Date()).format('MMMM Do YYYY, h:mm:ss a');
+      var backupdate;
       const db = firebase.firestore();
       const docRef = db.collection("user-results").doc(this.state.userProfile.email);
       const backup = db.collection("user-backups").doc(this.state.userProfile.email);
@@ -288,7 +293,9 @@ class Timer extends Component {
           sessions: data.sessions,
           themes: data.themes,
           validreps: data.validreps,
+          lastsave: data.lastsave,
         });
+        backupdate = JSON.parse(data.lastsave);
         docRef.set({
           average: JSON.stringify(this.state.average),
           best: JSON.stringify(this.state.best),
@@ -298,8 +305,13 @@ class Timer extends Component {
           sessions: JSON.stringify(this.state.sessions),
           themes: JSON.stringify(this.state.themes),
           validreps: JSON.stringify(this.state.validreps),
+          lastsave: JSON.stringify(date),
         });
-        this.setState({ saving: false });
+        this.setState({
+          saving: false,
+          lastsave: date,
+          backupsave: backupdate,
+        });
       });
     }
   }
@@ -340,6 +352,7 @@ class Timer extends Component {
   undoSaveToFirebase() {
     if (this.state.isSignedIn) {
       this.setState({ saving: true });
+      var lastsave;
       const db = firebase.firestore();
       const docRef = db.collection("user-results").doc(this.state.userProfile.email);
       const backup = db.collection("user-backups").doc(this.state.userProfile.email);
@@ -355,8 +368,12 @@ class Timer extends Component {
           sessions: data.sessions,
           themes: data.themes,
           validreps: data.validreps,
+          lastsave: data.lastsave,
         });
-        this.setState({ saving: false });
+        this.setState({
+          saving: false,
+          lastsave: JSON.parse(data.lastsave),
+        });
       });
     }
   }
@@ -1929,6 +1946,8 @@ class Timer extends Component {
               isSignedIn={this.state.isSignedIn}
               loading={this.state.loading}
               saving={this.state.saving}
+              lastsave={this.state.lastsave}
+              backupsave={this.state.backupsave}
               handleModal={() => this.handleModal()}
               handlePlus2={(index) => this.handlePlus2(index)}
               handleDNF={(index) => this.handleDNF(index)}

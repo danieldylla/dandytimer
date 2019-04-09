@@ -11,6 +11,7 @@
     "bootstrap": "^4.2.1",
     "chart.js": "^2.7.3",
     "firebase": "^5.9.0",
+    "moment": "^2.24.0",
     "react": "^16.7.0",
     "react-awesome-button": "^5.0.0",
     "react-bootstrap": "^0.32.4",

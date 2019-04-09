@@ -329,6 +329,8 @@ class Log extends Component {
             isSignedIn={this.props.isSignedIn}
             loading={this.props.loading}
             saving={this.props.saving}
+            lastsave={this.props.lastsave}
+            backupsave={this.props.backupsave}
             clearAll={() => this.props.clearAll()}
             handleModal={() => this.props.handleModal()}
             openTimeModal={(i, s) => this.openTimeModal(i, s)}

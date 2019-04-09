@@ -286,6 +286,8 @@ class LogStats extends Component {
                 isSignedIn={this.props.isSignedIn}
                 loading={this.props.loading}
                 saving={this.props.saving}
+                lastsave={this.props.lastsave}
+                backupsave={this.props.backupsave}
                 downloadFile={this.props.downloadFile}
                 uploadFile={this.props.uploadFile}
                 saveStateToFirebase={this.props.saveStateToFirebase}
