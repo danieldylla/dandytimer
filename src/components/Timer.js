@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../firebase.js';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactGA from 'react-ga';
 import moment from 'moment';
@@ -8,7 +10,6 @@ import Log from './Log';
 import Settings from './Settings';
 import Account from './modals/AccountModal';
 import Stats from './Stats';
-import Undo from './Undo';
 import './Timer.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -271,7 +272,6 @@ class Timer extends Component {
         }
       }
     }
-    console.log('here');
   }
 
   saveStateToFirebase() {
@@ -356,7 +356,6 @@ class Timer extends Component {
   undoSaveToFirebase() {
     if (this.state.isSignedIn) {
       this.setState({ saving: true });
-      var lastsave;
       const db = firebase.firestore();
       const docRef = db.collection("user-results").doc(this.state.userProfile.email);
       const backup = db.collection("user-backups").doc(this.state.userProfile.email);
@@ -695,7 +694,7 @@ class Timer extends Component {
       return "dnf";
     }
     if (reps >= 3) {
-      let mean = t;
+      //let mean = t;
       for (var i = 0; i < howmany - 1; i++) {
         // FINISH???
       }

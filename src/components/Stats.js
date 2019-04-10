@@ -347,7 +347,7 @@ class Stats extends Component {
               <td id="stat">&sigma;: {this.convertToTime(sdev)}</td>
             </tr>
           </tbody>
-          <br />
+          <tbody className="blanktable" />
           <tbody>
             <tr>
               <th>  </th>
@@ -407,7 +407,6 @@ class Stats extends Component {
   }
 
   render() {
-    console.log('rerendering stats');
     return (
       <div>
         {this.props.show_stats ?

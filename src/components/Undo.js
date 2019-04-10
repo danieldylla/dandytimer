@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Fab from '@material-ui/core/Fab';
-import Button from '@material-ui/core/Button';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import './Undo.css';
 
