@@ -106,6 +106,12 @@
     color: var(--text);
   }
 
+  .loadfire {
+    width: 500px;
+    margin-right: 100px;
+    display: inline-block;
+  }
+
   h1 {
     margin: 0px;
   }
@@ -123,10 +129,10 @@
   }
 
   .timestamp {
-    font-size: 14px;
+    font-size: 16px;
     margin-top: 10px;
     display: inline-block;
-    margin-right: 30px;
+    margin-right: 28px;
   }
 
   .downloadbtn {

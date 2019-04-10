@@ -22,6 +22,7 @@ class DownUpModal extends Component {
       upfilename: "no file chosen",
       saved: false,
       loaded: false,
+      restored: false,
     }
 
     this.openModal = this.openModal.bind(this);
@@ -34,8 +35,10 @@ class DownUpModal extends Component {
     this.generageName = this.generateName.bind(this);
     this.handleSaveFirebase = this.handleSaveFirebase.bind(this);
     this.handleLoadFirebase = this.handleLoadFirebase.bind(this);
+    this.handleRestoreFirebase = this.handleRestoreFirebase.bind(this);
     this.handleUndoSave = this.handleUndoSave.bind(this);
     this.handleUndoLoad = this.handleUndoLoad.bind(this);
+    this.handleUndoRestore = this.handleUndoRestore.bind(this);
 
     this.inputRef = React.createRef();
   };
@@ -58,6 +61,7 @@ class DownUpModal extends Component {
       modalIsOpen: false,
       saved: false,
       loaded: false,
+      restored: false,
     });
     this.props.handleModal();
     document.documentElement.style.setProperty('--tab', 'var(--primary)');
@@ -111,6 +115,11 @@ class DownUpModal extends Component {
     this.setState({ loaded: true });
   }
 
+  handleRestoreFirebase() {
+    this.props.restoreFirebaseBackup();
+    this.setState({ restored: true });
+  }
+
   handleUndoSave() {
     this.props.undoSaveToFirebase();
     this.setState({ saved: false });
@@ -119,6 +128,11 @@ class DownUpModal extends Component {
   handleUndoLoad() {
     this.props.undoLoadFromFirebase();
     this.setState({ loaded: false });
+  }
+
+  handleUndoRestore() {
+    this.props.undoLoadFromFirebase();
+    this.setState({ restored: false });
   }
 
   colorLuminance(hex, lum) {
@@ -192,7 +206,7 @@ class DownUpModal extends Component {
                 {this.props.isSignedIn ?
                   <div className="signinmsg">
                     <div className="timestamp">
-                      last saved on {this.props.lastsave}
+                      saved on {this.props.lastsave}
                     </div>
                     <AwesomeButton
                       action={this.handleSaveFirebase}
@@ -256,7 +270,7 @@ class DownUpModal extends Component {
                 {this.props.isSignedIn ?
                   <div className="signinmsg">
                     <div className="timestamp">
-                      last saved on {this.props.lastsave}
+                      saved on {this.props.lastsave}
                     </div>
                     <AwesomeButton
                       action={this.handleLoadFirebase}
@@ -292,6 +306,47 @@ class DownUpModal extends Component {
                     Sign in to load from your account
                   </div>
                 }
+                {this.props.isSignedIn && this.props.backupsave ?
+                  <div>
+                    <h2>...Or Restore From Backup</h2>
+                    <div className="signinmsg">
+                      <div className="timestamp">
+                        saved on {this.props.backupsave}
+                      </div>
+                      <AwesomeButton
+                        action={this.handleRestoreFirebase}
+                        type="primary"
+                        className="firebasebtn"
+                        id="firebasebtn"
+                        size="small"
+                      >
+                        <div id="downicon">
+                          <FontAwesomeIcon icon="file-download" />
+                        </div>
+                      </AwesomeButton>
+                      <ClipLoader
+                        css={{display: "inline-block", verticalAlign: "bottom", marginBottom: "7px"}}
+                        sizeUnit={"px"}
+                        size={35}
+                        color={this.props.theme.accent}
+                        loading={this.props.restoring}
+                      />
+                      {this.state.restored && !this.props.restoring ?
+                        <div className="undodu">
+                          <Undo
+                            theme={this.props.theme}
+                            undo={this.handleUndoRestore}
+                          />
+                        </div>
+                        :
+                        null
+                      }
+                    </div>
+                  </div>
+                  :
+                  null
+                }
+
               </TabPanel>
             </div>
           </Tabs>

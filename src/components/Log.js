@@ -34,7 +34,8 @@ class Log extends Component {
       this.state.sessionModalIsOpen ||
       this.props.isSignedIn !== nextProps.isSignedIn ||
       this.props.saving !== nextProps.saving ||
-      this.props.loading !== nextProps.loading
+      this.props.loading !== nextProps.loading ||
+      this.props.restoring !== nextProps.restoring
     );
   }
 
@@ -329,6 +330,7 @@ class Log extends Component {
             isSignedIn={this.props.isSignedIn}
             loading={this.props.loading}
             saving={this.props.saving}
+            restoring={this.props.restoring}
             lastsave={this.props.lastsave}
             backupsave={this.props.backupsave}
             clearAll={() => this.props.clearAll()}

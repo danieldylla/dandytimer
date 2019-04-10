@@ -106,24 +106,32 @@
   }
 
   .updownbtns {
-    padding-right: 100px;
-    padding-left: 100px;
+    padding-right: 50px;
+    padding-left: 50px;
   }
 
-  .accountle {
-    margin-top: 0px;
+  .load-title {
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 30px;
+    display: inline-block;
   }
+
+  .save-title {
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 32px;
+    display: inline-block;
+  }
+
 
   .upbtnaccount {
-    width: 50%;
     text-align: left;
-    display: inline-block;
+    margin: 10px 0px;
   }
 
   .downbtnaccount {
-    width: 50%;
     text-align: left;
-    display: inline-block;
   }
 
   .actload {
@@ -136,4 +144,9 @@
     text-align: left;
     display: inline-block;
     position: fixed;
+  }
+
+  .timestamp-act {
+    margin: 10px 20px;
+    font-size: 20px;
   }

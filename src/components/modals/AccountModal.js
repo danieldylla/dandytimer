@@ -127,18 +127,21 @@ class AccountModal extends Component {
                   </div>
                   <div className="accountdesc">
                     Accounts let you back up your data and access it anywhere,
-                    from any device.
+                    from any device. Your results were last saved to your account on <strong>{this.props.lastsave}</strong>.
+                  </div>
+                  <div className="timestamp-act">
+
                   </div>
                 </div>
                 <div className="updownbtns">
                   <div className="upbtnaccount">
-                    <h3 className="accountle">Save</h3>
+                    <h3 className="save-title">Save</h3>
                     <AwesomeButton
                       action={this.handleSaveFirebase}
                       type="primary"
                       className="downloadbtn"
                       id="accountbtn"
-                      size="small"
+                      size="large"
                     >
                       <div id="downicon">
                         <FontAwesomeIcon icon="file-upload" />
@@ -146,9 +149,9 @@ class AccountModal extends Component {
                     </AwesomeButton>
                     <div className="actsave">
                       <ClipLoader
-                        css={{display: "inline-block", verticalAlign: "bottom", marginBottom: "7px"}}
+                        css={{display: "inline-block", verticalAlign: "bottom"}}
                         sizeUnit={"px"}
-                        size={35}
+                        size={40}
                         color={this.props.theme.accent}
                         loading={this.props.saving}
                       />
@@ -165,13 +168,13 @@ class AccountModal extends Component {
                     </div>
                   </div>
                   <div className="downbtnaccount">
-                    <h3 className="accountle">Load</h3>
+                    <h3 className="load-title">Load</h3>
                     <AwesomeButton
                       action={this.handleLoadFirebase}
                       type="primary"
                       className="downloadbtn"
                       id="accountbtn"
-                      size="small"
+                      size="large"
                     >
                       <div id="downicon">
                         <FontAwesomeIcon icon="file-download" />
@@ -179,9 +182,9 @@ class AccountModal extends Component {
                     </AwesomeButton>
                     <div className="actload">
                       <ClipLoader
-                        css={{display: "inline-block", verticalAlign: "bottom", marginBottom: "7px"}}
+                        css={{display: "inline-block", verticalAlign: "bottom"}}
                         sizeUnit={"px"}
-                        size={35}
+                        size={40}
                         color={this.props.theme.accent}
                         loading={this.props.loading}
                       />

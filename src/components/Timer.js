@@ -108,6 +108,7 @@ class Timer extends Component {
       undosave: false,
       loading: false,
       saving: false,
+      restoring: false,
       scramble_on_side: false,
       show_av: true,
       show_scramble: true,
@@ -336,6 +337,8 @@ class Timer extends Component {
 
   restoreFirebaseBackup() {
     if (this.state.isSignedIn) {
+      this.setState({ restoring: true });
+      this.saveStateToLocalStorage();
       const db = firebase.firestore();
       const docRef = db.collection("user-backups").doc(this.state.userProfile.email);
       docRef.get().then((doc) => {
@@ -345,6 +348,7 @@ class Timer extends Component {
             [key]: JSON.parse(data[key]),
           });
         }
+        this.setState({ restoring: false });
       });
     }
   }
@@ -1946,6 +1950,7 @@ class Timer extends Component {
               isSignedIn={this.state.isSignedIn}
               loading={this.state.loading}
               saving={this.state.saving}
+              restoring={this.state.restoring}
               lastsave={this.state.lastsave}
               backupsave={this.state.backupsave}
               handleModal={() => this.handleModal()}
@@ -2056,6 +2061,8 @@ class Timer extends Component {
             theme={this.state.theme}
             loading={this.state.loading}
             saving={this.state.saving}
+            lastsave={this.state.lastsave}
+            backupsave={this.state.backupsave}
             signIn={(a, b) => this.signIn(a, b)}
             logOut={this.logOut}
             handleModal={this.handleModal}
