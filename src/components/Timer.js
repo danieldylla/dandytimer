@@ -137,6 +137,7 @@ class Timer extends Component {
       av_size: 24,
       hold_len: 300,
       stats_tab: 1,
+      cube: '3x3',
     };
 
     this.signIn = this.signIn.bind(this);

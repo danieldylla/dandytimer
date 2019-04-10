@@ -331,6 +331,7 @@ class Settings extends Component {
           onClick={() => this.props.deleteTheme(i)}
           style={{
             color: theme.theme.secondary,
+            backgroundColor: theme.theme.primary,
           }}
         >
           <FontAwesomeIcon icon="times" />
@@ -347,7 +348,7 @@ class Settings extends Component {
             borderWidth: '1px'
           }}
         >
-          {theme.name}
+          <div id="tinyshift">{theme.name}</div>
         </button>
       </div>
     );
