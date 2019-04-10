@@ -100,6 +100,15 @@ class LogStats extends Component {
     );
   }
 
+  findMo3BestIndex(mo3) {
+    var i;
+    for (i = 0; i < this.props.log.length; i++) {
+      if (mo3 === this.props.log[i].res.mo3) {
+        return i;
+      }
+    }
+  }
+
   findAo5BestIndex(ao5) {
     var i;
     for (i = 0; i < this.props.log.length; i++) {
@@ -137,6 +146,7 @@ class LogStats extends Component {
   }
 
   displayStats() {
+    let mo3index = this.findMo3BestIndex(this.props.best.mo3);
     let ao5index = this.findAo5BestIndex(this.props.best.ao5);
     let ao12index = this.findAo12BestIndex(this.props.best.ao12);
     let ao50index = this.findAo50BestIndex(this.props.best.ao50);
@@ -159,6 +169,25 @@ class LogStats extends Component {
             this.props.openTimeModal(this.props.log.length - this.props.best.res.id, this.props.best.res) : null}
         >
           {this.displaySingle(this.props.best.res)}
+        </button>
+
+        <div className="third" id="rowlabel">
+          mo3
+        </div>
+        <button
+          className="third"
+          onClick={this.props.res.mo3 ? () =>
+            this.props.openAvModal(0, this.props.res, this.props.res.mo3, 3) : null}
+        >
+          {this.convertToTime(this.props.res.mo3)}
+        </button>
+        <button
+          className="third"
+          onClick={this.props.best.mo3 ? () =>
+            this.props.openAvModal(mo3index, this.props.log[mo3index].res,
+              this.props.log[mo3index].res.mo3, 3) : null}
+        >
+          {this.convertToTime(this.props.best.mo3)}
         </button>
 
         <div className="third" id="rowlabel">

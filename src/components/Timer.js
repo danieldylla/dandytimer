@@ -157,6 +157,7 @@ class Timer extends Component {
     this.addTime = this.addTime.bind(this);
     this.calculateAverage = this.calculateAverage.bind(this);
     this.calculateAv = this.calculateAv.bind(this);
+    this.calculateMean = this.calculateMean.bind(this);
     this.clearAll = this.clearAll.bind(this);
     this.deleteEntry = this.deleteEntry.bind(this);
     this.downloadFile = this.downloadFile.bind(this);
@@ -654,6 +655,7 @@ class Timer extends Component {
         scramble: this.state.res.scramble,
         time: t,
         id: this.state.reps,
+        mo3: this.calculateMean(3, t, this.state.reps, this.state.res.dnf),
         ao5: this.calculateAv(5, t, this.state.reps, this.state.res.dnf),
         ao12: this.calculateAv(12, t, this.state.reps, this.state.res.dnf),
         ao50: this.calculateAv(50, t, this.state.reps, this.state.res.dnf),
@@ -693,12 +695,43 @@ class Timer extends Component {
     if (dnf) {
       return "dnf";
     }
-    if (reps >= 3) {
-      //let mean = t;
-      for (var i = 0; i < howmany - 1; i++) {
-        // FINISH???
-      }
+    if (reps < howmany) {
+      return null;
     }
+    let sum = t;
+    const history = this.state.log.slice(0, howmany);
+    const list = history.map((item, step) => {
+      return (
+        item.res.time
+      )
+    });
+    for (var i = 0; i < howmany - 1; i++) {
+      if (history[i].res.dnf) {
+        return "dnf";
+      }
+      sum = sum + list[i];
+    }
+    let mean = sum / howmany;
+    return(mean);
+  }
+
+  forceCalculateMean(howmany, arr, id) {
+    if (id > arr.length - howmany) {
+      return null;
+    }
+    const history = arr.slice(id, id + howmany);
+    const list = history.map((item, step) => {
+      return (item.res.time)
+    });
+    let sum = list[0];
+    for (var i = 1; i < howmany; i++) {
+      if (history[i].res.dnf) {
+        return('dnf');
+      }
+      sum = sum + list[i];
+    }
+    let mean = sum / howmany;
+    return mean;
   }
 
   calculateAv(howmany, t, reps, dnf) {
@@ -797,72 +830,45 @@ class Timer extends Component {
 
   updateBests() {
     if(!this.state.res.dnf) {
+      let best = {
+        res: this.state.best.res,
+        mo3: this.state.best.mo3,
+        ao5: this.state.best.ao5,
+        ao12: this.state.best.ao12,
+        ao50: this.state.best.ao50,
+        ao100: this.state.best.ao100,
+      }
       if (this.state.best.res === null
           || this.state.res.time < this.state.best.res.time) {
-        this.setState({
-          best: {
-            res: this.state.res,
-            ao5: this.state.best.ao5,
-            ao12: this.state.best.ao12,
-            ao50: this.state.best.ao50,
-            ao100: this.state.best.ao100,
-          }
-        });
+        best.res = this.state.res;
+      }
+      if ((this.state.best.mo3 === null && this.state.res.mo3 !== null)
+          || this.state.res.mo3 < this.state.best.mo3) {
+            best.mo3 = this.state.res.mo3;
       }
       if ((this.state.best.ao5 === null && this.state.res.ao5 !== null)
           || this.state.res.ao5 < this.state.best.ao5) {
-            this.setState({
-              best: {
-                res: this.state.best.res,
-                ao5: this.state.res.ao5,
-                ao12: this.state.best.ao12,
-                ao50: this.state.best.ao50,
-                ao100: this.state.best.ao100,
-              }
-            });
+            best.ao5 = this.state.res.ao5;
       }
       if ((this.state.best.ao12 === null && this.state.res.ao12 !== null)
           || this.state.res.ao12 < this.state.best.ao12) {
-            this.setState({
-              best: {
-                res: this.state.best.res,
-                ao5: this.state.best.ao5,
-                ao12: this.state.res.ao12,
-                ao50: this.state.best.ao50,
-                ao100: this.state.best.ao100,
-              }
-            });
+            best.ao12 = this.state.res.ao12;
       }
       if ((this.state.best.ao50 === null && this.state.res.ao50 !== null)
           || this.state.res.ao50 < this.state.best.ao50) {
-            this.setState({
-              best: {
-                res: this.state.best.res,
-                ao5: this.state.best.ao5,
-                ao12: this.state.best.ao12,
-                ao50: this.state.res.ao50,
-                ao100: this.state.best.ao100,
-              }
-            });
+            best.ao50 = this.state.res.ao50;
       }
       if ((this.state.best.ao100 === null && this.state.res.ao100 !== null)
           || this.state.res.ao100 < this.state.best.ao100) {
-            this.setState({
-              best: {
-                res: this.state.best.res,
-                ao5: this.state.best.ao5,
-                ao12: this.state.best.ao12,
-                ao50: this.state.best.ao50,
-                ao100: this.state.res.ao100,
-              }
-            });
+            best.ao100 = this.state.res.ao100;
       }
+      this.setState({ best: best });
       this.updateBestAo1000();
     }
   }
 
   updateBestAo1000() {
-    if (this.state.log.length > 999) {
+    if (this.state.log.length > 999 && this.state.track_best_ao1000) {
       let log = this.state.log.slice();
       let ao1000 = 0;
       let best1000 = this.state.average * 10;
@@ -883,6 +889,33 @@ class Timer extends Component {
     }
   }
 
+  forceUpdateBestAo1000(arr) {
+    if (arr.length >= 1000 && this.state.track_best_ao1000) {
+      let bestao1000 = this.state.average * 10;
+      for (var j = 0; j < arr.length - 999; j++) {
+        let ao1000 = 0;
+        let best1000 = this.state.average * 10;
+        let worst1000 = 0;
+        for (var i = 0; i < 1000; i++) {
+          if (arr[i].res.time < best1000) {
+            best1000 = arr[i].res.time;
+          }
+          if (arr[i].res.time > worst1000) {
+            worst1000 = arr[i].res.time;
+          }
+          ao1000 += arr[i].res.time;
+        }
+        ao1000 = (ao1000 - worst1000 - best1000) / 998;
+        if (ao1000 < bestao1000) {
+          bestao1000 = ao1000;
+        }
+      }
+      return bestao1000;
+    } else {
+      return null;
+    }
+  }
+
   saveTime() {
     this.setState({
       log: [{res: this.state.res}].concat(this.state.log)
@@ -892,6 +925,7 @@ class Timer extends Component {
   addTime(t) {
     const time = t*1000;
     const reps = this.state.reps + 1;
+    const mo3 = this.calculateMean(3, time, reps, false);
     const ao5 = this.calculateAv(5, time, reps, false);
     const ao12 = this.calculateAv(12, time, reps, false);
     const ao50 = this.calculateAv(50, time, reps, false);
@@ -904,6 +938,7 @@ class Timer extends Component {
           res: {
             time: time,
             id: reps,
+            mo3: mo3,
             ao5: ao5,
             ao12: ao12,
             ao50: ao50,
@@ -912,6 +947,7 @@ class Timer extends Component {
             dnf: false,
             plus2: false,
           },
+          mo3: this.state.best.mo3,
           ao5: this.state.best.ao5,
           ao12: this.state.best.ao12,
           ao50: this.state.best.ao50,
@@ -919,53 +955,33 @@ class Timer extends Component {
         }
       });
     }
+    let best = {
+      res: this.state.best.res,
+      mo3: this.state.best.mo3,
+      ao5: this.state.best.ao5,
+      ao12: this.state.best.ao12,
+      ao50: this.state.best.ao50,
+      ao100: this.state.best.ao100,
+    }
+    if ((this.state.best.mo3 === null && this.state.res.mo3 !== null)
+        || mo3 < this.state.best.mo3) {
+          best.mo3 = mo3;
+    }
     if ((this.state.best.ao5 === null && this.state.res.ao5 !== null)
         || ao5 < this.state.best.ao5) {
-          this.setState({
-            best: {
-              res: this.state.best.res,
-              ao5: ao5,
-              ao12: this.state.best.ao12,
-              ao50: this.state.best.ao50,
-              ao100: this.state.best.ao100,
-            }
-          });
+          best.ao5 = ao5;
     }
     if ((this.state.best.ao12 === null && this.state.res.ao12 !== null)
         || ao12 < this.state.best.ao12) {
-          this.setState({
-            best: {
-              res: this.state.best.res,
-              ao5: this.state.best.ao5,
-              ao12: ao12,
-              ao50: this.state.best.ao50,
-              ao100: this.state.best.ao100,
-            }
-          });
+          best.ao12 = ao12;
     }
     if ((this.state.best.ao50 === null && this.state.res.ao50 !== null)
         || ao50 < this.state.best.ao50) {
-          this.setState({
-            best: {
-              res: this.state.best.res,
-              ao5: this.state.best.ao5,
-              ao12: this.state.res.ao12,
-              ao50: ao50,
-              ao100: this.state.best.ao100,
-            }
-          });
+          best.ao50 = ao50;
     }
     if ((this.state.best.ao100 === null && this.state.res.ao100 !== null)
-        || ao50 < this.state.best.ao100) {
-          this.setState({
-            best: {
-              res: this.state.best.res,
-              ao5: this.state.best.ao5,
-              ao12: this.state.res.ao12,
-              ao50: this.state.best.ao50,
-              ao100: ao100,
-            }
-          });
+        || ao100 < this.state.best.ao100) {
+          best.ao100 = ao100;
     }
     this.setState({
       log: [
@@ -973,6 +989,7 @@ class Timer extends Component {
           res: {
             time: time,
             id: reps,
+            mo3: mo3,
             ao5: ao5,
             ao12: ao12,
             ao50: ao50,
@@ -986,9 +1003,11 @@ class Timer extends Component {
       reps: reps,
       validreps: this.state.validreps + 1,
       average: average,
+      best: best,
       res: {
         time: time,
         id: reps,
+        mo3: mo3,
         ao5: ao5,
         ao12: ao12,
         ao50: ao50,
@@ -997,7 +1016,7 @@ class Timer extends Component {
         dnf: false,
         plus2: false,
       },
-    });
+    }, this.updateBestAo1000);
     this.generateScramble();
   }
 
@@ -1009,6 +1028,7 @@ class Timer extends Component {
       average: 0,
       best: {
         res: null,
+        mo3: null,
         ao5: null,
         ao12: null,
         ao50: null,
@@ -1018,6 +1038,7 @@ class Timer extends Component {
         scramble: this.state.res.scramble,
         time: null,
         id: 0,
+        mo3: null,
         ao5: null,
         ao12: null,
         ao50: null,
@@ -1057,6 +1078,7 @@ class Timer extends Component {
         newav = null;
       }
 
+      this.forceUpdateMean(result, id, 3);
       this.forceUpdateAv(result, id, 5);
       this.forceUpdateAv(result, id, 12);
       this.forceUpdateAv(result, id, 50);
@@ -1069,14 +1091,25 @@ class Timer extends Component {
         average: this.forceCalculateAverage(result),
         best: {
           res: this.forceUpdateBest(result),
+          mo3: this.forceUpdateBestMo3(result),
           ao5: this.forceUpdateBestAo5(result),
           ao12: this.forceUpdateBestAo12(result),
           ao50: this.forceUpdateBestAo50(result),
           ao100: this.forceUpdateBestAo100(result),
         },
+        bestAo1000: this.forceUpdateBestAo1000(result),
       });
-      if (this.state.track_best_ao1000) {
-        this.handleBestAo1000();
+    }
+  }
+
+  forceUpdateMean(result, id, howmany) {
+    var i;
+    id = id - 1;
+    if (howmany === 3) {
+      for (i = id; i > id - 2; i--) {
+        if (i >= 0) {
+          result[i].res.mo3 = this.forceCalculateMean(3, result, i);
+        }
       }
     }
   }
@@ -1131,6 +1164,25 @@ class Timer extends Component {
       }
     }
     return result[index].res;
+  }
+
+  forceUpdateBestMo3(result) {
+    if (result.length > 2) {
+      let j = 0;
+      while (result[j].res.mo3 === 'dnf' && j < result.length) {
+        j++;
+      }
+      var newbest = result[j].res.mo3;
+      var index = j;
+      for (var i = 1; i < result.length - 2; i++) {
+        if (result[i].res.mo3 < newbest && !(result[i].res.mo3 === 'dnf')) {
+          newbest = result[i].res.mo3;
+          index = i;
+        }
+      }
+      return result[index].res.mo3;
+    }
+    return null;
   }
 
   forceUpdateBestAo5(result) {
@@ -1805,6 +1857,7 @@ class Timer extends Component {
       log: logcopy,
       best: {
         res: this.forceUpdateBest(logcopy),
+        mo3: this.forceUpdateBestMo3(logcopy),
         ao5: this.forceUpdateBestAo5(logcopy),
         ao12: this.forceUpdateBestAo12(logcopy),
         ao50: this.forceUpdateBestAo50(logcopy),
@@ -1835,6 +1888,7 @@ class Timer extends Component {
       log: logcopy,
       best: {
         res: this.forceUpdateBest(logcopy),
+        mo3: this.forceUpdateBestMo3(logcopy),
         ao5: this.forceUpdateBestAo5(logcopy),
         ao12: this.forceUpdateBestAo12(logcopy),
         ao50: this.forceUpdateBestAo50(logcopy),

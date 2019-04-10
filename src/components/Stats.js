@@ -23,7 +23,8 @@ class Stats extends Component {
       (nextProps.reps - this.props.reps > 1 && this.props.show_stats) ||
       this.props.session !== nextProps.session ||
       this.props.stats_tab !== nextProps.stats_tab ||
-      this.props.track_best_ao1000 !== nextProps.track_best_ao1000
+      this.props.track_best_ao1000 !== nextProps.track_best_ao1000 ||
+      this.props.bestAo1000 !== nextProps.bestAo1000
     );
   }
 
@@ -303,17 +304,7 @@ class Stats extends Component {
     }
     sdev = sdev / this.props.validreps;
     sdev = Math.sqrt(sdev);
-    let mo3 = null;
-    let bestmo3 = 10000000000000000000;
-    if (log.length > 2) {
-      mo3 = (log[0].res.time + log[1].res.time + log[2].res.time) / 3;
-      for (i = 0; i < log.length - 2; i++) {
-        let temp = (log[i].res.time + log[i+1].res.time + log[i+2].res.time) / 3;
-        if (temp < bestmo3) {
-          bestmo3 = temp;
-        }
-      }
-    }
+
     let ao1000 = 0;
     if (this.props.track_best_ao1000) {
       let best1000 = this.props.average * 10;
@@ -361,8 +352,8 @@ class Stats extends Component {
             </tr>
             <tr>
               <th>mo3</th>
-              <td>{this.convertToTime(mo3)}</td>
-              <td>{this.convertToTime(bestmo3)}</td>
+              <td>{this.props.log.length ? this.convertToTime(this.props.log[0].res.mo3) : '-'}</td>
+              <td>{this.props.best.mo3 ? this.convertToTime(this.props.best.mo3) : '-'}</td>
             </tr>
             <tr>
               <th>ao5</th>
