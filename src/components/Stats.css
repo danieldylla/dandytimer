@@ -88,6 +88,7 @@
     background-color: var(--primary);
     color: var(--text);
     border: none;
+    box-shadow: none;
   }
 
   .dropdown-ctrl {
@@ -95,6 +96,11 @@
     color: var(--text);
     border: none;
     transition: color .3s ease, background-color 0s ease;
+  }
+
+  .dropdown-ctrl:hover {
+    cursor: pointer;
+    box-shadow: none;
   }
 
   .dropdown-place {

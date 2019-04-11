@@ -6,10 +6,12 @@ import 'firebase/firestore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactGA from 'react-ga';
 import moment from 'moment';
+import { two, three, four, five } from '../scramble.js';
 import Log from './Log';
 import Settings from './Settings';
 import Account from './modals/AccountModal';
 import Stats from './Stats';
+import Scramble from './Scramble';
 import './Timer.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -93,6 +95,7 @@ class Timer extends Component {
         id: 0,
         name: null,
         log: [],
+        cube: '3x3',
         best: null,
         reps: 0,
         validreps: 0,
@@ -191,6 +194,7 @@ class Timer extends Component {
     this.handleHideSurroundings = this.handleHideSurroundings.bind(this);
     this.handleStatsTab = this.handleStatsTab.bind(this);
     this.handleTrackBestAo1000 = this.handleTrackBestAo1000.bind(this);
+    this.handleCube = this.handleCube.bind(this);
     this.handleBestAo1000 = this.handleBestAo1000.bind(this);
     this.handlePlus2 = this.handlePlus2.bind(this);
     this.handleDNF = this.handleDNF.bind(this);
@@ -224,7 +228,6 @@ class Timer extends Component {
       this.saveSession.bind(this),
     );
     this.reset();
-    this.generateScramble();
     this.handleModalFalse();
     this.handlePartyModeOff();
 
@@ -233,6 +236,12 @@ class Timer extends Component {
       lasttheme = JSON.parse(lasttheme);
       this.changeColor(lasttheme);
     }
+
+    let thiscube = JSON.parse(localStorage.getItem('cube'));
+    this.setState({
+      cube: thiscube ? thiscube : '3x3',
+    }, this.generateScramble);
+
 
     this.handleScrambleSize(this.state.scramble_size);
     this.handleTimerSize(this.state.timer_size);
@@ -286,23 +295,23 @@ class Timer extends Component {
       const backup = db.collection("user-backups").doc(this.state.userProfile.email);
       this.saveSession();
       docRef.get().then((doc) => {
-        const data = JSON.parse(JSON.stringify(doc.data()));
-        backup.set({
-          average: data.average,
-          best: data.best,
-          log: data.log,
-          session: data.session,
-          reps: data.reps,
-          sessions: data.sessions,
-          themes: data.themes,
-          validreps: data.validreps,
-          lastsave: data.lastsave,
-        });
-        backupdate = JSON.parse(data.lastsave);
+        if (this.state.lastsave) {
+          const data = JSON.parse(JSON.stringify(doc.data()));
+          backup.set({
+            average: data.average,
+            best: data.best,
+            session: data.session,
+            reps: data.reps,
+            sessions: data.sessions,
+            themes: data.themes,
+            validreps: data.validreps,
+            lastsave: data.lastsave,
+          });
+          backupdate = JSON.parse(data.lastsave);
+        }
         docRef.set({
           average: JSON.stringify(this.state.average),
           best: JSON.stringify(this.state.best),
-          log: JSON.stringify(this.state.log),
           session: JSON.stringify(this.state.session),
           reps: JSON.stringify(this.state.reps),
           sessions: JSON.stringify(this.state.sessions),
@@ -332,6 +341,9 @@ class Timer extends Component {
             [key]: JSON.parse(data[key]),
           });
         }
+        if (data) {
+          this.loadSession(data['session']);
+        }
         this.setState({ loading: false });
       });
     }
@@ -350,6 +362,9 @@ class Timer extends Component {
             [key]: JSON.parse(data[key]),
           });
         }
+        if (data) {
+          this.loadSession(data['session']);
+        }
         this.setState({ restoring: false });
       });
     }
@@ -367,7 +382,6 @@ class Timer extends Component {
         docRef.set({
           average: data.average,
           best: data.best,
-          log: data.log,
           session: data.session,
           reps: data.reps,
           sessions: data.sessions,
@@ -459,6 +473,7 @@ class Timer extends Component {
         {
           id: this.state.sessions.length,
           name: null,
+          cube: '3x3',
           best: {
             res: null,
             mo3: null,
@@ -474,7 +489,7 @@ class Timer extends Component {
         }
       ]),
       session: this.state.sessions.length,
-    }, this.loadSession(this.state.sessions.length - 1));
+    },() => this.loadSession(this.state.sessions.length - 1));
     this.clearAll();
   }
 
@@ -482,6 +497,7 @@ class Timer extends Component {
     let curr = this.state.sessions.slice();
     let currlog = this.state.log.slice();
     curr[this.state.session].log = currlog;
+    curr[this.state.session].cube = this.state.cube;
     curr[this.state.session].best = this.state.best;
     curr[this.state.session].reps = this.state.reps;
     curr[this.state.session].validreps = this.state.validreps;
@@ -492,13 +508,21 @@ class Timer extends Component {
   }
 
   loadSession(i) {
+    let currcube = this.state.cube;
     this.setState({
       log: this.state.sessions[i].log,
+      cube: this.state.sessions[i].cube,
       best: this.state.sessions[i].best,
       reps: this.state.sessions[i].reps,
       validreps: this.state.sessions[i].validreps,
       average: this.state.sessions[i].average
-    });
+    }, () => this.scrambleSession(currcube));
+  }
+
+  scrambleSession(cube) {
+    if (cube !== this.state.cube) {
+      this.generateScramble();
+    }
   }
 
   changeSession(i) {
@@ -539,6 +563,7 @@ class Timer extends Component {
           id: 0,
           name: null,
           log: [],
+          cube: '3x3',
           best: null,
           reps: 0,
           validreps: 0,
@@ -1027,6 +1052,7 @@ class Timer extends Component {
       reps: 0,
       validreps: 0,
       average: 0,
+      cube: this.state.cube,
       best: {
         res: null,
         mo3: null,
@@ -1402,32 +1428,23 @@ class Timer extends Component {
   }
 
   generateScramble() {
-    let total = Math.floor(Math.random()*6) + 18;
-    var key = ['U', 'B', 'R', 'D', 'F', 'L', 'U\'', 'B\'', 'R\'', 'D\'',
-              'F\'', 'L\'', 'U2', 'B2', 'R2', 'D2', 'F2', 'L2'];
-    let last = .5;
-    let morelast = .5;
-    var i = 0;
-    var x;
-    let solution = "";
-    for (i = 0; i < total; i++) {
-      x = Math.floor(Math.random()*18);
-      if (x % 6 === last % 6 || (x % 6 === morelast % 6 && x % 3 === last % 3)) {
-        if (x !== 0) {
-          x--;
-        } else {
-          x++;
-        }
-      }
-      morelast = last;
-      last = x;
-      solution += (key[x] + ' ');
+    let scramble;
+    if (this.state.cube === '3x3') {
+      scramble = three();
+    } else if (this.state.cube === '2x2') {
+      scramble = two();
+    } else if (this.state.cube === '4x4') {
+      scramble = four();
+    } else if (this.state.cube === '5x5') {
+      scramble = five();
     }
+
     this.setState({
       res: {
-        scramble: solution,
+        scramble: scramble,
         id: this.state.res.id,
         time: this.state.res.time,
+        mo3: this.state.res.mo3,
         ao5: this.state.res.ao5,
         ao12: this.state.res.ao12,
         ao50: this.state.res.ao50,
@@ -1805,6 +1822,12 @@ class Timer extends Component {
     this.setState({ track_best_ao1000: !this.state.track_best_ao1000 });
   }
 
+  handleCube(cube) {
+    this.setState({
+      cube: cube
+    }, this.generateScramble);
+  }
+
   handleBestAo1000() {
     if (this.state.log.length >= 1000) {
       let log = this.state.log.slice();
@@ -2028,7 +2051,15 @@ class Timer extends Component {
           : null}
         </div>
         <div className="scramble" id="scramble">
-          {this.state.show_scramble && this.state.res.scramble}
+          {this.state.show_scramble ?
+            <Scramble
+              cube={this.state.cube}
+              scramble={this.state.res.scramble}
+              handleCube={this.handleCube}
+            />
+            :
+            null
+          }
         </div>
         <div className="average" id="average">
           {this.displayAverages()}
