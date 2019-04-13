@@ -8,7 +8,9 @@ const options = [
   {value: '2x2', label: '2x2x2', className: 'dropdown-item'},
   {value: '3x3', label: '3x3x3', className: 'dropdown-item'},
   {value: '4x4', label: '4x4x4', className: 'dropdown-item'},
-  {value: '5x5', label: '5x5x5', className: 'dropdown-item'}
+  {value: '5x5', label: '5x5x5', className: 'dropdown-item'},
+  {value: '6x6', label: '6x6x6', className: 'dropdown-item'},
+  {value: '7x7', label: '7x7x7', className: 'dropdown-item'},
 ]
 
 class Scramble extends Component {

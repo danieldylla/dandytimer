@@ -6,7 +6,7 @@ import 'firebase/firestore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactGA from 'react-ga';
 import moment from 'moment';
-import { two, three, four, five } from '../scramble.js';
+import { two, three, four, five, six, seven } from '../scramble.js';
 import Log from './Log';
 import Settings from './Settings';
 import Account from './modals/AccountModal';
@@ -1437,6 +1437,10 @@ class Timer extends Component {
       scramble = four();
     } else if (this.state.cube === '5x5') {
       scramble = five();
+    } else if (this.state.cube === '6x6') {
+      scramble = six();
+    } else if (this.state.cube === '7x7') {
+      scramble = seven();
     }
 
     this.setState({
