@@ -1,3 +1,25 @@
+.AboutModal {
+    position: absolute;
+    top: 2vh;
+    left: 20vw;
+    right: 20vw;
+    background-color: var(--primary);
+    color: var(--text);
+    overflow: scroll;
+    height: 500px;
+    min-width: 250px;
+    outline: none;
+  }
+
+.AboutOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+  }
+
 .about {
   margin: 10px 20px;
   font-size: 18px;

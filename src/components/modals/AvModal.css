@@ -85,6 +85,10 @@
     right: calc(20vw + 34px);
   }
 
+  .avstats:hover, .avstats:focus {
+    background-color: var(--primary);
+  }
+
   .copy {
     float: left;
     margin-left: 10px;

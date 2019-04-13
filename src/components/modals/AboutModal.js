@@ -69,8 +69,8 @@ class AboutModal extends Component {
             onRequestClose={this.props.closeModal}
             ariaHideApp={false}
             contentLabel="Example Modal"
-            className="TimeModal"
-            overlayClassName="TimeOverlay"
+            className="AboutModal"
+            overlayClassName="AboutOverlay"
           >
             <div className="averageinfo">
               <h3 id="titleav">About</h3>
@@ -101,7 +101,7 @@ class AboutModal extends Component {
                   <div className="confirm">
                     <Button
                       onClick={this.props.closeModal}
-                      id="confirm"
+                      id="aboutconfirm"
                       variant="contained"
                       color="primary"
                       className="confirm"

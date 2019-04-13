@@ -215,8 +215,8 @@ class Stats extends Component {
           download={true}
           dataset={{borderWidth: 2}}
           points={false}
-          width="35vw"
-          height="35vh"
+          width={window.innerWidth > 1080 ? "35vw" : "100%"}
+          height={window.innerWidth > 1080 ? "35vh" : "30vh"}
           colors={[
             this.props.theme.accent,
             this.shiftColor(this.props.theme.accent, 60),
@@ -274,8 +274,8 @@ class Stats extends Component {
         <BarChart
           data={data}
           download={true}
-          width="35vw"
-          height="35vh"
+          width={window.innerWidth > 1080 ? "35vw" : "100%"}
+          height={window.innerWidth > 1080 ? "35vh" : "30vh"}
           colors={[
             this.props.theme.accent
           ]}

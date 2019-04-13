@@ -184,7 +184,7 @@ class DownUpModal extends Component {
             </div>
             <div className="pages">
               <TabPanel>
-                <h2>Download JSON File</h2>
+                <h2 id="h2du">Download JSON File</h2>
                 <input
                   className="downinput"
                   type="string"
@@ -202,7 +202,7 @@ class DownUpModal extends Component {
                     <FontAwesomeIcon icon="download" />
                   </div>
                 </AwesomeButton>
-                <h2>Save To Your Account</h2>
+                <h2 id="h2du">Save To Your Account</h2>
                 {this.props.isSignedIn ?
                   <div className="signinmsg">
                     <div className="timestamp">
@@ -244,7 +244,7 @@ class DownUpModal extends Component {
                 }
               </TabPanel>
               <TabPanel>
-                <h2>Upload JSON File</h2>
+                <h2 id="h2du">Upload JSON File</h2>
                 <div style={{height:"0px", overflow:"hidden"}}>
                   <input
                     type="file"
@@ -266,7 +266,7 @@ class DownUpModal extends Component {
                     <FontAwesomeIcon icon="upload" />
                   </div>
                 </AwesomeButton>
-                <h2>Load From Your Account</h2>
+                <h2 id="h2du">Load From Your Account</h2>
                 {this.props.isSignedIn ?
                   <div className="signinmsg">
                     <div className="timestamp">
@@ -308,7 +308,7 @@ class DownUpModal extends Component {
                 }
                 {this.props.isSignedIn && this.props.backupsave ?
                   <div>
-                    <h2>...Or Restore From Backup</h2>
+                    <h2 id="h2du">...Or Restore From Backup</h2>
                     <div className="signinmsg">
                       <div className="timestamp">
                         saved on {this.props.backupsave}

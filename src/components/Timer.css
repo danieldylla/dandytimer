@@ -163,17 +163,26 @@
 @media screen and (max-width: 1080px) {
 
     #average {
-      bottom: 0vh;
+      bottom: 0%;
       left: 0vw;
       right: 0vw;
-      height: 10vh;
+      height: 10%;
       transition: 0s;
       font-size: 24px;
       width: 100vw;
     }
 
+    #scramble {
+      left: 15%;
+      right: 15%;
+    }
+
+    .scramble-dropdown {
+      width: 100%;
+    }
+
     .log {
-      top: 100vh;
+      top: 100%;
       width: 100vw !important;
     }
 
@@ -199,12 +208,38 @@
     }
 
     .StatsModal {
-      bottom: 250vh;
-      top: 200vh;
+      bottom: 250%;
+      top: 200%;
       width: 100vw;
     }
 
+    .dropdown {
+      width: 100vw;
+      float: left;
+      position: absolute;
+      top: 0%;
+      bottom: auto;
+    }
 
+    .stat-table {
+      margin-top: 37px;
+    }
+
+    .Modal {
+      top: 10%;
+      bottom: 10%;
+      left: 5%;
+      right: 5%;
+      float: right;
+    }
+
+    .presets {
+      height: 50%;
+    }
+
+    .theme {
+      display: none;
+    }
 
     .tabs {
       display: inline-block;
@@ -221,9 +256,9 @@
     }
 
     .pages {
-      width: 76vw;
+      width: 86vw;
       margin: 0px 2vw 0px 2vw;
-      height: calc(80vh - 135px);
+      height: calc(100% - 135px);
     }
 
     .react-tabs__tab-panel--selected {
@@ -240,7 +275,7 @@
     }
 
     .presets {
-      height: 180px;
+      height: 45%;
       margin: 0px;
       overflow: auto;
     }
@@ -248,18 +283,12 @@
     .custom {
       text-align: center;
       margin: 0px;
-      height: 800px;
     }
 
     .colorbuttons {
       float: none;
       margin: 0px;
       margin-bottom: 30px;
-    }
-
-    .colors {
-      display: block;
-      margin-left: calc((76vw - 350px) / 2);
     }
 
     .saved {
@@ -281,15 +310,15 @@
 
     .setting {
       height: auto;
-      width: 76vw;
+      width: 86vw;
     }
 
     .AccountModal {
-      height: 80vh;
+      height: 80%;
     }
 
     .logout {
-      bottom: 21vh;
+      bottom: 21%;
     }
 
     .SessionModal {
@@ -299,6 +328,100 @@
 
     .addsess {
       width: 80vw;
+    }
+
+    .DeleteSessionModal {
+      right: 10vw;
+      left: 10vw;
+    }
+
+    .DownUpModal {
+      top: 5%;
+      left: 5%;
+      right: 5%;
+      bottom: 20%;
+      height: auto;
+    }
+
+    #h2du {
+      display: block;
+    }
+
+    .ArrowModal {
+      top: 1%;
+      left: 2%;
+      right: 2%;
+    }
+
+    .TimeModal {
+      left: 2%;
+      right: 2%;
+    }
+
+    .averageinfo {
+      padding: 1% 1% 1% 1%;
+    }
+
+    .avinfo {
+      margin: 30px -1% 30px -1%;
+    }
+
+    .tableview {
+      width: 100%;
+    }
+
+    .graphview {
+      width: 100%;
+    }
+
+    .avstats {
+      top: calc(1% + 80px);
+      right: calc(2% + 34px);
+    }
+
+    .AboutModal {
+      height: auto;
+      top: 2%;
+      left: 2%;
+      right: 2%;
+      bottom: 30%;
+    }
+
+    .averageinfo {
+      height: 98%;
+    }
+
+    .avbuttons {
+      top: calc(100% - 50px);
+    }
+
+    .AccountModal {
+      top: 2%;
+      right: 2%;
+      left: 2%;
+      bottom: 15%;
+      height: auto;
+    }
+
+    .accountinfo {
+      height: calc(100% - 35px);
+      overflow-x: hidden;
+    }
+
+    .accountdesc {
+      margin-top: 20px;
+    }
+
+    .userinfo {
+      margin: 10px;
+    }
+
+    .logout {
+      position: relative;
+      display: inline-block;
+      margin-left: calc(100% - 180px);
+      margin-top: 30px;
+      margin-bottom: 30px;
     }
 
   }

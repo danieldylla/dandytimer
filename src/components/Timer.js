@@ -235,6 +235,16 @@ class Timer extends Component {
     if(lasttheme) {
       lasttheme = JSON.parse(lasttheme);
       this.changeColor(lasttheme);
+    } else {
+      this.setState({
+        theme: {
+          primary: '#1a1c21',
+          secondary: '#efefef',
+          accent: '#9621ff',
+          text: 'rgba(255, 255, 255, .6)',
+          texthighlighted: '#efefef'
+        },
+      }, this.changeColor)
     }
 
     let thiscube = JSON.parse(localStorage.getItem('cube'));
