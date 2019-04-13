@@ -47,8 +47,6 @@ class DownUpModal extends Component {
     this.setState({modalIsOpen: true});
     this.props.handleModal();
     this.generateName();
-    document.documentElement.style.setProperty('--tabselect', 'var(--primary)');
-    document.documentElement.style.setProperty('--tab', 'rgba(0, 0, 0, .3)');
     ReactGA.pageview('/downup');
   }
 
@@ -64,8 +62,6 @@ class DownUpModal extends Component {
       restored: false,
     });
     this.props.handleModal();
-    document.documentElement.style.setProperty('--tab', 'var(--primary)');
-    document.documentElement.style.setProperty('--tabselect', 'rgba(0, 0, 0, .3)');
     ReactGA.pageview('/');
   }
 
@@ -170,44 +166,50 @@ class DownUpModal extends Component {
         className="DownUpModal"
         overlayClassName="DownUpOverlay"
       >
+        <h1 className="lefttitle">
+          Export
+        </h1>
+        <h1 className="righttitle">
+          Import
+        </h1>
         <div className="downupinfo">
-          <Tabs defaultIndex={0} className="downup-tabs">
-            <div className="toptab">
-              <TabList>
-                <Tab className='lefttab'>
-                  <h1>Export</h1>
-                </Tab>
-                <Tab className='righttab'>
-                  <h1>Import</h1>
-                </Tab>
-              </TabList>
+          <div className="leftdu">
+            <div className="transfer">
+              <h2 id="h2du">Download JSON File</h2>
+              <div className="signinmsg">
+                <div className="transferinfo">
+                  <input
+                    className="downinput"
+                    type="string"
+                    value={this.state.filename}
+                    onChange={this.handleFileName}
+                  />
+                </div>
+                <div className="transferbtn">
+                  <AwesomeButton
+                    action={() => this.props.downloadFile(this.state.filename, "application/json")}
+                    type="primary"
+                    className="downloadbtn"
+                    id="downloadbtn"
+                    size="small"
+                  >
+                    <div id="downicon">
+                      <FontAwesomeIcon icon="download" />
+                    </div>
+                  </AwesomeButton>
+                </div>
+              </div>
             </div>
-            <div className="pages">
-              <TabPanel>
-                <h2 id="h2du">Download JSON File</h2>
-                <input
-                  className="downinput"
-                  type="string"
-                  value={this.state.filename}
-                  onChange={this.handleFileName}
-                />
-                <AwesomeButton
-                  action={() => this.props.downloadFile(this.state.filename, "application/json")}
-                  type="primary"
-                  className="downloadbtn"
-                  id="downloadbtn"
-                  size="small"
-                >
-                  <div id="downicon">
-                    <FontAwesomeIcon icon="download" />
-                  </div>
-                </AwesomeButton>
-                <h2 id="h2du">Save To Your Account</h2>
-                {this.props.isSignedIn ?
-                  <div className="signinmsg">
+            <div className="transfer">
+              <h2 id="h2du">Save To Your Account</h2>
+              {this.props.isSignedIn ?
+                <div className="signinmsg">
+                  <div className="transferinfo">
                     <div className="timestamp">
                       saved on {this.props.lastsave}
                     </div>
+                  </div>
+                  <div className="transferbtn">
                     <AwesomeButton
                       action={this.handleSaveFirebase}
                       type="primary"
@@ -237,14 +239,18 @@ class DownUpModal extends Component {
                       null
                     }
                   </div>
-                  :
-                  <div className="signinmsg">
-                    Sign in to save to your account
-                  </div>
-                }
-              </TabPanel>
-              <TabPanel>
-                <h2 id="h2du">Upload JSON File</h2>
+                </div>
+                :
+                <div className="signinmsg">
+                  Sign in to save to your account
+                </div>
+              }
+            </div>
+          </div>
+          <div className="rightdu">
+            <div className="transfer">
+              <h2 id="h2du">Upload JSON File</h2>
+              <div className="signinmsg">
                 <div style={{height:"0px", overflow:"hidden"}}>
                   <input
                     type="file"
@@ -252,26 +258,36 @@ class DownUpModal extends Component {
                     onChange={this.handleSelectedFile}
                   />
                 </div>
-                <button className="upinput" onClick={this.handleClick}>
-                  {this.state.upfilename}
-                </button>
-                <AwesomeButton
-                  action={() => this.props.uploadFile(this.state.selectedfile)}
-                  type="primary"
-                  className="downloadbtn"
-                  id="downloadbtn"
-                  size="small"
-                >
-                  <div id="downicon">
-                    <FontAwesomeIcon icon="upload" />
-                  </div>
-                </AwesomeButton>
-                <h2 id="h2du">Load From Your Account</h2>
-                {this.props.isSignedIn ?
-                  <div className="signinmsg">
+                <div className="transferinfo">
+                  <button className="upinput" onClick={this.handleClick}>
+                    {this.state.upfilename}
+                  </button>
+                </div>
+                <div className="transferbtn">
+                  <AwesomeButton
+                    action={() => this.props.uploadFile(this.state.selectedfile)}
+                    type="primary"
+                    className="downloadbtn"
+                    id="downloadbtn"
+                    size="small"
+                  >
+                    <div id="downicon">
+                      <FontAwesomeIcon icon="upload" />
+                    </div>
+                  </AwesomeButton>
+                </div>
+              </div>
+            </div>
+            <div className="transfer">
+              <h2 id="h2du">Load From Your Account</h2>
+              {this.props.isSignedIn ?
+                <div className="signinmsg">
+                  <div className="transferinfo">
                     <div className="timestamp">
                       saved on {this.props.lastsave}
                     </div>
+                  </div>
+                  <div className="transferbtn">
                     <AwesomeButton
                       action={this.handleLoadFirebase}
                       type="primary"
@@ -301,55 +317,58 @@ class DownUpModal extends Component {
                       null
                     }
                   </div>
-                  :
-                  <div className="signinmsg">
-                    Sign in to load from your account
-                  </div>
-                }
-                {this.props.isSignedIn && this.props.backupsave ?
-                  <div>
-                    <h2 id="h2du">...Or Restore From Backup</h2>
-                    <div className="signinmsg">
-                      <div className="timestamp">
-                        saved on {this.props.backupsave}
-                      </div>
-                      <AwesomeButton
-                        action={this.handleRestoreFirebase}
-                        type="primary"
-                        className="firebasebtn"
-                        id="firebasebtn"
-                        size="small"
-                      >
-                        <div id="downicon">
-                          <FontAwesomeIcon icon="file-download" />
-                        </div>
-                      </AwesomeButton>
-                      <ClipLoader
-                        css={{display: "inline-block", verticalAlign: "bottom", marginBottom: "7px"}}
-                        sizeUnit={"px"}
-                        size={35}
-                        color={this.props.theme.accent}
-                        loading={this.props.restoring}
-                      />
-                      {this.state.restored && !this.props.restoring ?
-                        <div className="undodu">
-                          <Undo
-                            theme={this.props.theme}
-                            undo={this.handleUndoRestore}
-                          />
-                        </div>
-                        :
-                        null
-                      }
+                </div>
+                :
+                <div className="signinmsg">
+                  Sign in to load from your account
+                </div>
+              }
+            </div>
+            {this.props.isSignedIn && this.props.backupsave ?
+              <div className="transfer">
+                <h2 id="h2du">...Or Restore From Backup</h2>
+                <div className="signinmsg">
+                  <div className="transferinfo">
+                    <div className="timestamp">
+                      saved on {this.props.backupsave}
                     </div>
                   </div>
-                  :
-                  null
-                }
-
-              </TabPanel>
-            </div>
-          </Tabs>
+                  <div className="transferbtn">
+                    <AwesomeButton
+                      action={this.handleRestoreFirebase}
+                      type="primary"
+                      className="firebasebtn"
+                      id="firebasebtn"
+                      size="small"
+                    >
+                      <div id="downicon">
+                        <FontAwesomeIcon icon="file-download" />
+                      </div>
+                    </AwesomeButton>
+                    <ClipLoader
+                      css={{display: "inline-block", verticalAlign: "bottom", marginBottom: "7px"}}
+                      sizeUnit={"px"}
+                      size={35}
+                      color={this.props.theme.accent}
+                      loading={this.props.restoring}
+                    />
+                    {this.state.restored && !this.props.restoring ?
+                      <div className="undodu">
+                        <Undo
+                          theme={this.props.theme}
+                          undo={this.handleUndoRestore}
+                        />
+                      </div>
+                      :
+                      null
+                    }
+                  </div>
+                </div>
+              </div>
+              :
+              null
+            }
+          </div>
         </div>
       </Modal>
       </div>

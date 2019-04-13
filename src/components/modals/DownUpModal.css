@@ -1,12 +1,12 @@
 .DownUpModal {
     position: absolute;
     top: 2vh;
-    left: 20vw;
-    right: 20vw;
+    left: 15vw;
+    right: 15vw;
+    bottom: 35vh;
     background-color: var(--primary);
     color: var(--texthighlighted);
     overflow: hidden;
-    height: 500px;
     min-width: 250px;
     outline: none;
   }
@@ -22,55 +22,72 @@
 
   .downupinfo {
     margin: 0px;
+    height: calc(58vh - 63px);
   }
 
-  .pages {
-    margin-left: 20px;
-    margin-top: 0px;
-    width: 100%;
-    overflow: auto;
-  }
-
-  .lefttab {
-    margin: 0px;
-    float: left;
-    width: 50%;
-    background: var(--tab);
-    color: var(--text);
-    display: block;
-    font-size: 1rem;
-    padding: 0px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin: 0px;
-    cursor: pointer;
-    text-align: center;
-    transition: .3s;
-  }
-
-  .righttab {
-    margin: 0px;
+  .transferbtn {
     float: right;
+    margin-right: 30px;
+  }
+
+  .transfer {
+    height: 150px;
+  }
+
+  .transferinfo {
+    margin-left: 30px;
+    width: 100%;
+    display: inline-block;
+  }
+
+  #h2du {
+    text-align: left;
+    margin-left: 20px;
+  }
+
+  .lefttitle {
     width: 50%;
-    background: var(--tab);
+    display: inline-block;
+    text-align: center;
     color: var(--text);
-    display: block;
+    margin: 10px 0px;
+  }
+
+  .righttitle {
+    width: 50%;
+    display: inline-block;
+    text-align: center;
+    color: var(--text);
+    margin-top: 10px;
+  }
+
+  .leftdu {
+    margin: 0px;
+    margin-left: 20px;
+    width: calc(50% - 20px);
+    float: left;
+    color: var(--text);
+    display: inline-block;
     font-size: 1rem;
     padding: 0px;
-    padding-top: 10px;
     padding-bottom: 10px;
+    height: calc(58vh - 63px);
+    overflow: auto;
+    overflow-x: hidden;
+  }
+
+  .rightdu {
     margin: 0px;
-    cursor: pointer;
-    text-align: center;
-    transition: .3s;
-  }
-
-  .lefttab:hover, .righttab:hover {
-    background: var(--tabselect);
-  }
-
-  .lefttab:focus, .righttab:focus {
-    outline: none;
+    width: calc(50% - 20px);
+    color: var(--text);
+    display: inline-block;
+    font-size: 1rem;
+    padding: 0px;
+    margin-left: 20px;
+    padding-bottom: 10px;
+    height: calc(58vh - 63px);
+    overflow: auto;
+    overflow-x: hidden;
   }
 
   .downinput {
@@ -79,11 +96,9 @@
     outline-color: var(--accent);
     font-size: 16px;
     border-style: none;
-    margin: 20px;
     padding: 5px;
     height: 30px;
     width: 250px;
-    margin-left: 1vw;
   }
 
   .upinput {
@@ -94,11 +109,9 @@
     text-align: left;
     border-style: none;
     display: inline;
-    margin: 20px;
     padding: 5px;
     height: 40px;
     width: 260px;
-    margin-left: 1vw;
   }
 
   .signinmsg {
@@ -130,14 +143,16 @@
 
   .timestamp {
     font-size: 16px;
-    margin-top: 10px;
+    margin-bottom: 10px;
     display: inline-block;
     margin-right: 28px;
   }
 
   .downloadbtn {
     margin-right: 20px;
-    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 2px;
@@ -155,7 +170,9 @@
 
   .firebasebtn {
     margin-right: 20px;
-    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 2px;
