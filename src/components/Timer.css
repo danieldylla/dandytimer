@@ -336,15 +336,68 @@
     }
 
     .DownUpModal {
-      top: 5%;
-      left: 5%;
-      right: 5%;
+      top: 2%;
+      left: 2%;
+      right: 2%;
       bottom: 20%;
       height: auto;
     }
 
+    .downupinfo {
+      margin: 0px;
+      height: calc(100% - 50px);
+      overflow: auto;
+    }
+
+    .transferbtn {
+      float: right;
+      margin-right: 30px;
+    }
+
+    .transfer {
+      height: 150px;
+    }
+
+    .transferinfo {
+      margin-left: 30px;
+      width: 100%;
+      display: inline-block;
+    }
+
     #h2du {
+      text-align: left;
+      margin-left: 20px;
       display: block;
+    }
+
+    .lefttitle {
+      width: 50%;
+      display: inline-block;
+      text-align: center;
+      color: var(--text);
+      margin: 10px 0px;
+    }
+
+    .righttitle {
+      width: 50%;
+      display: inline-block;
+      text-align: center;
+      color: var(--text);
+      margin-top: 10px;
+    }
+
+    .leftdu {
+      width: calc(100% - 20px);
+      color: var(--text);
+      display: inline-block;
+      height: auto;
+    }
+
+    .rightdu {
+      width: calc(100% - 20px);
+      color: var(--text);
+      display: inline-block;
+      height: auto;
     }
 
     .ArrowModal {

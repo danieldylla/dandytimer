@@ -3,7 +3,7 @@
     top: 2vh;
     left: 15vw;
     right: 15vw;
-    bottom: 35vh;
+    bottom: 30vh;
     background-color: var(--primary);
     color: var(--texthighlighted);
     overflow: hidden;
@@ -22,7 +22,7 @@
 
   .downupinfo {
     margin: 0px;
-    height: calc(58vh - 63px);
+    height: calc(68vh - 70px);
   }
 
   .transferbtn {
@@ -51,6 +51,7 @@
     text-align: center;
     color: var(--text);
     margin: 10px 0px;
+    height: 50px;
   }
 
   .righttitle {
@@ -58,7 +59,8 @@
     display: inline-block;
     text-align: center;
     color: var(--text);
-    margin-top: 10px;
+    margin: 10px 0px;
+    height: 50px;
   }
 
   .leftdu {
@@ -71,7 +73,7 @@
     font-size: 1rem;
     padding: 0px;
     padding-bottom: 10px;
-    height: calc(58vh - 63px);
+    height: calc(68vh - 70px);
     overflow: auto;
     overflow-x: hidden;
   }
@@ -85,7 +87,7 @@
     padding: 0px;
     margin-left: 20px;
     padding-bottom: 10px;
-    height: calc(58vh - 63px);
+    height: calc(68vh - 70px);
     overflow: auto;
     overflow-x: hidden;
   }
@@ -139,6 +141,9 @@
 
   .undodu {
     display: inline-block;
+    float: left;
+    margin-left: -150px;
+    margin-top: 7px;
   }
 
   .timestamp {

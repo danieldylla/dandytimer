@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Modal from 'react-modal';
 import ReactGA from 'react-ga';
 import { AwesomeButton } from 'react-awesome-button';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ClipLoader } from 'react-spinners'
 import Undo from '../Undo';
@@ -222,7 +221,7 @@ class DownUpModal extends Component {
                       </div>
                     </AwesomeButton>
                     <ClipLoader
-                      css={{display: "inline-block", verticalAlign: "bottom", marginBottom: "7px"}}
+                      css={{display: "inline-block", float: "left", margin: "10px 10px"}}
                       sizeUnit={"px"}
                       size={35}
                       color={this.props.theme.accent}
@@ -300,7 +299,7 @@ class DownUpModal extends Component {
                       </div>
                     </AwesomeButton>
                     <ClipLoader
-                      css={{display: "inline-block", verticalAlign: "bottom", marginBottom: "7px"}}
+                      css={{display: "inline-block", float: "left", margin: "10px 10px"}}
                       sizeUnit={"px"}
                       size={35}
                       color={this.props.theme.accent}
@@ -346,7 +345,7 @@ class DownUpModal extends Component {
                       </div>
                     </AwesomeButton>
                     <ClipLoader
-                      css={{display: "inline-block", verticalAlign: "bottom", marginBottom: "7px"}}
+                      css={{display: "inline-block", float: "left", margin: "10px 10px"}}
                       sizeUnit={"px"}
                       size={35}
                       color={this.props.theme.accent}
