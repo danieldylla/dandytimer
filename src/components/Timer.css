@@ -469,6 +469,10 @@
       margin: 10px;
     }
 
+    .downloadbtn {
+      margin: 0;
+    }
+
     .logout {
       position: relative;
       display: inline-block;
