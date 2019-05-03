@@ -88,9 +88,9 @@ function five() {
   let solution = "";
   for (i = 0; i < total; i++) {
     x = Math.floor(Math.random()*36);
-    if ((x < 18 && last < 18 &&(x % 6 === last % 6) ||
+    if (((x < 18 && last < 18 && (x % 6 === last % 6)) ||
         (x % 6 === morelast % 6 && x % 3 === last % 3)) ||
-        (x >= 18 && last >= 18 && (x % 6 === last % 6) ||
+        ((x >= 18 && last >= 18 && (x % 6 === last % 6)) ||
         (x % 6 === morelast % 6 && x % 3 === last % 3))
     ){
       if (x !== 0) {
@@ -121,9 +121,9 @@ function six() {
   let solution = "";
   for (i = 0; i < total; i++) {
     x = Math.floor(Math.random()*45);
-    if ((x < 18 && last < 18 &&(x % 6 === last % 6) ||
+    if (((x < 18 && last < 18 &&(x % 6 === last % 6)) ||
         (x % 6 === morelast % 6 && x % 3 === last % 3)) ||
-        (x >= 18 && last >= 18 && x < 36 && last < 36 && (x % 6 === last % 6) ||
+        ((x >= 18 && last >= 18 && x < 36 && last < 36 && (x % 6 === last % 6)) ||
         (x % 6 === morelast % 6 && x % 3 === last % 3)) ||
         (x > 36 && last > 36 && x % 3 === last % 3)
     ){
@@ -156,11 +156,11 @@ function seven() {
   let solution = "";
   for (i = 0; i < total; i++) {
     x = Math.floor(Math.random()*54);
-    if ((x < 18 && last < 18 &&(x % 6 === last % 6) ||
+    if (((x < 18 && last < 18 &&(x % 6 === last % 6)) ||
         (x % 6 === morelast % 6 && x % 3 === last % 3)) ||
-        (x >= 18 && last >= 18 && x < 36 && last < 36 && (x % 6 === last % 6) ||
+        ((x >= 18 && last >= 18 && x < 36 && last < 36 && (x % 6 === last % 6)) ||
         (x % 6 === morelast % 6 && x % 3 === last % 3)) ||
-        (x > 36 && last > 36 && (x % 3 === last % 3) ||
+        ((x > 36 && last > 36 && (x % 3 === last % 3)) ||
         (x % 6 === morelast % 6 && x % 3 === last % 3))
     ){
       if (x !== 0) {
