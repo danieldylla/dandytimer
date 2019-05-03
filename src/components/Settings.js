@@ -173,7 +173,7 @@ class Settings extends Component {
       accent: theme.accent,
       text: theme.text,
       texthighlighted: theme.texthighlighted
-    }, () => document.getElementsByClassName(this.state.selected)[0].style.boxShadow = "0px 7px 15px " + this.state.accent);
+    }, () => document.getElementsByClassName(this.state.selected)[0].style.boxShadow = "0px 0px 15px " + this.state.accent);
   }
 
   handleChangePrimary(color, event) {
@@ -236,7 +236,7 @@ class Settings extends Component {
     this.setState({
       selected: 'primary'
     });
-    document.getElementsByClassName("primary")[0].style.boxShadow = "0px 7px 15px " + this.state.accent;
+    document.getElementsByClassName("primary")[0].style.boxShadow = "0px 0px 15px " + this.state.accent;
   }
 
   selectSecondary() {
@@ -244,7 +244,7 @@ class Settings extends Component {
     this.setState({
       selected: 'secondary'
     });
-    document.getElementsByClassName("secondary")[0].style.boxShadow = "0px 7px 15px " + this.state.accent;
+    document.getElementsByClassName("secondary")[0].style.boxShadow = "0px 0px 15px " + this.state.accent;
   }
 
   selectAccent() {
@@ -252,7 +252,7 @@ class Settings extends Component {
     this.setState({
       selected: 'accent'
     });
-    document.getElementsByClassName("accent")[0].style.boxShadow = "0px 7px 15px " + this.state.accent;
+    document.getElementsByClassName("accent")[0].style.boxShadow = "0px 0px 15px " + this.state.accent;
   }
 
   selectText() {
@@ -260,7 +260,7 @@ class Settings extends Component {
     this.setState({
       selected: 'text'
     });
-    document.getElementsByClassName("text")[0].style.boxShadow = "0px 7px 15px " + this.state.accent;
+    document.getElementsByClassName("text")[0].style.boxShadow = "0px 0px 15px " + this.state.accent;
   }
 
   selectTextHighlighted() {
@@ -268,7 +268,7 @@ class Settings extends Component {
     this.setState({
       selected: 'texthighlighted'
     });
-    document.getElementsByClassName("texthighlighted")[0].style.boxShadow = "0px 7px 15px " + this.state.accent;
+    document.getElementsByClassName("texthighlighted")[0].style.boxShadow = "0px 0px 15px " + this.state.accent;
   }
 
   handlePartyMode() {
