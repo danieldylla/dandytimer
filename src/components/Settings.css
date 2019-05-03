@@ -425,7 +425,7 @@
   .primary {
     margin-right: 20px;
     margin-bottom: 30px;
-    box-shadow: 0px 7px 15px var(--text);
+    box-shadow: 0px 7px 15px var(--accent);
     transition: .2s;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
