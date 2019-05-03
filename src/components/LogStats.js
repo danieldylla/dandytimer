@@ -90,6 +90,9 @@ class LogStats extends Component {
     if (res === null) {
       return('-');
     }
+    if (res.dnf) {
+      return('DNF');
+    }
     if (res.plus2) {
       return (this.convertToTime(res.time) + '+');
     }

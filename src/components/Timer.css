@@ -352,6 +352,7 @@
     .transferbtn {
       float: right;
       margin-right: 30px;
+      width: 88px;
     }
 
     .transfer {

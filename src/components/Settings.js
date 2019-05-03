@@ -173,7 +173,7 @@ class Settings extends Component {
       accent: theme.accent,
       text: theme.text,
       texthighlighted: theme.texthighlighted
-    });
+    }, () => document.getElementsByClassName(this.state.selected)[0].style.boxShadow = "0px 7px 15px " + this.state.accent);
   }
 
   handleChangePrimary(color, event) {
@@ -232,33 +232,43 @@ class Settings extends Component {
   }
 
   selectPrimary() {
+    document.getElementsByClassName(this.state.selected)[0].style.boxShadow = "none";
     this.setState({
       selected: 'primary'
     });
+    document.getElementsByClassName("primary")[0].style.boxShadow = "0px 7px 15px " + this.state.accent;
   }
 
   selectSecondary() {
+    document.getElementsByClassName(this.state.selected)[0].style.boxShadow = "none";
     this.setState({
       selected: 'secondary'
     });
+    document.getElementsByClassName("secondary")[0].style.boxShadow = "0px 7px 15px " + this.state.accent;
   }
 
   selectAccent() {
+    document.getElementsByClassName(this.state.selected)[0].style.boxShadow = "none";
     this.setState({
       selected: 'accent'
     });
+    document.getElementsByClassName("accent")[0].style.boxShadow = "0px 7px 15px " + this.state.accent;
   }
 
   selectText() {
+    document.getElementsByClassName(this.state.selected)[0].style.boxShadow = "none";
     this.setState({
       selected: 'text'
     });
+    document.getElementsByClassName("text")[0].style.boxShadow = "0px 7px 15px " + this.state.accent;
   }
 
   selectTextHighlighted() {
+    document.getElementsByClassName(this.state.selected)[0].style.boxShadow = "none";
     this.setState({
       selected: 'texthighlighted'
     });
+    document.getElementsByClassName("texthighlighted")[0].style.boxShadow = "0px 7px 15px " + this.state.accent;
   }
 
   handlePartyMode() {

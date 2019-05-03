@@ -425,6 +425,8 @@
   .primary {
     margin-right: 20px;
     margin-bottom: 30px;
+    box-shadow: 0px 7px 15px var(--text);
+    transition: .2s;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 0px;
@@ -443,6 +445,7 @@
   .secondary {
     margin-right: 20px;
     margin-bottom: 30px;
+    transition: .2s;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 0px;
@@ -461,6 +464,7 @@
   .accent {
     margin-right: 20px;
     margin-bottom: 30px;
+    transition: .2s;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 0px;
@@ -479,6 +483,7 @@
   .text {
     margin-right: 20px;
     margin-bottom: 30px;
+    transition: .2s;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 0px;
@@ -497,6 +502,7 @@
   .texthighlighted {
     margin-right: 20px;
     margin-bottom: 30px;
+    transition: .2s;
     --button-default-height: 51px;
     --button-default-font-size: 16px;
     --button-default-border-radius: 0px;
