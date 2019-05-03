@@ -58,7 +58,7 @@
 }
 
 #average:hover {
-  color: var(--highlighted);
+  color: var(--highlight);
 }
 
 #scramble {
@@ -77,7 +77,7 @@
 }
 
 #scramble:hover {
-  color: var(--highlighted);
+  color: var(--highlight);
 }
 
 #settings {
@@ -91,7 +91,7 @@
 }
 
 #settings:hover {
-  color: var(--texthighlighted)
+  color: var(--highlight)
 }
 
 #account {
@@ -105,7 +105,7 @@
 }
 
 #account:hover {
-  color: var(--texthighlighted)
+  color: var(--highlight)
 }
 
 #stats {
@@ -129,7 +129,7 @@
 
 #statsiconon {
   font-size: 1.9rem;
-  color: var(--texthighlighted)
+  color: var(--highlight)
 }
 
 #statsiconon:hover {
