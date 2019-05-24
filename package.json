@@ -48,5 +48,10 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
+  }
 }
