@@ -1950,14 +1950,7 @@ class Timer extends Component {
   render() {
     let keyheld = false;
     document.body.onkeydown = function(e) {
-      if (e.keyCode === 85) {
-        let l = this.state.log.slice;
-        for (let i = 0; i < l.length; i++) {
-          let d = new Date().getTime();
-          l[i].res.timestamp = d;
-          console.log(d);
-        }
-      }else if (e.repeat) {
+      if (e.repeat) {
         return;
       } else if (e.keyCode === 32 && !this.state.running && this.state.stopped && !this.state.modal) {
         if (this.state.hold_to_start && (!this.state.inspection_time || this.state.fifteen)) {
