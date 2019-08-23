@@ -689,6 +689,7 @@ class Timer extends Component {
 
   calculateTime() {
     let t = this.state.end - this.state.start;
+    if (this.state.res.plus2) t = t + 2000;
     this.setState({
       res: {
         scramble: this.state.res.scramble,
@@ -1437,13 +1438,19 @@ class Timer extends Component {
         }
         return(<p>0.00</p>);
       }
-
       return (
         <p>
-          {this.convertToTime(this.state.time)}
+          {this.displayTime(this.state.time)}
         </p>
       );
     }
+  }
+  
+  displayTime = (time) => {
+    if (this.state.res.plus2 && this.state.stopped) {
+      return this.convertToTime(time) + '+';
+    }
+    return this.convertToTime(time);
   }
 
   generateScramble() {
