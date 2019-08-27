@@ -221,9 +221,12 @@ class AvModal extends Component {
         best = arr[i].res.time;
         bestid = arr[i].res.id;
       }
-      if (!worstisdnf && arr[i].res.time > worst) {
+      if (!worstisdnf && arr[i].res.time > worst || arr[i].res.dnf) {
         worst = arr[i].res.time;
         worstid = arr[i].res.id;
+        if (arr[i].res.dnf) {
+          worstisdnf = true;
+        }
       }
     }
     const scrambles = arr.map((item, step) => {
