@@ -81,6 +81,7 @@ class Timer extends Component {
         scramble: null,
         dnf: false,
         plus2: false,
+        timestamp: null,
       },
       best: {
         res: null,
@@ -276,7 +277,7 @@ class Timer extends Component {
     this.saveStateToLocalStorage();
   }
 
-  hydrateStateWithLocalStorage() {
+  hydrateStateWithLocalStorage = () => {
     // for all items in state
     for (let key in this.state) {
       // if the key exists in localStorage
@@ -635,6 +636,7 @@ class Timer extends Component {
             ao50: this.state.res.ao50,
             ao100: this.state.res.ao100,
             scramble: this.state.res.scramble,
+            timestamp: this.state.res.timestamp,
             dnf: true,
             plus2: false,
           },
@@ -650,6 +652,7 @@ class Timer extends Component {
             ao50: this.state.res.ao50,
             ao100: this.state.res.ao100,
             scramble: this.state.res.scramble,
+            timestamp: this.state.res.timestamp,
             dnf: false,
             plus2: true,
           },
@@ -686,6 +689,7 @@ class Timer extends Component {
 
   calculateTime() {
     let t = this.state.end - this.state.start;
+    if (this.state.res.plus2) t = t + 2000;
     this.setState({
       res: {
         scramble: this.state.res.scramble,
@@ -696,6 +700,7 @@ class Timer extends Component {
         ao12: this.calculateAv(12, t, this.state.reps, this.state.res.dnf),
         ao50: this.calculateAv(50, t, this.state.reps, this.state.res.dnf),
         ao100: this.calculateAv(100, t, this.state.reps, this.state.res.dnf),
+        timestamp: this.state.end, 
         dnf: this.state.res.dnf,
         plus2: this.state.res.plus2,
       },
@@ -967,6 +972,7 @@ class Timer extends Component {
     const ao50 = this.calculateAv(50, time, reps, false);
     const ao100 = this.calculateAv(100, time, reps, false);
     const average = this.calculateAverage(time, this.state.validreps + 1);
+    const d = new Date().getTime();
     if (this.state.best.res === null
         || time < this.state.best.res.time) {
       this.setState({
@@ -980,6 +986,7 @@ class Timer extends Component {
             ao50: ao50,
             ao100: ao100,
             scramble: this.state.res.scramble,
+            timestamp: d,
             dnf: false,
             plus2: false,
           },
@@ -1031,6 +1038,7 @@ class Timer extends Component {
             ao50: ao50,
             ao100: ao100,
             scramble: this.state.res.scramble,
+            timestamp: d,
             dnf: false,
             plus2: false,
           }
@@ -1049,6 +1057,7 @@ class Timer extends Component {
         ao50: ao50,
         ao100: ao100,
         scramble: this.state.res.scramble,
+        timestamp: d,
         dnf: false,
         plus2: false,
       },
@@ -1080,6 +1089,7 @@ class Timer extends Component {
         ao12: null,
         ao50: null,
         ao100: null,
+        timestamp: null,
         dnf: false,
         plus2: false,
       },
@@ -1428,13 +1438,19 @@ class Timer extends Component {
         }
         return(<p>0.00</p>);
       }
-
       return (
         <p>
-          {this.convertToTime(this.state.time)}
+          {this.displayTime(this.state.time)}
         </p>
       );
     }
+  }
+  
+  displayTime = (time) => {
+    if (this.state.res.plus2 && this.state.stopped) {
+      return this.convertToTime(time) + '+';
+    }
+    return this.convertToTime(time);
   }
 
   generateScramble() {
@@ -1463,6 +1479,7 @@ class Timer extends Component {
         ao12: this.state.res.ao12,
         ao50: this.state.res.ao50,
         ao100: this.state.res.ao100,
+        timestamp: this.state.res.timestamp,
         dnf: this.state.res.dnf,
         plus2: this.state.res.plus2,
       }
