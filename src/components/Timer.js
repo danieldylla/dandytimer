@@ -127,6 +127,7 @@ class Timer extends Component {
       hide_time: false,
       hide_surroundings: true,
       track_best_ao1000: true,
+      escape_to_dnf: true,
       party_mode: false,
       theme: {
         primary: '#1a1c21',
@@ -195,6 +196,7 @@ class Timer extends Component {
     this.handleHideSurroundings = this.handleHideSurroundings.bind(this);
     this.handleStatsTab = this.handleStatsTab.bind(this);
     this.handleTrackBestAo1000 = this.handleTrackBestAo1000.bind(this);
+    this.handleEscapeToDNF = this.handleEscapeToDNF.bind(this);
     this.handleCube = this.handleCube.bind(this);
     this.handleBestAo1000 = this.handleBestAo1000.bind(this);
     this.handlePlus2 = this.handlePlus2.bind(this);
@@ -1853,6 +1855,10 @@ class Timer extends Component {
     this.setState({ track_best_ao1000: !this.state.track_best_ao1000 });
   }
 
+  handleEscapeToDNF() {
+    this.setState({ escape_to_dnf: !this.state.escape_to_dnf });
+  }
+
   handleCube(cube) {
     this.setState({
       cube: cube
@@ -1970,8 +1976,22 @@ class Timer extends Component {
             this.resetTime();
           }
         }
-      } else if (e.keyCode === 27 && !this.state.modal && !this.state.fifteen) {
-        this.resetTime();
+      } else if (e.keyCode === 27 && !this.state.modal) {
+        if (this.state.stopped) {
+          this.resetTime();
+        } else {
+          if (this.state.escape_to_dnf) {
+            keyheld = true;
+            this.setState({ res: { ...this.state.res, dnf: true }});
+            this.endTime();
+            this.calculateTime();
+            document.getElementById("time").style.color = "#f73b3b";
+          } else {
+            this.reset();
+            document.getElementById("time").style.color = "inherit";
+            this.unhideStuff();
+          }
+        }
       } else if (this.state.running && e.keyCode !== 18 && e.keyCode !== 9 && !keyheld) {
         if (this.state.space_to_stop && e.keyCode !== 32) {
           return;
@@ -2023,7 +2043,7 @@ class Timer extends Component {
           }
         }
       } else if (e.keyCode !== 18 && e.keyCode !== 9 && !this.state.fifteen && !this.state.stopped) {
-        if (this.state.space_to_stop && e.keyCode !== 32) {
+        if (this.state.space_to_stop && e.keyCode !== 32 && !(e.keyCode === 27 && this.state.escape_to_dnf)) {
           return;
         }
         document.getElementById("time").style.color = "inherit";
@@ -2115,6 +2135,7 @@ class Timer extends Component {
             hide_time={this.state.hide_time}
             hide_surroundings={this.state.hide_surroundings}
             track_best_ao1000={this.state.track_best_ao1000}
+            escape_to_dnf={this.state.escape_to_dnf}
             themes={this.state.themes}
             handleModal={() => this.handleModal()}
             handleInspection={this.handleInspection}
@@ -2132,6 +2153,7 @@ class Timer extends Component {
             handleHideTime={this.handleHideTime}
             handleHideSurroundings={this.handleHideSurroundings}
             handleTrackBestAo1000={this.handleTrackBestAo1000}
+            handleEscapeToDNF={this.handleEscapeToDNF}
             saveTheme={(name, theme) => this.saveTheme(name, theme)}
             deleteTheme={(i) => this.deleteTheme(i)}
             changeColor={(theme) => this.changeColor(theme)}
