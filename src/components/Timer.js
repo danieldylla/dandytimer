@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import '../firebase.js';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+import firebase from '@firebase/app';
+import '@firebase/auth';
+import '@firebase/firestore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactGA from 'react-ga';
 import moment from 'moment';
