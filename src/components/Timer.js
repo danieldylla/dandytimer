@@ -1981,6 +1981,7 @@ class Timer extends Component {
       if (e.repeat) {
         return;
       } else if (e.keyCode === 32 && !this.state.running && this.state.stopped && !this.state.modal) {
+        e.preventDefault();
         if (this.state.hold_to_start && (!this.state.inspection_time || this.state.fifteen)) {
           document.getElementById("time").style.color = "#ffff2d";
           this.hold_timer = setTimeout(this.timeHold, this.state.hold_len);
@@ -2034,6 +2035,7 @@ class Timer extends Component {
                 this.endInspection();
               } else {
                 document.getElementById("time").style.color = "#f73b3b";
+                clearTimeout(this.hold_timer);
               }
             } else {
               this.endInspection();
