@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Modal from 'react-modal';
 import Button from '@material-ui/core/Button';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import InputNumber from 'react-input-number';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { List } from 'react-virtualized';
 
 import './DeleteModal.css';
 
@@ -27,6 +27,7 @@ class DeleteModal extends Component {
     let number = e.target.value.toString().replace(/[^0-9]/g,"");
     let min = 0;
     let max = this.props.log.length - this.props.index;
+    console.log(max);
     if (Number(number) < min) {
       this.setState({ x: min });
     } else if (Number(number) > max) {
@@ -48,6 +49,11 @@ class DeleteModal extends Component {
     this.props.closeModal();
   }
 
+  handleClose = () => {
+    this.props.closeModal();
+    setTimeout(() => this.setState({ x: 1 }), 200);
+  }
+
   colorLuminance(hex, lum) {
   	// validate hex string
   	hex = String(hex).replace(/[^0-9a-f]/gi, '');
@@ -63,6 +69,40 @@ class DeleteModal extends Component {
   		rgb += ("00"+c).substr(c.length);
   	}
   	return rgb;
+  }
+
+  renderRow = ({ index, key, style }) => {
+    let item = this.props.log[this.props.index + index];
+    return (
+      <div key={key} style={style} className="row">
+        <div className="half">
+          <span id="step">
+            {item.res.id}
+          </span>
+        </div>
+        <div className="half">
+          <span id="step">
+            {this.props.displayLogEntry(item.res)}
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  renderDeleted = () => {
+    const rowheight = 30;
+    return (
+      <div className="deleted">
+        <List
+          width={window.innerWidth}
+          height={280}
+          rowHeight={rowheight}
+          rowRenderer={this.renderRow}
+          rowCount={Number(this.state.x)}
+          overscanRowCount={5}
+        />
+      </div>
+    );
   }
 
   render() {
@@ -98,8 +138,8 @@ class DeleteModal extends Component {
           ariaHideApp={false}
           closeTimeoutMS={200}
           contentLabel="Example Modal"
-          className="ArrowModal"
-          overlayClassName="ArrowOverlay"
+          className="DeleteModal"
+          overlayClassName="DeleteOverlay"
         >
           <div className="clearinfo">
             <h1 id="title">Delete Time</h1>
@@ -121,15 +161,16 @@ class DeleteModal extends Component {
                   onInput={e => this.handleChange(e)}
                 />
                 <FontAwesomeIcon icon="caret-right" id="changen"
-                  onClick={() => {if (this.state.x < 1440) this.setState({ x: this.state.x + 1 });}}
+                  onClick={() => {if (this.state.x < this.props.log.length - this.props.index) this.setState({ x: this.state.x + 1 });}}
                 />
               </div>
             </div>
-            <div className="choose">
+            {this.renderDeleted()}
+            <div className="choosedelete">
               <MuiThemeProvider theme={theme}>
                 <div className="cancel">
                   <Button
-                    onClick={this.props.closeModal}
+                    onClick={this.handleClose}
                     variant="outlined"
                     color="primary"
                     className="confirm"

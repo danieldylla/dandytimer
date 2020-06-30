@@ -259,7 +259,7 @@ class Log extends Component {
     return(l);
   }
 
-  displayLogEntry(res) {
+  displayLogEntry = (res) => {
     if (res.dnf) {
       return (
         <span>
@@ -304,7 +304,7 @@ class Log extends Component {
     );
   }
 
-  colorLuminance(hex, lum) {
+  colorLuminance = (hex, lum) => {
   	// validate hex string
   	hex = String(hex).replace(/[^0-9a-f]/gi, '');
   	if (hex.length < 6) {
@@ -369,7 +369,9 @@ class Log extends Component {
             modalIsOpen={this.state.deleteModalIsOpen}
             openModal={this.openDeleteModal}
             closeModal={this.closeDeleteModal}
+            displayLogEntry={this.displayLogEntry}
             deleteEntry={(id, x) => this.props.deleteEntry(id, x)}
+            colorLuminance={this.colorLuminance}
           />
           <TimeModal
             theme={this.props.theme}
