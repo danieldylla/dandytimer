@@ -3,6 +3,7 @@ import '../firebase.js';
 import firebase from '@firebase/app';
 import '@firebase/auth';
 import '@firebase/firestore';
+import Solve from '../cubejs/solve';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactGA from 'react-ga';
 import moment from 'moment';
@@ -128,6 +129,7 @@ class Timer extends Component {
       hide_surroundings: true,
       track_best_ao1000: true,
       escape_to_dnf: true,
+      random_state: true,
       party_mode: false,
       theme: {
         primary: '#1a1c21',
@@ -247,7 +249,7 @@ class Timer extends Component {
           text: 'rgba(255, 255, 255, .6)',
           texthighlighted: '#efefef'
         },
-      }, this.changeColor)
+      }, () => this.changeColor(this.state.theme));
     }
 
     let thiscube = JSON.parse(localStorage.getItem('cube'));
@@ -264,6 +266,9 @@ class Timer extends Component {
     document.getElementById("time").addEventListener('touchcancel', this.onTouchCancel, false);
     document.getElementById("time").addEventListener('touchmove', this.onTouchMove, false);
     document.getElementById("time").addEventListener("contextmenu", function(e) { e.preventDefault(); })
+
+    this.solve = Solve();
+    this.solve.initSolver();    
   }
 
   componentWillUnmount() {
@@ -1458,7 +1463,11 @@ class Timer extends Component {
   generateScramble() {
     let scramble;
     if (this.state.cube === '3x3') {
-      scramble = three();
+      if (this.state.random_state) {
+        scramble = this.solve.scramble();
+      } else {
+        scramble = three();
+      }
     } else if (this.state.cube === '2x2') {
       scramble = two();
     } else if (this.state.cube === '4x4') {
@@ -1865,6 +1874,12 @@ class Timer extends Component {
     }, this.generateScramble);
   }
 
+  handleRandomState = () => {
+    this.setState({ 
+      random_state: !this.state.random_state 
+    }, () => { if (this.state.cube === '3x3') this.generateScramble(); });
+  }
+
   handleBestAo1000() {
     if (this.state.log.length >= 1000) {
       let log = this.state.log.slice();
@@ -2136,6 +2151,7 @@ class Timer extends Component {
             hide_surroundings={this.state.hide_surroundings}
             track_best_ao1000={this.state.track_best_ao1000}
             escape_to_dnf={this.state.escape_to_dnf}
+            random_state={this.state.random_state}
             themes={this.state.themes}
             handleModal={() => this.handleModal()}
             handleInspection={this.handleInspection}
@@ -2154,6 +2170,7 @@ class Timer extends Component {
             handleHideSurroundings={this.handleHideSurroundings}
             handleTrackBestAo1000={this.handleTrackBestAo1000}
             handleEscapeToDNF={this.handleEscapeToDNF}
+            handleRandomState={this.handleRandomState}
             saveTheme={(name, theme) => this.saveTheme(name, theme)}
             deleteTheme={(i) => this.deleteTheme(i)}
             changeColor={(theme) => this.changeColor(theme)}

@@ -41,18 +41,20 @@
 
   .plus2btnoff {
     color: var(--text);
+    transition: color .3s ease, opacity .3s ease, background-color 0s ease;
     opacity: .5
   }
 
   .plus2btnon {
-    color: var(--texthighlighted);
+    color: var(--accent);
+    transition: color .3s ease, background-color 0s ease;
   }
 
   .plus2btn, .plus2btnon, .plus2btnoff {
     width: 50px;
     font-size: 1.1em;
     display: inline-block;
-
+    transition: color .3s ease, opacity .3s ease, background-color 0s ease;
     margin: 30px 6vw 30px 0vw;
   }
 
@@ -61,11 +63,12 @@
   }
 
   .plus2btnon:hover, .plus2btnoff:hover {
-    background-color: var(--buttonhover);
+    cursor: pointer;
+    opacity: .9;
+    transition: opacity .3s ease, color .3s ease, background-color 0s ease;
   }
 
   .plus2btnon:hover, .plus2btnoff:hover {
-    cursor: default;
     background-color: inherit;
   }
 

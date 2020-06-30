@@ -8,6 +8,7 @@
     overflow: scroll;
     height: 500px;
     min-width: 250px;
+    transition: .2s;
     outline: none;
   }
 

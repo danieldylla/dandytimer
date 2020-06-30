@@ -75,6 +75,10 @@
   cursor: default;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 .results {
   width: 100%;
 }

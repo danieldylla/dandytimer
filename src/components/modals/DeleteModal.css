@@ -48,18 +48,29 @@
     margin-right: 10px;
   }
 
-  .input {
+  #input {
     background-color: rgb(0, 0, 0, .3);
     color: var(--texthighlighted);
     border-style: none;
-    padding: 5px;
-    width: 2vw;
-    margin-left: 1vw;
+    width: 40px;
+    margin: 2px;
+    padding: 3px;
   }
 
   #title {
     margin: 0px;
     color: var(--texthighlighted);
+  }
+
+  #inline {
+    display: inline-block;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  #inline2 {
+    display: inline-block;
+    margin-left: 10px;
+    -webkit-tap-highlight-color:transparent;
   }
 
 #clear {

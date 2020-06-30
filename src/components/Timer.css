@@ -55,10 +55,12 @@
   transition: color .5s, background-color 0s;
   font-size: 24px;
   min-width: 200px;
+  cursor: default;
 }
 
 #average:hover {
   color: var(--highlight);
+  cursor: default;
 }
 
 #scramble {
@@ -91,7 +93,11 @@
 }
 
 #settings:hover {
-  color: var(--highlight)
+  color: var(--highlight);
+}
+
+#icon:hover, #accountbtn:hover, #statsicon:hover {
+  cursor: pointer;
 }
 
 #account {
@@ -120,21 +126,27 @@
 
 #statsicon {
   font-size: 1.9rem;
+  transition: color .3s ease, background-color 0s ease;
 }
 
 #statsicon:hover {
   background-color: inherit;
   border-radius: 10px;
+  cursor: pointer;
+  color: var(--highlight);
+  transition: color .3s ease, background-color 0s ease;
 }
 
 #statsiconon {
   font-size: 1.9rem;
-  color: var(--highlight)
+  color: var(--accent);
+  transition: color .3s ease, background-color 0s ease;
 }
 
 #statsiconon:hover {
   background-color: inherit;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 #undoload {
@@ -158,6 +170,10 @@
 
 .ReactModal__Overlay--before-close{
     opacity: 0;
+}
+
+input {
+  transition: borderColor .3s ease;
 }
 
 @media screen and (max-width: 1080px) {

@@ -404,6 +404,7 @@ class Settings extends Component {
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           ariaHideApp={false}
+          closeTimeoutMS={200}
           contentLabel="Example Modal"
           className="Modal"
           overlayClassName="Overlay"
@@ -767,6 +768,29 @@ class Settings extends Component {
                         keep track of your best ao1000 in the statistics tool. performance may suffer slightly
                       </div>
                     </div>
+                    <div className="setting" id="setting">
+                      Random State Scramble (3x3)
+                      <div className="switches">
+                        <Switch
+                          checked={this.props.random_state}
+                          onChange={this.props.handleRandomState}
+                          onColor={this.colorLuminance(this.state.accent, -.4)}
+                          onHandleColor={this.state.accent}
+                          handleDiameter={30}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={20}
+                          width={48}
+                          className="react-switch"
+                          id="material-switch"
+                        />
+                      </div>
+                      <div className="desc">
+                        use random state scramble for 3x3x3. scramble generation will be slower
+                      </div>
+                    </div>
                   </div>
                 </TabPanel>
                 <TabPanel>
@@ -891,7 +915,7 @@ class Settings extends Component {
                       Timer Size
                       <div className="switches">
                         <FontAwesomeIcon icon="caret-left" id="changen"
-                          onClick={() => this.props.handleTimerSize(this.props.timer_size - 1)}
+                          onClick={() => {if (this.props.timer_size > 8) this.props.handleTimerSize(this.props.timer_size - 1)}}
                         />
                         <InputNumber
                           className="setinput"
@@ -903,7 +927,7 @@ class Settings extends Component {
                           onChange={value => this.props.handleTimerSize(value)}
                         />
                         <FontAwesomeIcon icon="caret-right" id="changen"
-                          onClick={() => this.props.handleTimerSize(this.props.timer_size + 1)}
+                          onClick={() => {if (this.props.timer_size < 300) this.props.handleTimerSize(this.props.timer_size + 1);}}
                         />
                       </div>
                       <div className="desc">
@@ -914,7 +938,7 @@ class Settings extends Component {
                       Scramble Size
                       <div className="switches">
                         <FontAwesomeIcon icon="caret-left" id="changen"
-                          onClick={() => this.props.handleScrambleSize(this.props.scramble_size - 1)}
+                          onClick={() => {if (this.props.scramble_size > 8) this.props.handleScrambleSize(this.props.scramble_size - 1);}}
                         />
                         <InputNumber
                           className="setinput"
@@ -926,7 +950,7 @@ class Settings extends Component {
                           onChange={value => this.props.handleScrambleSize(value)}
                         />
                         <FontAwesomeIcon icon="caret-right" id="changen"
-                          onClick={() => this.props.handleScrambleSize(this.props.scramble_size + 1)}
+                          onClick={() => {if (this.props.scramble_size < 64) this.props.handleScrambleSize(this.props.scramble_size + 1);}}
                         />
                       </div>
                       <div className="desc">
@@ -937,7 +961,7 @@ class Settings extends Component {
                       Average Size
                       <div className="switches">
                         <FontAwesomeIcon icon="caret-left" id="changen"
-                          onClick={() => this.props.handleAvSize(this.props.av_size - 1)}
+                          onClick={() => {if (this.props.av_size > 8) this.props.handleAvSize(this.props.av_size - 1);}}
                         />
                         <InputNumber
                           className="setinput"
@@ -949,7 +973,7 @@ class Settings extends Component {
                           onChange={value => this.props.handleAvSize(value)}
                         />
                         <FontAwesomeIcon icon="caret-right" id="changen"
-                          onClick={() => this.props.handleAvSize(this.props.av_size + 1)}
+                          onClick={() => {if (this.props.av_size < 40) this.props.handleAvSize(this.props.av_size + 1);}}
                         />
                       </div>
                       <div className="desc">

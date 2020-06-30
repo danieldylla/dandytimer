@@ -62,59 +62,58 @@ class AboutModal extends Component {
 
     return (
       <div className="modal">
-        {this.props.modalIsOpen ?
-          <Modal
-            isOpen={this.props.modalIsOpen}
-            onAfterOpen={this.afterOpenModal}
-            onRequestClose={this.props.closeModal}
-            ariaHideApp={false}
-            contentLabel="Example Modal"
-            className="AboutModal"
-            overlayClassName="AboutOverlay"
-          >
-            <div className="averageinfo">
-              <h3 id="titleav">About</h3>
-              <br />
-              <div className="about">
-                <p>
-                  <b>dandytimer</b> is made with love, and I hope you enjoy.
-                </p>
-                <p>
-                  I am (at the time of writing) a junior at the University of
-                  Minnesota majoring in Computer Science. I've loved cubing for the past
-                  7 or so years, and made this cube timer to practice using the same
-                  frameworks that I'm expected to use at my internship. Not only has it
-                  been a great learning experience, it's been something that I've genuinely
-                  enjoyed working on.
-                </p>
-                <p>
-                  The source code for this project can be found&nbsp;
-                  <a href="https://github.com/danieldylla/dandytimer" target="_blank" rel="noopener noreferrer">here</a>.
-                  If you find any bugs or problems with dandytimer, let me know by
-                  raising an issue on the github linked.
-                  If you have any suggestions for this project, feel free to email
-                  me at my personal email, <em>daniel.dylla@gmail.com</em>.
-                </p>
-              </div>
-              <div className="avbuttons">
-                <MuiThemeProvider theme={theme}>
-                  <div className="confirm">
-                    <Button
-                      onClick={this.props.closeModal}
-                      id="aboutconfirm"
-                      variant="contained"
-                      color="primary"
-                      className="confirm"
-                      tabIndex="2"
-                    >
-                      ok
-                    </Button>
-                  </div>
-                </MuiThemeProvider>
-              </div>
+        <Modal
+          isOpen={this.props.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.props.closeModal}
+          ariaHideApp={false}
+          closeTimeoutMS={200}
+          contentLabel="Example Modal"
+          className="AboutModal"
+          overlayClassName="AboutOverlay"
+        >
+          <div className="averageinfo">
+            <h3 id="titleav">About</h3>
+            <br />
+            <div className="about">
+              <p>
+                <b>dandytimer</b> is made with love, and I hope you enjoy.
+              </p>
+              <p>
+                I am (at the time of writing) a junior at the University of
+                Minnesota majoring in Computer Science. I've loved cubing for the past
+                7 or so years, and made this cube timer to practice using the same
+                frameworks that I'm expected to use at my internship. Not only has it
+                been a great learning experience, it's been something that I've genuinely
+                enjoyed working on.
+              </p>
+              <p>
+                The source code for this project can be found&nbsp;
+                <a href="https://github.com/danieldylla/dandytimer" target="_blank" rel="noopener noreferrer">here</a>.
+                If you find any bugs or problems with dandytimer, let me know by
+                raising an issue on the github linked.
+                If you have any suggestions for this project, feel free to email
+                me at my personal email, <em>daniel.dylla@gmail.com</em>.
+              </p>
             </div>
-          </Modal>
-        : null}
+            <div className="avbuttons">
+              <MuiThemeProvider theme={theme}>
+                <div className="confirm">
+                  <Button
+                    onClick={this.props.closeModal}
+                    id="aboutconfirm"
+                    variant="contained"
+                    color="primary"
+                    className="confirm"
+                    tabIndex="2"
+                  >
+                    close
+                  </Button>
+                </div>
+              </MuiThemeProvider>
+            </div>
+          </div>
+        </Modal>
       </div>
     );
 

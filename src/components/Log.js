@@ -117,6 +117,13 @@ class Log extends Component {
     ReactGA.pageview('/');
   }
 
+  redirectToDeleteModal = () => {
+    this.setState({
+      timeModalIsOpen: false,
+      deleteModalIsOpen: true,
+    });
+  }
+
   openAvModal(i, res, av, howmany) {
     if (av) {
       this.setState({
@@ -356,6 +363,8 @@ class Log extends Component {
         <div className="singlemodal">
           <DeleteModal
             theme={this.props.theme}
+            log={this.props.log}
+            index={this.state.timeindex}
             res={this.state.timeres}
             modalIsOpen={this.state.deleteModalIsOpen}
             openModal={this.openDeleteModal}
@@ -370,6 +379,7 @@ class Log extends Component {
             modalIsOpen={this.state.timeModalIsOpen}
             openModal={this.openTimeModal}
             closeModal={this.closeTimeModal}
+            redirectToDeleteModal={this.redirectToDeleteModal}
             handlePlus2={(i, s) => this.handlePlus2(i, s)}
             handleDNF={(i, s) => this.handleDNF(i, s)}
           />

@@ -161,6 +161,7 @@ class DownUpModal extends Component {
         onAfterOpen={this.afterOpenModal}
         onRequestClose={this.closeModal}
         ariaHideApp={false}
+        closeTimeoutMS={200}
         contentLabel="Example Modal"
         className="DownUpModal"
         overlayClassName="DownUpOverlay"
@@ -205,7 +206,7 @@ class DownUpModal extends Component {
                 <div className="signinmsg">
                   <div className="transferinfo">
                     <div className="timestamp">
-                      saved on {this.props.lastsave}
+                      {this.props.lastsave && `saved on ${this.props.lastsave}`}
                     </div>
                   </div>
                   <div className="transferbtn">
@@ -283,7 +284,7 @@ class DownUpModal extends Component {
                 <div className="signinmsg">
                   <div className="transferinfo">
                     <div className="timestamp">
-                      saved on {this.props.lastsave}
+                    { this.props.lastsave && `saved on ${this.props.lastsave}`}
                     </div>
                   </div>
                   <div className="transferbtn">
@@ -329,7 +330,7 @@ class DownUpModal extends Component {
                 <div className="signinmsg">
                   <div className="transferinfo">
                     <div className="timestamp">
-                      saved on {this.props.backupsave}
+                      {this.props.backupsave && `saved on ${this.props.backupsave}`}
                     </div>
                   </div>
                   <div className="transferbtn">

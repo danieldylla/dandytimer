@@ -149,6 +149,7 @@ class SessionModal extends Component {
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.props.closeModal}
           ariaHideApp={false}
+          closeTimeoutMS={200}
           contentLabel="Example Modal"
           className="SessionModal"
           overlayClassName="SessionOverlay"

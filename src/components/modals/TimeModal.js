@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Modal from 'react-modal';
 import Button from '@material-ui/core/Button';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './TimeModal.css';
 
@@ -182,80 +181,76 @@ class TimeModal extends Component {
     });
 
     return (
-      <div className="modal">
-        {this.props.modalIsOpen ?
-          <Modal
-            isOpen={this.props.modalIsOpen}
-            onAfterOpen={this.props.afterOpenModal}
-            onRequestClose={this.props.closeModal}
-            ariaHideApp={false}
-            contentLabel="Example Modal"
-            className="TimeModal"
-            overlayClassName="TimeOverlay"
-          >
-            <div className="clearinfo">
-              <h3 id="titletime">{this.displayLogEntry(this.props.res)}</h3>
-              <br />
-              <div className="timeinfo">
-                <table>
-                  <tbody>
-                    <tr className="tablehead">
-                      <th className="category-time"> ao5 </th>
-                      <th className="category-time"> ao12 </th>
-                      <th> Scramble </th>
-                    </tr>
-                    <tr>
-                      <td className="category-time timestats"> {this.convertToTime(this.props.res.ao5)} </td>
-                      <td className="category-time timestats"> {this.convertToTime(this.props.res.ao12)} </td>
-                      <td className="timestats"> {this.props.res.scramble} </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div className="btncenter">
-                  <button onClick={this.plus2} className="plus2btn">
-                  {this.props.res.plus2 ?
-                    <p className="plus2btnon"> +2 </p>
-                    : <p  className="plus2btnoff"> +2 </p>
-                  }
-                  </button>
-                  <button onClick={this.dnf} className="plus2btn">
-                  {this.props.res.dnf ?
-                    <p className="plus2btnon"> DNF </p>
-                    : <p  className="plus2btnoff"> DNF </p>
-                  }
-                  </button>
-                </div>
-              </div>
-              <div className="okay">
-                <MuiThemeProvider theme={theme}>
-                  <div className="copy">
-                    <Button
-                      onClick={() => this.copyTime(this.convertToTime(this.props.res.time))}
-                      variant="outlined"
-                      color="primary"
-                      className="confirm"
-                      tabIndex="1"
-                    >
-                      <FontAwesomeIcon icon="copy" />
-                    </Button>
-                  </div>
-                  <div className="confirm">
-                    <Button
-                      onClick={this.props.closeModal}
-                      id="confirm"
-                      variant="contained"
-                      color="primary"
-                      className="confirm"
-                      tabIndex="2"
-                    >
-                      ok
-                    </Button>
-                  </div>
-                </MuiThemeProvider>
+    <div className="modal">
+        <Modal
+          isOpen={this.props.modalIsOpen}
+          onAfterOpen={this.props.afterOpenModal}
+          onRequestClose={this.props.closeModal}
+          ariaHideApp={false}
+          closeTimeoutMS={200}
+          contentLabel="Example Modal"
+          className="TimeModal"
+          overlayClassName="TimeOverlay"
+        >
+          <div className="clearinfo">
+            <h3 id="titletime">{this.displayLogEntry(this.props.res)}</h3>
+            <br />
+            <div className="timeinfo">
+              <table>
+                <tbody>
+                  <tr className="tablehead">
+                    <th className="category-time"> ao5 </th>
+                    <th className="category-time"> ao12 </th>
+                    <th> Scramble </th>
+                  </tr>
+                  <tr>
+                    <td className="category-time timestats"> {this.convertToTime(this.props.res.ao5)} </td>
+                    <td className="category-time timestats"> {this.convertToTime(this.props.res.ao12)} </td>
+                    <td className="timestats"> {this.props.res.scramble} </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="btncenter">
+                <button onClick={this.plus2} className="plus2btn">
+                  <p className={this.props.res.plus2 ? "plus2btnon" : "plus2btnoff"}> +2 </p>
+                </button>
+                <button onClick={this.dnf} className="plus2btn">
+                {this.props.res.dnf ?
+                  <p className="plus2btnon"> DNF </p>
+                  : <p  className="plus2btnoff"> DNF </p>
+                }
+                </button>
               </div>
             </div>
-          </Modal>
-        : null}
+            <div className="okay">
+              <MuiThemeProvider theme={theme}>
+                <div className="copy">
+                  <Button
+                    onClick={this.props.closeModal}
+                    variant="outlined"
+                    color="primary"
+                    className="confirm"
+                    tabIndex="1"
+                  >
+                    close
+                  </Button>
+                </div>
+                <div className="confirm">
+                  <Button
+                    onClick={this.props.redirectToDeleteModal}
+                    id="confirm"
+                    variant="contained"
+                    color="primary"
+                    className="confirm"
+                    tabIndex="2"
+                  >
+                    delete
+                  </Button>
+                </div>
+              </MuiThemeProvider>
+            </div>
+          </div>
+        </Modal>
       </div>
     );
 

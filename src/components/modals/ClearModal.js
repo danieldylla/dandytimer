@@ -95,6 +95,7 @@ class ClearModal extends Component {
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           ariaHideApp={false}
+          closeTimeoutMS={200}
           contentLabel="Example Modal"
           className="ArrowModal"
           overlayClassName="ArrowOverlay"

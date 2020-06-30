@@ -50,6 +50,7 @@
 
   #changen:hover {
     color: var(--hover);
+    cursor: pointer;
   }
 
   #changen:active {
@@ -190,7 +191,7 @@
   }
 
   .deletetheme {
-    display: flex;
+    display: block;
     width: 30px;
     height: 42px;
     margin-top: 30px;

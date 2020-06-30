@@ -68,12 +68,12 @@ class DeleteSessionModal extends Component {
 
     return (
       <div className="modal">
-      {this.props.modalIsOpen ?
         <Modal
           isOpen={this.props.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.props.closeModal}
           ariaHideApp={false}
+          closeTimeoutMS={200}
           contentLabel="Example Modal"
           className="DeleteSessionModal"
           overlayClassName="DeleteSessionOverlay"
@@ -114,7 +114,6 @@ class DeleteSessionModal extends Component {
             </div>
           </div>
         </Modal>
-        : null}
       </div>
     );
 

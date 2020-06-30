@@ -48,17 +48,41 @@
     margin-right: 10px;
   }
 
-  .input {
+  #input {
     background-color: rgb(0, 0, 0, .3);
     color: var(--texthighlighted);
     border-style: none;
-    padding: 5px;
-    width: 5vw;
-    min-width: 20px;
-    margin-left: 1vw;
+    width: 60px;
+    margin: 2px;
+    padding: 3px;
+    transition: border-color .3s ease;
   }
 
-#title {
+  #changen {
+    font-size: 28px;
+    margin: -10px 5px -5px;
+    color: var(--accent);
+  }
+
+  #changen:hover {
+    color: var(--hover);
+    cursor: pointer;
+  }
+
+  #changen:active {
+    color: var(--click);
+  }
+
+  #title {
     margin: 0px;
     color: var(--texthighlighted);
+  }
+
+  #inline {
+    display: inline-block;
+  }
+
+  #inline2 {
+    display: inline-block;
+    margin-left: 10px;
   }

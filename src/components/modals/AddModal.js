@@ -7,6 +7,7 @@ import InputNumber from 'react-input-number';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './AddModal.css';
+import { min } from 'moment';
 
 class AddModal extends Component {
   constructor(props) {
@@ -39,10 +40,17 @@ class AddModal extends Component {
     ReactGA.pageview('/');
   }
 
-  handleChange(value) {
-    this.setState({
-      x: value
-    });
+  handleChange(e) {
+    let number = e.target.value.replace(/[^0-9\.]/g,"");
+    let min = 0;
+    let max = 1440
+    if (Number(number) < min) {
+      this.setState({ x: min });
+    } else if (Number(number) > max) {
+      this.setState({ x: max });
+    } else {
+      this.setState({ x: number });
+    }
   }
 
   handleFocus(event) {
@@ -50,7 +58,7 @@ class AddModal extends Component {
   }
 
   handleAdd() {
-    this.props.addTime(this.state.x);
+    if (Number(this.state.x)) this.props.addTime(Number(this.state.x));
     this.closeModal();
   }
 
@@ -113,17 +121,28 @@ class AddModal extends Component {
           <div className="clearinfo">
             <h1 id="title">Add Time</h1>
             <br />
-            <p>
-              Enter your time in seconds:
-              <InputNumber
-                className="input"
-                onFocus={this.handleFocus}
-                min={0}
-                step={.001}
-                value={this.state.x}
-                onChange={value => this.handleChange(value)}
-              />
-            </p>
+            <div style={{userSelect: "none"}}>
+              <p id="inline">
+                Enter your time in seconds:
+              </p>
+              <div id="inline2">
+                <FontAwesomeIcon icon="caret-left" id="changen"
+                  onClick={() => {if (this.state.x > 0) this.setState({ x: this.state.x - 1 });}}
+                />
+                <input
+                  id="input"
+                  onFocus={this.handleFocus}
+                  min={0}
+                  step={.001}
+                  value={this.state.x}
+                  type="text"
+                  onInput={e => this.handleChange(e)}
+                />
+                <FontAwesomeIcon icon="caret-right" id="changen"
+                  onClick={() => {if (this.state.x < 1440) this.setState({ x: this.state.x + 1 });}}
+                />
+              </div>
+            </div>
             <div className="choose">
               <MuiThemeProvider theme={theme}>
                 <div className="cancel">

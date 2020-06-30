@@ -206,72 +206,74 @@ class AvModal extends Component {
 
   displayScrambles(x) {
     const arr = this.props.log.slice(this.props.index, this.props.index + x);
-    arr.reverse();
-    let j = 0;
-    while (arr[j].res.dnf && j < arr.length) {
-      j++;
-    }
-    let best = arr[j].res.time;
-    let worst = arr[0].res.time;
-    let bestid = arr[j].res.id;
-    let worstid = arr[0].res.id;
-    let worstisdnf = arr[0].res.dnf;
-    for (let i = j + 1; i < x; i++) {
-      if (arr[i].res.time < best && !arr[i].res.dnf) {
-        best = arr[i].res.time;
-        bestid = arr[i].res.id;
+    if (arr.length >= x) {
+      arr.reverse();
+      let j = 0;
+      while (arr[j].res.dnf && j < arr.length) {
+        j++;
       }
-      if ((!worstisdnf && arr[i].res.time > worst) || arr[i].res.dnf) {
-        worst = arr[i].res.time;
-        worstid = arr[i].res.id;
-        if (arr[i].res.dnf) {
-          worstisdnf = true;
+      let best = arr[j].res.time;
+      let worst = arr[0].res.time;
+      let bestid = arr[j].res.id;
+      let worstid = arr[0].res.id;
+      let worstisdnf = arr[0].res.dnf;
+      for (let i = j + 1; i < x; i++) {
+        if (arr[i].res.time < best && !arr[i].res.dnf) {
+          best = arr[i].res.time;
+          bestid = arr[i].res.id;
         }
-      }
-    }
-    const scrambles = arr.map((item, step) => {
-      let isbest = (item.res.id === bestid);
-      let isworst = (item.res.id === worstid);
-      return (
-        <tr key={step}>
-          <td className="category-solve">
-            {step + 1}
-          </td>
-          {(isbest || isworst) ?
-            <td className="category-time">
-              <span className="tableinfo">({this.displayLogEntry(item.res)})</span>
-            </td>
-          :
-            <td className="category-time">
-              <span className="tableinfo">{this.displayLogEntry(item.res)}</span>
-            </td>
+        if ((!worstisdnf && arr[i].res.time > worst) || arr[i].res.dnf) {
+          worst = arr[i].res.time;
+          worstid = arr[i].res.id;
+          if (arr[i].res.dnf) {
+            worstisdnf = true;
           }
-          <td>
-            <span className="tableinfo">{item.res.scramble}</span>
-          </td>
-        </tr>
-      );
-    });
-    return (
-      <div className="tableview">
-        {this.state.graph ?
-          <div className="graphview">
-            {this.displayGraph(this.props.howmany)}
-          </div>
-          :
-          <table>
-            <tbody>
-              <tr className="tablehead">
-                <th className="category-solve"></th>
-                <th className="category-time"> Time </th>
-                <th> Scramble </th>
-              </tr>
-              {scrambles}
-            </tbody>
-          </table>
         }
-      </div>
-    );
+      }
+      const scrambles = arr.map((item, step) => {
+        let isbest = (item.res.id === bestid);
+        let isworst = (item.res.id === worstid);
+        return (
+          <tr key={step}>
+            <td className="category-solve">
+              {step + 1}
+            </td>
+            {(isbest || isworst) ?
+              <td className="category-time">
+                <span className="tableinfo">({this.displayLogEntry(item.res)})</span>
+              </td>
+            :
+              <td className="category-time">
+                <span className="tableinfo">{this.displayLogEntry(item.res)}</span>
+              </td>
+            }
+            <td>
+              <span className="tableinfo">{item.res.scramble}</span>
+            </td>
+          </tr>
+        );
+      });
+      return (
+        <div className="tableview">
+          {this.state.graph ?
+            <div className="graphview">
+              {this.displayGraph(this.props.howmany)}
+            </div>
+            :
+            <table>
+              <tbody>
+                <tr className="tablehead">
+                  <th className="category-solve"></th>
+                  <th className="category-time"> Time </th>
+                  <th> Scramble </th>
+                </tr>
+                {scrambles}
+              </tbody>
+            </table>
+          }
+        </div>
+      );
+    }
   }
 
   displayGraph(x) {
@@ -341,59 +343,58 @@ class AvModal extends Component {
 
     return (
       <div className="modal">
-        {this.props.modalIsOpen ?
-          <Modal
-            isOpen={this.props.modalIsOpen}
-            onAfterOpen={this.afterOpenModal}
-            onRequestClose={this.handleCloseModal}
-            ariaHideApp={false}
-            contentLabel="Example Modal"
-            className="TimeModal"
-            overlayClassName="TimeOverlay"
-          >
-            <div className="averageinfo">
-              <h3 id="titleav">{this.convertToTime(this.props.av)}</h3>
-              <br />
-              <button className="avstats">
-                {this.state.graph ?
-                  <FontAwesomeIcon icon="chart-area" onClick={this.handleGraph} className="on" />
-                  :
-                  <FontAwesomeIcon icon="chart-area" onClick={this.handleGraph} className="off" />
-                }
-              </button>
-              <div className="avinfo">
-                {this.displayScrambles(this.props.howmany)}
-              </div>
-              <div className="avbuttons">
-                <MuiThemeProvider theme={theme}>
-                  <div className="copy">
-                    <Button
-                      onClick={() => this.copyTime(this.convertToTime(this.props.res.time))}
-                      variant="outlined"
-                      color="primary"
-                      className="confirm"
-                      tabIndex="1"
-                    >
-                      <FontAwesomeIcon icon="copy" />
-                    </Button>
-                  </div>
-                  <div className="confirm">
-                    <Button
-                      onClick={this.handleCloseModal}
-                      id="confirm"
-                      variant="contained"
-                      color="primary"
-                      className="confirm"
-                      tabIndex="2"
-                    >
-                      ok
-                    </Button>
-                  </div>
-                </MuiThemeProvider>
-              </div>
+        <Modal
+          isOpen={this.props.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.handleCloseModal}
+          ariaHideApp={false}
+          closeTimeoutMS={200}
+          contentLabel="Example Modal"
+          className="TimeModal"
+          overlayClassName="TimeOverlay"
+        >
+          <div className="averageinfo">
+            <h3 id="titleav">{this.convertToTime(this.props.av)}</h3>
+            <br />
+            <button className="avstats">
+              {this.state.graph ?
+                <FontAwesomeIcon icon="chart-area" onClick={this.handleGraph} className="on" />
+                :
+                <FontAwesomeIcon icon="chart-area" onClick={this.handleGraph} className="off" />
+              }
+            </button>
+            <div className="avinfo">
+              {this.displayScrambles(this.props.howmany)}
             </div>
-          </Modal>
-        : null}
+            <div className="avbuttons">
+              <MuiThemeProvider theme={theme}>
+                {/* <div className="copy">
+                  <Button
+                    onClick={() => this.copyTime(this.convertToTime(this.props.res.time))}
+                    variant="outlined"
+                    color="primary"
+                    className="confirm"
+                    tabIndex="1"
+                  >
+                    <FontAwesomeIcon icon="copy" />
+                  </Button>
+                </div> */}
+                <div className="confirm">
+                  <Button
+                    onClick={this.handleCloseModal}
+                    id="confirm"
+                    variant="contained"
+                    color="primary"
+                    className="confirm"
+                    tabIndex="2"
+                  >
+                    close
+                  </Button>
+                </div>
+              </MuiThemeProvider>
+            </div>
+          </div>
+        </Modal>
       </div>
     );
 

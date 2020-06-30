@@ -82,7 +82,7 @@
     width: 10px;
     height: 10px;
     top: calc(2vh + 80px);
-    right: calc(20vw + 34px);
+    right: calc(20vw + 70px);
   }
 
   .avstats:hover, .avstats:focus {
@@ -113,9 +113,16 @@
   }
 
   .on {
-    color: var(--texthighlighted);
+    color: var(--accent);
+    transition: color .3s ease, background-color 0s ease;
   }
 
   .off {
     color: var(--text);
+    transition: color .3s ease, background-color 0s ease;
+  }
+
+  .off:hover {
+    color: var(--texthighlighted);
+    transition: color .3s ease, background-color 0s ease;
   }

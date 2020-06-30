@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import Button from '@material-ui/core/Button';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import InputNumber from 'react-input-number';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './DeleteModal.css';
 
@@ -22,10 +23,17 @@ class DeleteModal extends Component {
     document.getElementById('clearconfirm').focus();
   }
 
-  handleChange(value) {
-    this.setState({
-      x: value
-    });
+  handleChange(e) {
+    let number = e.target.value.toString().replace(/[^0-9]/g,"");
+    let min = 0;
+    let max = this.props.log.length - this.props.index;
+    if (Number(number) < min) {
+      this.setState({ x: min });
+    } else if (Number(number) > max) {
+      this.setState({ x: max });
+    } else {
+      this.setState({ x: number });
+    }
   }
 
   handleFocus(event) {
@@ -33,7 +41,7 @@ class DeleteModal extends Component {
   }
 
   handleDelete(id) {
-    this.props.deleteEntry(id, this.state.x);
+    this.props.deleteEntry(id, Number(this.state.x));
     this.setState({
       x: 1
     });
@@ -83,12 +91,12 @@ class DeleteModal extends Component {
 
     return (
       <div className="modal">
-      {this.props.modalIsOpen ?
         <Modal
           isOpen={this.props.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.props.closeModal}
           ariaHideApp={false}
+          closeTimeoutMS={200}
           contentLabel="Example Modal"
           className="ArrowModal"
           overlayClassName="ArrowOverlay"
@@ -96,17 +104,27 @@ class DeleteModal extends Component {
           <div className="clearinfo">
             <h1 id="title">Delete Time</h1>
             <br />
-            <p>
-              How many results would you like to delete?
-              <InputNumber
-                className="input"
-                onFocus={this.handleFocus}
-                min={1}
-                step={1}
-                value={this.state.x}
-                onChange={value => this.handleChange(value)}
-              />
-            </p>
+            <div style={{userSelect: "none"}}>
+              <p id="inline">
+                How many results would you like to delete?
+              </p>
+              <div id="inline2">
+                <FontAwesomeIcon icon="caret-left" id="changen"
+                  onClick={() => {if (this.state.x > 0) this.setState({ x: this.state.x - 1 });}}
+                />
+                <input
+                  id="input"
+                  onFocus={this.handleFocus}
+                  step={1}
+                  type="text"
+                  value={this.state.x}
+                  onInput={e => this.handleChange(e)}
+                />
+                <FontAwesomeIcon icon="caret-right" id="changen"
+                  onClick={() => {if (this.state.x < 1440) this.setState({ x: this.state.x + 1 });}}
+                />
+              </div>
+            </div>
             <div className="choose">
               <MuiThemeProvider theme={theme}>
                 <div className="cancel">
@@ -136,7 +154,6 @@ class DeleteModal extends Component {
             </div>
           </div>
         </Modal>
-        : null}
       </div>
     );
 
