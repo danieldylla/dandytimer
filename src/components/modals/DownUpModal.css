@@ -92,6 +92,10 @@
     overflow-x: hidden;
   }
 
+  .syncmessage {
+    width: calc(100% - 60px);
+  }
+
   .downinput {
     background-color: rgb(0, 0, 0, .2);
     color: var(--text);

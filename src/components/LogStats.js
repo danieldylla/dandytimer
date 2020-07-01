@@ -318,6 +318,7 @@ class LogStats extends Component {
                 isSignedIn={this.props.isSignedIn}
                 loading={this.props.loading}
                 saving={this.props.saving}
+                syncing={this.props.syncing}
                 restoring={this.props.restoring}
                 lastsave={this.props.lastsave}
                 backupsave={this.props.backupsave}
@@ -325,10 +326,12 @@ class LogStats extends Component {
                 uploadFile={this.props.uploadFile}
                 saveStateToFirebase={this.props.saveStateToFirebase}
                 loadStateFromFirebase={this.props.loadStateFromFirebase}
+                syncStateWithFirebase={this.props.syncStateWithFirebase}
                 handleModal={() => this.props.handleModal()}
                 restoreFirebaseBackup={this.props.restoreFirebaseBackup}
                 undoSaveToFirebase={this.props.undoSaveToFirebase}
                 undoLoadFromFirebase={this.props.undoLoadFromFirebase}
+                undoSyncWithFirebase={this.props.undoSyncWithFirebase}
               />
             </div>
             <div className="third" id="columnlabel">

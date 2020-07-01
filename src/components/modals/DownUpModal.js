@@ -22,6 +22,7 @@ class DownUpModal extends Component {
       saved: false,
       loaded: false,
       restored: false,
+      synced: false,
     }
 
     this.openModal = this.openModal.bind(this);
@@ -130,6 +131,16 @@ class DownUpModal extends Component {
     this.setState({ restored: false });
   }
 
+  handleSyncFirebase = () => {
+    this.props.syncStateWithFirebase();
+    this.setState({ synced: true });
+  }
+
+  handleUndoSync = () => {
+    this.props.undoSyncWithFirebase();
+    this.setState({ synced: false });
+  }
+
   colorLuminance(hex, lum) {
   	// validate hex string
   	hex = String(hex).replace(/[^0-9a-f]/gi, '');
@@ -149,7 +160,6 @@ class DownUpModal extends Component {
 
 
   render() {
-
     return (
       <div className="modal">
       <button id="logstatbtn" onClick={this.openModal}>
@@ -243,6 +253,54 @@ class DownUpModal extends Component {
                 :
                 <div className="signinmsg">
                   Sign in to save to your account
+                </div>
+              }
+            </div>
+            <div className="transfer">
+              <h2 id="h2du">Sync With Your Account</h2>
+              {this.props.isSignedIn ?
+                <div className="signinmsg">
+                  <div className="transferinfo">
+                    <div className="syncmessage">
+                      Synchronize local results with online results so that no times are lost. 
+                      If you've deleted any times that were recently uploaded or are still present on this device, they will be kept.
+                      Only recommended if you've forgotten to load previously saved results.
+                    </div>
+                  </div>
+                  <div className="transferbtn">
+                    <AwesomeButton
+                      action={this.handleSyncFirebase}
+                      type="primary"
+                      className="firebasebtn"
+                      id="firebasebtn"
+                      size="small"
+                    >
+                      <div id="downicon">
+                        <FontAwesomeIcon icon="sync-alt" />
+                      </div>
+                    </AwesomeButton>
+                    <ClipLoader
+                      css={{display: "inline-block", float: "left", margin: "10px 10px"}}
+                      sizeUnit={"px"}
+                      size={35}
+                      color={this.props.theme.accent}
+                      loading={this.props.syncing}
+                    />
+                    {this.state.synced && !this.props.syncing ?
+                      <div className="undodu">
+                        <Undo
+                          theme={this.props.theme}
+                          undo={this.handleUndoSync}
+                        />
+                      </div>
+                      :
+                      null
+                    }
+                  </div>
+                </div>
+                :
+                <div className="signinmsg">
+                  Sign in to sync with your account
                 </div>
               }
             </div>

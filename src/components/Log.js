@@ -35,7 +35,8 @@ class Log extends Component {
       this.props.isSignedIn !== nextProps.isSignedIn ||
       this.props.saving !== nextProps.saving ||
       this.props.loading !== nextProps.loading ||
-      this.props.restoring !== nextProps.restoring
+      this.props.restoring !== nextProps.restoring ||
+      this.props.syncing !== nextProps.syncing
     );
   }
 
@@ -337,6 +338,7 @@ class Log extends Component {
             isSignedIn={this.props.isSignedIn}
             loading={this.props.loading}
             saving={this.props.saving}
+            syncing={this.props.syncing}
             restoring={this.props.restoring}
             lastsave={this.props.lastsave}
             backupsave={this.props.backupsave}
@@ -352,12 +354,14 @@ class Log extends Component {
             uploadFile={(file) => this.props.uploadFile(file)}
             saveStateToFirebase={this.props.saveStateToFirebase}
             loadStateFromFirebase={this.props.loadStateFromFirebase}
+            syncStateWithFirebase={this.props.syncStateWithFirebase}
             newSession={this.props.newSession}
             changeSession={(i) => this.props.changeSession(i)}
             deleteSession={(i) => this.props.deleteSession(i)}
             restoreFirebaseBackup={this.props.restoreFirebaseBackup}
             undoSaveToFirebase={this.props.undoSaveToFirebase}
             undoLoadFromFirebase={this.props.undoLoadFromFirebase}
+            undoSyncWithFirebase={this.props.undoSyncWithFirebase}
           />
         </div>
         <div className="singlemodal">

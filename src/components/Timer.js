@@ -15,8 +15,8 @@ import Stats from './Stats';
 import Scramble from './Scramble';
 import './Timer.css';
 
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCog } from '@fortawesome/free-solid-svg-icons';
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {faCog} from '@fortawesome/free-solid-svg-icons';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {faArrowDown} from '@fortawesome/free-solid-svg-icons';
@@ -33,6 +33,7 @@ import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
 import {faChartArea} from '@fortawesome/free-solid-svg-icons';
 import {faFileUpload} from '@fortawesome/free-solid-svg-icons';
 import {faFileDownload} from '@fortawesome/free-solid-svg-icons';
+import {faSyncAlt} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCog);
 library.add(faTimes);
@@ -51,6 +52,7 @@ library.add(faUserCircle);
 library.add(faChartArea);
 library.add(faFileDownload);
 library.add(faFileUpload);
+library.add(faSyncAlt);
 
 class Timer extends Component {
   constructor(props) {
@@ -113,6 +115,7 @@ class Timer extends Component {
       undoload: false,
       undosave: false,
       loading: false,
+      syncing: false,
       saving: false,
       restoring: false,
       scramble_on_side: false,
@@ -367,6 +370,123 @@ class Timer extends Component {
     }
   }
 
+  syncStateWithFirebase = async () => {
+    if (this.state.isSignedIn) {
+      this.saveStateToLocalStorage();
+      await this.setState({ syncing: true });
+      var date = moment(new Date()).format('MMMM Do YYYY, h:mm:ss a');
+      var backupdate;
+      const db = firebase.firestore();
+      const docRef = db.collection("user-results").doc(this.state.userProfile.email);
+      const backup = db.collection("user-backups").doc(this.state.userProfile.email);
+      await docRef.get().then((doc) => {
+        const data = doc.data();
+        if (data) {
+          backup.set({
+            average: data.average,
+            best: data.best,
+            session: data.session,
+            reps: data.reps,
+            sessions: data.sessions,
+            themes: data.themes,
+            validreps: data.validreps,
+            lastsave: data.lastsave,
+          });
+          backupdate = JSON.parse(data["lastsave"]);
+          let sess = this.state.sessions.slice();
+          let sess2 = JSON.parse(data["sessions"]).slice();
+          let sessions = [];
+          for (var i = 0; i < Math.max(sess.length, sess2.length); i++) {
+            let l1 = JSON.parse(data["session"]) === this.state.session && this.state.session === i
+              ? this.state.log.slice()
+              : i < sess.length ? [...sess[i].log] : [];
+            let l2 = i < sess2.length ? [...sess2[i].log] : [];
+            let log = l2.slice();
+            let num = l2.length;
+            const includes = (item, array) => {
+              for (var i = 0; i < array.length; i++) {
+                if (array[i].res.timestamp === item.res.timestamp) {
+                  return true;
+                }
+              }
+              return false;
+            }
+            for (let i = l1.length - 1; i >= 0; i--) {
+              if (!includes(l1[i], log)) {
+                log.unshift(l1[i]);
+                num++;
+              }
+            }
+            log.sort((a,b) => b.res.timestamp - a.res.timestamp);
+            for (let j = 0; j < num; j++) {
+              log[j].res.id = log.length - j;
+              this.forceUpdateMean(log, j, 3);
+              this.forceUpdateAv(log, j, 5);
+              this.forceUpdateAv(log, j, 12);
+              this.forceUpdateAv(log, j, 50);
+              this.forceUpdateAv(log, j, 100);
+            }
+            let validreps = 0;
+            for (var j = 0; j < log.length; j++) {
+              if (!log[j].res.dnf) {
+                validreps++;
+              }
+            }
+            sessions = sessions.concat({
+              id: i,
+              name: sess[i] ? sess[i].name : (i + 1).toString(),
+              log: log,
+              cube: sess[i] ? sess[i].cube : '3x3',
+              best: {
+                res: this.forceUpdateBest(log),
+                mo3: this.forceUpdateBestMo3(log),
+                ao5: this.forceUpdateBestAo5(log),
+                ao12: this.forceUpdateBestAo12(log),
+                ao50: this.forceUpdateBestAo50(log),
+                ao100: this.forceUpdateBestAo100(log),
+              },
+              average: this.forceCalculateAverage(log),
+              reps: log.length,
+              validreps: validreps,
+            });
+          }
+          let t1 = this.state.themes.slice();
+          let t2 = JSON.parse(data["themes"]).slice();
+          let m = 0;
+          while (m < t2.length) {
+            let t2int1 = false;
+            for (let k = 0; k < t1.length; k++) {
+              if (t2[m].name === t1[k].name) {
+                t2int1 = true;
+              }
+            }
+            if (!t2int1) {
+              t1 = t1.concat(t2[m]);
+            }
+            m++;
+          }
+          this.setState({ 
+            sessions: sessions,
+            lastsave: date,
+            backupsave: backupdate,
+            themes: t1,
+          }, () => this.loadSession(this.state.session));
+          docRef.set({
+            average: JSON.stringify(sessions[data.session].average),
+            best: JSON.stringify(sessions[data.session].best),
+            session: JSON.stringify(this.state.session),
+            reps: JSON.stringify(sessions[data.session].reps),
+            sessions: JSON.stringify(sessions),
+            themes: JSON.stringify(t1),
+            validreps: JSON.stringify(sessions[data.session].validreps),
+            lastsave: JSON.stringify(date),
+          });
+        }
+        this.setState({ syncing: false });
+      });
+    }
+  }
+
   restoreFirebaseBackup() {
     if (this.state.isSignedIn) {
       this.setState({ restoring: true });
@@ -388,7 +508,7 @@ class Timer extends Component {
     }
   }
 
-  undoSaveToFirebase() {
+  undoSaveToFirebase = () => {
     if (this.state.isSignedIn) {
       this.setState({ saving: true });
       const db = firebase.firestore();
@@ -418,6 +538,34 @@ class Timer extends Component {
   undoLoadFromFirebase() {
     this.clearAll();
     this.hydrateStateWithLocalStorage();
+  }
+
+  undoSyncWithFirebase = () => {
+    this.undoLoadFromFirebase();
+    if (this.state.isSignedIn) {
+      this.setState({ syncing: true });
+      const db = firebase.firestore();
+      const docRef = db.collection("user-results").doc(this.state.userProfile.email);
+      const backup = db.collection("user-backups").doc(this.state.userProfile.email);
+      this.saveSession();
+      backup.get().then((doc) => {
+        const data = JSON.parse(JSON.stringify(doc.data()));
+        docRef.set({
+          average: data.average,
+          best: data.best,
+          session: data.session,
+          reps: data.reps,
+          sessions: data.sessions,
+          themes: data.themes,
+          validreps: data.validreps,
+          lastsave: data.lastsave,
+        });
+        this.setState({
+          syncing: false,
+          lastsave: JSON.parse(data.lastsave),
+        });
+      });
+    }
   }
 
   saveStateToLocalStorage() {
@@ -2095,6 +2243,7 @@ class Timer extends Component {
               isSignedIn={this.state.isSignedIn}
               loading={this.state.loading}
               saving={this.state.saving}
+              syncing={this.state.syncing}
               restoring={this.state.restoring}
               lastsave={this.state.lastsave}
               backupsave={this.state.backupsave}
@@ -2108,13 +2257,15 @@ class Timer extends Component {
               uploadFile = {(file) => this.uploadFile(file, this.readFileToState)}
               saveStateToFirebase={this.saveStateToFirebase}
               loadStateFromFirebase={this.loadStateFromFirebase}
-              newSession = {this.newSession}
-              changeSession = {(i) => this.changeSession(i)}
-              saveSession = {this.saveSession}
-              deleteSession = {(i) => this.deleteSession(i)}
-              restoreFirebaseBackup = {this.restoreFirebaseBackup}
-              undoSaveToFirebase = {this.undoSaveToFirebase}
-              undoLoadFromFirebase = {this.undoLoadFromFirebase}
+              syncStateWithFirebase={this.syncStateWithFirebase}
+              newSession={this.newSession}
+              changeSession={(i) => this.changeSession(i)}
+              saveSession={this.saveSession}
+              deleteSession={(i) => this.deleteSession(i)}
+              restoreFirebaseBackup={this.restoreFirebaseBackup}
+              undoSaveToFirebase={this.undoSaveToFirebase}
+              undoLoadFromFirebase={this.undoLoadFromFirebase}
+              undoSyncWithFirebase={this.undoSyncWithFirebase}
             />
           : null}
         </div>
